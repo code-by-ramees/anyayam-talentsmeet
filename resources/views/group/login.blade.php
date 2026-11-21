@@ -3,24 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Group Portal Login — SNEC Talents' Meet 2026-27</title>
+    <title>Group Portal Login — {{ \App\Models\Setting::get('fest_name', "Masa Talents' Meet 26") }}</title>
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
+
     <!-- Bootstrap 5.3 CSS & Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Manjari:wght@400;700&display=swap" rel="stylesheet">
 
     <style>
         :root {
-            --brand-teal: #16b4a6;
-            --brand-coral: #ea4949;
-            --brand-gold: #f5a623;
+            --fest-crimson: #9b111e;
+            --fest-wine: #5c0617;
+            --fest-black: #0c0c0e;
+            --fest-dark: #151518;
+            --fest-primary-gradient: linear-gradient(135deg, #9b111e 0%, #5c0617 100%);
+            --fest-crimson-glow: rgba(155, 17, 30, 0.35);
         }
 
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            background: linear-gradient(135deg, #120306 0%, #1e0509 50%, #0a0a0c 100%);
             min-height: 100vh;
             display: flex;
             align-items: center;
@@ -29,58 +35,91 @@
             padding: 20px;
         }
 
+        @keyframes cardEntrance {
+            from {
+                opacity: 0;
+                transform: translateY(25px) scale(0.97);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        @keyframes floatFist {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-6px); }
+        }
+
         .portal-card {
             background: #ffffff;
-            border-radius: 1.25rem;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
-            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 1.5rem;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.5), 0 0 35px rgba(155, 17, 30, 0.25);
+            border: 1px solid rgba(255,255,255,0.15);
             overflow: hidden;
             width: 100%;
             max-width: 480px;
+            animation: cardEntrance 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
 
         .portal-header {
-            background: linear-gradient(135deg, #16b4a6 0%, #0d9488 100%);
+            background: linear-gradient(145deg, #1a0408 0%, #5c0617 55%, #9b111e 100%);
             padding: 2.25rem 2rem;
             text-align: center;
             color: #ffffff;
             position: relative;
         }
 
+        .fist-logo-box {
+            background: rgba(255,255,255,0.95);
+            padding: 10px;
+            border-radius: 1.25rem;
+            display: inline-block;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+            animation: floatFist 3.5s ease-in-out infinite;
+        }
+
         .btn-brand {
-            background-color: var(--brand-teal);
+            background: var(--fest-primary-gradient);
             color: #ffffff;
-            font-weight: 600;
+            font-weight: 700;
             padding: 0.75rem 1.5rem;
-            border-radius: 0.5rem;
+            border-radius: 50rem;
             border: none;
-            transition: all 0.2s ease;
+            box-shadow: 0 4px 15px var(--fest-crimson-glow);
+            transition: all 0.25s ease;
         }
 
         .btn-brand:hover {
-            background-color: #0d9488;
+            background: linear-gradient(135deg, #b91c1c 0%, #6e0b14 100%);
             color: #ffffff;
-            transform: translateY(-1px);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 22px rgba(155, 17, 30, 0.45);
         }
 
         .demo-pill {
             cursor: pointer;
             transition: all 0.2s ease;
+            border-radius: 50rem;
         }
         .demo-pill:hover {
-            background-color: #e2e8f0 !important;
-            transform: scale(1.02);
+            background-color: #f1f5f9 !important;
+            transform: scale(1.03);
+            border-color: var(--fest-crimson) !important;
         }
     </style>
 </head>
 <body>
     <div class="portal-card">
         <div class="portal-header">
-            <div class="bg-white p-2 rounded-4 d-inline-block shadow-sm mb-3">
-                <img src="{{ asset('images/logo.png') }}" alt="SNEC Talents' Meet" style="max-height: 55px; width: auto;">
+            <div class="fist-logo-box mb-2">
+                <img src="{{ asset('images/logo.png') }}" alt="Masa Fest Logo" style="max-height: 68px; width: auto; object-fit: contain;">
             </div>
-            <h4 class="fw-bold mb-1">Group Dedicated Portal</h4>
-            <p class="mb-0 small opacity-90">SNEC Talents' Meet 2026-27</p>
+            <div class="font-malayalam small fw-bold text-warning mb-1" style="color: #fca5a5 !important;">
+                {{ \App\Models\Setting::get('tagline', "“കല കലഹിക്കട്ടെ; സത്യം സംസാരിക്കട്ടെ”") }}
+            </div>
+            <h4 class="fw-extrabold mb-1">Group Dedicated Portal</h4>
+            <p class="mb-0 small text-white-50">{{ \App\Models\Setting::get('fest_name', "Masa Talents' Meet 26") }}</p>
         </div>
 
         <div class="p-4 p-md-5">

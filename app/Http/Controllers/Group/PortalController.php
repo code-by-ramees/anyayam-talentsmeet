@@ -31,7 +31,7 @@ class PortalController extends Controller
     public function dashboard()
     {
         $group = $this->currentGroup()->load(['members']);
-        $festName = Setting::get('fest_name', "SNEC Talents' Meet 2026-27");
+        $festName = Setting::get('fest_name', "Masa Talents' Meet 26");
 
         // My Group's published awards
         $myResults = Result::with(['program.category', 'program.section'])
@@ -77,7 +77,7 @@ class PortalController extends Controller
     public function profile()
     {
         $group = $this->currentGroup()->load(['user', 'members.section']);
-        $festName = Setting::get('fest_name', "SNEC Talents' Meet 2026-27");
+        $festName = Setting::get('fest_name', "Masa Talents' Meet 26");
 
         return view('group.profile', compact('group', 'festName'));
     }
@@ -88,7 +88,7 @@ class PortalController extends Controller
     public function members(Request $request)
     {
         $group = $this->currentGroup();
-        $festName = Setting::get('fest_name', "SNEC Talents' Meet 2026-27");
+        $festName = Setting::get('fest_name', "Masa Talents' Meet 26");
         $sections = Section::where('status', true)->get();
 
         $globalAllowAdd = Setting::get('allow_group_member_add', '1') === '1';
@@ -168,7 +168,7 @@ class PortalController extends Controller
     public function programs(Request $request)
     {
         $group = $this->currentGroup();
-        $festName = Setting::get('fest_name', "SNEC Talents' Meet 2026-27");
+        $festName = Setting::get('fest_name', "Masa Talents' Meet 26");
         $categories = Category::all();
         $sections = Section::where('status', true)->get();
 
@@ -205,7 +205,7 @@ class PortalController extends Controller
     public function results()
     {
         $group = $this->currentGroup();
-        $festName = Setting::get('fest_name', "SNEC Talents' Meet 2026-27");
+        $festName = Setting::get('fest_name', "Masa Talents' Meet 26");
 
         $results = Result::with(['program.category', 'program.section'])
             ->where('group_id', $group->id)
@@ -224,7 +224,7 @@ class PortalController extends Controller
     public function rankings(Request $request)
     {
         $group = $this->currentGroup();
-        $festName = Setting::get('fest_name', "SNEC Talents' Meet 2026-27");
+        $festName = Setting::get('fest_name', "Masa Talents' Meet 26");
         $sections = Section::where('status', true)->get();
 
         $overallRankings = $this->calculateRankings();
@@ -304,7 +304,7 @@ class PortalController extends Controller
     public function registrations(Request $request)
     {
         $group = $this->currentGroup();
-        $festName = Setting::get('fest_name', "SNEC Talents' Meet 2026-27");
+        $festName = Setting::get('fest_name', "Masa Talents' Meet 26");
         $sections = Section::where('status', true)->get();
         $categories = Category::all();
         $isRegistrationOpen = Setting::get('allow_event_registration', '1') === '1';

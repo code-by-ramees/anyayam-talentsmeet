@@ -67,3 +67,17 @@
     </div>
 </div>
 @endsection
+
+@push('styles')
+<style>
+    .nav-pills .nav-link {
+        color: #475569;
+        transition: all 0.25s ease;
+    }
+    .nav-pills .nav-link.active {
+        background: var(--fest-primary-gradient) !important;
+        color: #ffffff !important;
+        box-shadow: 0 4px 12px var(--fest-crimson-glow);
+    }
+</style>
+@endpush

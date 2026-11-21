@@ -3,60 +3,100 @@
 @section('title', "Live Leaderboard & Results — {$festName}")
 
 @section('content')
-<!-- Hero Section -->
-<section class="py-5 bg-white border-bottom">
-    <div class="container py-lg-3">
-        <div class="row align-items-center gy-4">
-            <div class="col-lg-8">
-                <div class="d-inline-flex align-items-center gap-2 px-3 py-1 rounded-pill bg-light border text-dark fw-bold small mb-3">
-                    <span class="badge bg-danger rounded-pill px-2 py-1">LIVE</span>
-                    <span>{{ $collegeName }}</span>
+<!-- Hero Section with Poster Art & Theme -->
+<section class="py-5 text-white position-relative overflow-hidden" style="background: var(--fest-hero-gradient); border-bottom: 3px solid var(--fest-crimson);">
+    <!-- Background Glow Blobs -->
+    <div style="position: absolute; top: -120px; left: -100px; width: 450px; height: 450px; background: radial-gradient(circle, rgba(155,17,30,0.35) 0%, rgba(0,0,0,0) 70%); border-radius: 50%; pointer-events: none;"></div>
+    <div style="position: absolute; bottom: -80px; right: 10%; width: 400px; height: 400px; background: radial-gradient(circle, rgba(92,6,23,0.4) 0%, rgba(0,0,0,0) 70%); border-radius: 50%; pointer-events: none;"></div>
+
+    <div class="container py-lg-4 position-relative" style="z-index: 2;">
+        <div class="row align-items-center gy-5">
+            <!-- Left Column: Fest Branding, Title & Quote -->
+            <div class="col-lg-7 text-center text-lg-start animate-slide-up">
+                <!-- Live Pill Badge -->
+                <div class="d-inline-flex align-items-center gap-2 px-3 py-1 rounded-pill bg-black bg-opacity-50 border border-danger border-opacity-50 text-white fw-bold small mb-3 shadow-sm">
+                    <span class="badge bg-danger rounded-pill px-2 py-1 pulse-badge">LIVE FEST</span>
+                    <span class="text-white-50">{{ $collegeName }}</span>
                     <span>·</span>
-                    <span class="text-primary">{{ $edition }}</span>
+                    <span class="text-warning fw-bold">{{ $edition }}</span>
                 </div>
 
-                <h1 class="display-4 fw-extrabold text-dark tracking-tight mb-2">
-                    {{ $festName }}
+                <!-- Malayalam Tagline from Poster -->
+                <div class="font-malayalam fw-bold mb-3" style="color: #ff6b7a; letter-spacing: 0.5px; font-size: 1.05rem;">
+                    {{ $tagline ?? '"കല കലഹിക്കട്ടെ; സത്യം സംസാരിക്കട്ടെ"' }}
+                </div>
+
+                <!-- PRIMARY HEADING: Malayalam Anyayam in bold artistic font matching the official poster -->
+                <h1 class="mb-2 lh-1" style="font-family: 'Baloo Chettan 2', 'Manjari', sans-serif; font-size: clamp(3.5rem, 10vw, 6.5rem); font-weight: 800; color: #ef4444; text-shadow: 3px 3px 0px rgba(0,0,0,0.6), 0 0 40px rgba(239,68,68,0.3);">
+                    അന്യായം
                 </h1>
-                <p class="lead text-muted mb-4 fs-5" style="max-width: 620px;">
-                    Centralized festival scoreboards for <strong>Bakalooriyya</strong> and <strong>Sanaviyya Ulya</strong> sections. Track real-time group points, prize tallies, and official results transparently.
+
+                <!-- SECONDARY: English subtitle + Justice badge -->
+                <div class="d-flex align-items-center justify-content-center justify-content-lg-start flex-wrap gap-2 mb-4">
+                    <span class="text-white-50 fs-5 fw-semibold">{{ $festName }}</span>
+                    <span class="badge px-3 py-2 rounded-pill fs-6 fw-bold text-uppercase" style="background-color: var(--fest-crimson); letter-spacing: 1px;">
+                        JUSTICE
+                    </span>
+                </div>
+
+                <p class="lead text-white-50 mb-4 fs-5" style="max-width: 600px;">
+                    Official festival scoreboards & live competition results across <strong>Bakalooriyya</strong>, <strong>Sanaviyya Ulya</strong>, and <strong>General</strong> sections. Organized by <strong>Manbaul Afnan Students' Association (MASA)</strong>.
                 </p>
 
-                <div class="d-flex flex-wrap align-items-center gap-3">
-                    <a href="#leaderboard" class="btn btn-fest-primary btn-lg px-4 shadow-sm">
+                <!-- Action CTA Buttons -->
+                <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start gap-3">
+                    <a href="#leaderboard" class="btn btn-fest-primary btn-lg px-4 shadow-lg">
                         <i class="bi bi-trophy-fill me-2 text-warning"></i> View Live Leaderboard
                     </a>
-                    <a href="{{ route('public.results') }}" class="btn btn-outline-dark btn-lg rounded-pill px-4">
+                    <a href="{{ route('public.results') }}" class="btn btn-outline-light btn-lg rounded-pill px-4">
                         <i class="bi bi-award me-1"></i> Published Results
                     </a>
                 </div>
             </div>
 
-            <!-- Fest Stats Badges -->
-            <div class="col-lg-4">
-                <div class="row g-3">
-                    <div class="col-6">
-                        <div class="fest-card p-3 text-center bg-light">
-                            <span class="text-muted small fw-semibold d-block">Participating Groups</span>
-                            <span class="display-6 fw-extrabold text-dark">{{ $totalGroups }}</span>
+            <!-- Right Column: Clenched Fist Poster Visual & Stats -->
+            <div class="col-lg-5 text-center animate-slide-up" style="animation-delay: 0.2s;">
+                <div class="position-relative d-inline-block">
+                    <!-- Glow Behind Fist -->
+                    <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 280px; height: 280px; background: radial-gradient(circle, rgba(168,17,30,0.55) 0%, rgba(92,6,23,0.2) 50%, rgba(0,0,0,0) 75%); border-radius: 50%; filter: blur(20px); z-index: 0;"></div>
+
+                    <!-- Floating Justice Clenched Fist Artwork -->
+                    <div class="animate-float position-relative" style="z-index: 1;">
+                        <img src="{{ asset('images/logo.png') }}" alt="Masa Talents '26 Justice Fist" class="img-fluid" style="max-height: 290px; filter: drop-shadow(0 15px 25px rgba(0,0,0,0.7));">
+                    </div>
+
+                    <!-- MASA Banner Strip -->
+                    <div class="bg-black bg-opacity-75 border border-danger border-opacity-25 rounded-4 p-2 px-3 mt-3 shadow-sm d-inline-block position-relative" style="z-index: 2;">
+                        <small class="text-white-50 fs-xs text-uppercase fw-bold d-block" style="letter-spacing: 1px;">
+                            MANBAUL AFNAN STUDENTS' ASSOCIATION (MASA)
+                        </small>
+                    </div>
+                </div>
+
+                <!-- Stats Grid Row -->
+                <div class="row g-2 mt-3 pt-2">
+                    <div class="col-3">
+                        <div class="p-2 rounded-3 text-center" style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);">
+                            <span class="fs-xs text-white-50 d-block text-uppercase">Groups</span>
+                            <span class="fs-5 fw-bold text-white">{{ $totalGroups }}</span>
                         </div>
                     </div>
-                    <div class="col-6">
-                        <div class="fest-card p-3 text-center bg-light">
-                            <span class="text-muted small fw-semibold d-block">Total Programs</span>
-                            <span class="display-6 fw-extrabold text-primary">{{ $totalPrograms }}</span>
+                    <div class="col-3">
+                        <div class="p-2 rounded-3 text-center" style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);">
+                            <span class="fs-xs text-white-50 d-block text-uppercase">Events</span>
+                            <span class="fs-5 fw-bold text-danger" style="color: #ff6b7a !important;">{{ $totalPrograms }}</span>
                         </div>
                     </div>
-                    <div class="col-6">
-                        <div class="fest-card p-3 text-center bg-light">
-                            <span class="text-muted small fw-semibold d-block">Completed Events</span>
-                            <span class="display-6 fw-extrabold text-success">{{ $completedPrograms }}</span>
+                    <div class="col-3">
+                        <div class="p-2 rounded-3 text-center" style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);">
+                            <span class="fs-xs text-white-50 d-block text-uppercase">Done</span>
+                            <span class="fs-5 fw-bold text-success">{{ $completedPrograms }}</span>
                         </div>
                     </div>
-                    <div class="col-6">
-                        <div class="fest-card p-3 text-center bg-light">
-                            <span class="text-muted small fw-semibold d-block">Sections</span>
-                            <span class="display-6 fw-extrabold text-secondary">{{ $sections->count() }}</span>
+                    <div class="col-3">
+                        <div class="p-2 rounded-3 text-center" style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);">
+                            <span class="fs-xs text-white-50 d-block text-uppercase">Sections</span>
+                            <span class="fs-5 fw-bold text-warning">{{ $sections->count() }}</span>
                         </div>
                     </div>
                 </div>
@@ -66,7 +106,7 @@
 </section>
 
 <!-- Podium & Leaderboard Section -->
-<section id="leaderboard" class="py-5">
+<section id="leaderboard" class="py-5" style="background: var(--fest-sand-light);">
     <div class="container">
         
         <!-- Section Tabs Navigation -->
@@ -76,10 +116,10 @@
                     <i class="bi bi-trophy-fill text-warning"></i>
                     <span>Festival Standings & Rankings</span>
                 </h3>
-                <p class="text-muted small mb-0">Official points awarded across all completed events with automated tie-breaking.</p>
+                <p class="text-muted small mb-0">Official points awarded across completed events with automated tie-breaking.</p>
             </div>
 
-            <!-- Tab Pills -->
+            <!-- Tab Pills styled with crimson theme -->
             <ul class="nav nav-pills bg-white p-1 rounded-pill border shadow-sm" id="pills-tab" role="tablist">
                 <li class="nav-item" role="presentation">
                     <button class="nav-link active rounded-pill px-4 fw-bold" id="pills-overall-tab" data-bs-toggle="pill" data-bs-target="#pills-overall" type="button" role="tab">
@@ -120,12 +160,12 @@
         </div>
 
         <!-- Recent Published Results Row -->
-        <div class="mt-5 pt-3">
+        <div class="mt-5 pt-4">
             <div class="d-flex justify-content-between align-items-center mb-3">
                 <h4 class="fw-bold mb-0 d-flex align-items-center gap-2">
-                    <i class="bi bi-clock-history text-primary"></i> Latest Published Results
+                    <i class="bi bi-clock-history text-crimson"></i> Latest Published Results
                 </h4>
-                <a href="{{ route('public.results') }}" class="btn btn-sm btn-outline-secondary rounded-pill px-3">
+                <a href="{{ route('public.results') }}" class="btn btn-sm btn-outline-dark rounded-pill px-3">
                     View All Results <i class="bi bi-arrow-right ms-1"></i>
                 </a>
             </div>
@@ -138,7 +178,7 @@
                 <div class="row g-3">
                     @foreach($latestResults as $res)
                         <div class="col-md-6 col-lg-3">
-                            <div class="fest-card p-3 h-100 position-relative">
+                            <div class="fest-card p-3 h-100 position-relative d-flex flex-column">
                                 <div class="d-flex justify-content-between align-items-center mb-2">
                                     <span class="badge bg-light text-dark border small">{{ $res->program->section->name }}</span>
                                     <span class="{{ $res->getPositionBadgeClass() }} rounded-pill px-2 py-1 fs-xs fw-bold">
@@ -156,7 +196,7 @@
                                         <span style="width: 10px; height: 10px; border-radius: 50%; background-color: {{ $res->group->color }};"></span>
                                         <span class="fw-bold small text-truncate" style="max-width: 140px;">{{ $res->group->name }}</span>
                                     </div>
-                                    <span class="badge bg-success-subtle text-success border border-success-subtle fw-bold">
+                                    <span class="badge bg-crimson-subtle border border-danger-subtle fw-bold">
                                         +{{ $res->marks }} Pts
                                     </span>
                                 </div>
@@ -173,3 +213,17 @@
     </div>
 </section>
 @endsection
+
+@push('styles')
+<style>
+    .nav-pills .nav-link {
+        color: #475569;
+        transition: all 0.25s ease;
+    }
+    .nav-pills .nav-link.active {
+        background: var(--fest-primary-gradient) !important;
+        color: #ffffff !important;
+        box-shadow: 0 4px 12px var(--fest-crimson-glow);
+    }
+</style>
+@endpush

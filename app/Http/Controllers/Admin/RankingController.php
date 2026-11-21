@@ -13,7 +13,7 @@ class RankingController extends Controller
 {
     public function index(Request $request)
     {
-        $festName = Setting::get('fest_name', "SNEC Talents' Meet 2026-27");
+        $festName = Setting::get('fest_name', "Masa Talents' Meet 26");
         $sections = Section::where('status', true)->get();
         $categories = Category::all();
 
@@ -49,7 +49,7 @@ class RankingController extends Controller
      */
     public function printView(Request $request)
     {
-        $festName = Setting::get('fest_name', "SNEC Talents' Meet 2026-27");
+        $festName = Setting::get('fest_name', "Masa Talents' Meet 26");
         $collegeName = Setting::get('college_name', "Shamsul Ulama Islamic & Arts College");
         $sectionFilter = $request->get('section');
 

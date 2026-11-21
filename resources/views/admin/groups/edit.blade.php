@@ -22,7 +22,7 @@
                             @method('PUT')
 
                             <h5 class="fw-bold mb-3 text-dark border-bottom pb-2">
-                                <i class="bi bi-people-fill text-teal me-2" style="color: #0d9488;"></i> Group Details
+                                <i class="bi bi-people-fill text-teal me-2" style="color: #9b111e;"></i> Group Details
                             </h5>
 
                             <div class="row g-3 mb-4">
@@ -54,7 +54,7 @@
                                         </div>
 
                                         <h5 class="fw-bold mb-3 text-dark border-bottom pb-2">
-                                            <i class="bi bi-key-fill text-teal me-2" style="color: #0d9488;"></i> Portal
+                                            <i class="bi bi-key-fill text-teal me-2" style="color: #9b111e;"></i> Portal
                                             Account & Password Reset
                                         </h5>
 
@@ -75,7 +75,7 @@
                                         </div>
 
                                         <h5 class="fw-bold mb-3 text-dark border-bottom pb-2">
-                                            <i class="bi bi-sliders text-teal me-2" style="color: #0d9488;"></i> Status &
+                                            <i class="bi bi-sliders text-teal me-2" style="color: #9b111e;"></i> Status &
                                             Settings
                                         </h5>
 

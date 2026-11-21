@@ -4,20 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="<?php echo e(csrf_token()); ?>">
-    <title><?php echo $__env->yieldContent('title', 'Super Admin'); ?> — College Fest Management</title>
+    <title><?php echo $__env->yieldContent('title', 'Admin Panel'); ?> — <?php echo e(\App\Models\Setting::get('fest_name', "Masa Talents' Meet 26")); ?></title>
     
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="<?php echo e(asset('favicon.ico')); ?>">
+
     <!-- Bootstrap 5.3 CSS & Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 
     <style>
         :root {
-            --admin-nav-bg: #0f172a;
-            --admin-accent: #0d9488;
-            --admin-surface: #f1f5f9;
+            --admin-nav-bg: #0c0c0e;
+            --admin-accent: #9b111e;
+            --admin-accent-dark: #6e0b14;
+            --admin-surface: #f7f5f0;
+            --admin-card-border: #e8e2d8;
+            --admin-primary-gradient: linear-gradient(135deg, #9b111e 0%, #5c0617 100%);
+            --fest-crimson-glow: rgba(155, 17, 30, 0.28);
         }
 
         body {
@@ -27,10 +34,24 @@
             min-height: 100vh;
             display: flex;
             flex-direction: column;
+            overflow-x: hidden;
+        }
+
+        /* Top Identity Strip */
+        .admin-top-strip {
+            height: 4px;
+            background: linear-gradient(90deg, 
+                #5c0617 0%, #5c0617 25%, 
+                #9b111e 25%, #9b111e 50%, 
+                #0c0c0e 50%, #0c0c0e 75%, 
+                #d8cfc4 75%, #d8cfc4 100%
+            );
         }
 
         .admin-nav {
             background-color: var(--admin-nav-bg);
+            border-bottom: 2px solid rgba(155, 17, 30, 0.4);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
         }
 
         .nav-link-admin {
@@ -39,32 +60,103 @@
             padding: 0.5rem 0.85rem;
             border-radius: 0.5rem;
             font-size: 0.92rem;
-            transition: all 0.2s ease;
+            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         .nav-link-admin:hover, .nav-link-admin.active {
             color: #ffffff;
-            background-color: rgba(13, 148, 136, 0.25);
+            background: linear-gradient(135deg, rgba(155, 17, 30, 0.6) 0%, rgba(92, 6, 23, 0.4) 100%);
+            box-shadow: 0 2px 8px rgba(155, 17, 30, 0.25);
+            transform: translateY(-1px);
         }
 
         .admin-card {
-            border: 1px solid #e2e8f0;
-            border-radius: 0.85rem;
+            border: 1px solid var(--admin-card-border);
+            border-radius: 1rem;
             background: #ffffff;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+            transition: all 0.25s ease;
+        }
+
+        .admin-card:hover {
+            box-shadow: 0 8px 24px rgba(155, 17, 30, 0.06);
+            border-color: rgba(155, 17, 30, 0.2);
+        }
+
+        /* Legacy .btn-teal and teal color helpers mapped to theme crimson */
+        .btn-teal, .btn-primary {
+            background: var(--admin-primary-gradient) !important;
+            border-color: #9b111e !important;
+            color: #ffffff !important;
+            box-shadow: 0 4px 12px var(--fest-crimson-glow);
+            transition: all 0.25s ease;
+        }
+
+        .btn-teal:hover, .btn-primary:hover {
+            background: linear-gradient(135deg, #b91c1c 0%, #6e0b14 100%) !important;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(155, 17, 30, 0.4);
+            color: #ffffff !important;
+        }
+
+        .btn-outline-teal {
+            border-color: #9b111e !important;
+            color: #9b111e !important;
+        }
+
+        .btn-outline-teal:hover {
+            background: #9b111e !important;
+            color: #ffffff !important;
+        }
+
+        .text-teal {
+            color: #9b111e !important;
+        }
+
+        .bg-teal {
+            background-color: #9b111e !important;
+        }
+
+        .bg-teal-subtle {
+            background-color: rgba(155, 17, 30, 0.08) !important;
+            color: #9b111e !important;
+        }
+
+        /* Animations */
+        @keyframes fadeInPage {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .admin-content-animate {
+            animation: fadeInPage 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .admin-brand-logo {
+            height: 38px;
+            width: auto;
+            object-fit: contain;
+            filter: drop-shadow(0 2px 4px rgba(255, 255, 255, 0.15));
+            transition: transform 0.25s ease;
+        }
+
+        .admin-brand-logo:hover {
+            transform: scale(1.1);
         }
     </style>
     <?php echo $__env->yieldPushContent('styles'); ?>
 </head>
 <body>
-    <nav class="navbar navbar-expand-xl admin-nav navbar-dark py-2 sticky-top border-bottom border-dark">
+    <div class="admin-top-strip"></div>
+
+    <nav class="navbar navbar-expand-xl admin-nav navbar-dark py-2 sticky-top">
         <div class="container-fluid px-lg-4">
             <a class="navbar-brand fw-bold d-flex align-items-center gap-2" href="<?php echo e(route('admin.dashboard')); ?>">
-                <span class="badge bg-teal p-2 rounded-3 text-white" style="background-color: #0d9488 !important;">
-                    <i class="bi bi-shield-lock-fill"></i>
-                </span>
-                <span>FEST ADMIN</span>
-                <span class="badge bg-secondary fs-xs fw-normal">Super Admin</span>
+                <img src="<?php echo e(asset('images/logo.png')); ?>" alt="Fest Logo" class="admin-brand-logo">
+                <div class="lh-1">
+                    <span class="fs-6 fw-extrabold text-white">MASA TALENTS '26</span>
+                    <small class="d-block text-danger fw-bold" style="color: #ff6b7a !important; font-size: 0.68rem; letter-spacing: 0.5px;">ADMIN PANEL</small>
+                </div>
             </a>
 
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#adminNavbar">
@@ -72,7 +164,7 @@
             </button>
 
             <div class="collapse navbar-collapse" id="adminNavbar">
-                <ul class="navbar-nav me-auto mb-2 mb-xl-0 ms-xl-2">
+                <ul class="navbar-nav me-auto mb-2 mb-xl-0 ms-xl-3">
                     <li class="nav-item">
                         <a class="nav-link nav-link-admin <?php echo e(request()->routeIs('admin.dashboard') ? 'active' : ''); ?>" href="<?php echo e(route('admin.dashboard')); ?>">
                             <i class="bi bi-speedometer2 me-1"></i> Dashboard
@@ -95,7 +187,7 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link nav-link-admin <?php echo e(request()->routeIs('admin.categories.*') ? 'active' : ''); ?>" href="<?php echo e(route('admin.categories.index')); ?>">
-                            <i class="bi bi-tags me-1"></i> Categories & Marks
+                            <i class="bi bi-tags me-1"></i> Categories
                         </a>
                     </li>
                     <li class="nav-item">
@@ -126,17 +218,17 @@
                 </ul>
 
                 <div class="d-flex align-items-center gap-2">
-                    <a href="<?php echo e(route('public.index')); ?>" target="_blank" class="btn btn-sm btn-outline-info rounded-pill px-3">
-                        <i class="bi bi-eye me-1"></i> View Live Site
+                    <a href="<?php echo e(route('public.index')); ?>" target="_blank" class="btn btn-sm btn-outline-light rounded-pill px-3">
+                        <i class="bi bi-eye me-1 text-danger" style="color: #ff6b7a !important;"></i> Live Site
                     </a>
 
-                    <a href="<?php echo e(route('admin.password.edit')); ?>" class="btn btn-sm btn-outline-light rounded-pill px-3 <?php echo e(request()->routeIs('admin.password.*') ? 'active' : ''); ?>">
-                        <i class="bi bi-key-fill me-1"></i> Change Password
+                    <a href="<?php echo e(route('admin.password.edit')); ?>" class="btn btn-sm btn-outline-secondary rounded-pill px-3 text-light <?php echo e(request()->routeIs('admin.password.*') ? 'active' : ''); ?>">
+                        <i class="bi bi-key-fill me-1"></i> Password
                     </a>
 
                     <form action="<?php echo e(route('admin.logout')); ?>" method="POST" class="d-inline">
                         <?php echo csrf_field(); ?>
-                        <button type="submit" class="btn btn-sm btn-danger rounded-pill px-3">
+                        <button type="submit" class="btn btn-sm btn-danger rounded-pill px-3" style="background-color: #9b111e; border-color: #9b111e;">
                             <i class="bi bi-box-arrow-right me-1"></i> Logout
                         </button>
                     </form>
@@ -176,14 +268,14 @@
         <?php endif; ?>
     </div>
 
-    <main class="py-3 flex-grow-1">
+    <main class="py-3 flex-grow-1 admin-content-animate">
         <?php echo $__env->yieldContent('content'); ?>
     </main>
 
     <footer class="bg-white border-top py-3 text-center text-muted small mt-auto">
-        <div class="container">
-            College Fest Management System · Super Admin Panel &copy; <?php echo e(date('Y')); ?>
-
+        <div class="container d-flex flex-wrap justify-content-between align-items-center gap-2">
+            <span><?php echo e(\App\Models\Setting::get('fest_name', "Masa Talents' Meet 26")); ?> &bull; Super Admin Panel &copy; <?php echo e(date('Y')); ?></span>
+            <span class="badge bg-dark text-white font-monospace">SNEC &bull; MASA</span>
         </div>
     </footer>
 

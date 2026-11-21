@@ -14,7 +14,7 @@
                     <i class="bi bi-file-earmark-excel me-1"></i> Export CSV
                 </a>
                 <a href="{{ route('admin.members.create') }}" class="btn btn-teal text-white shadow-sm"
-                    style="background-color: #0d9488;">
+                    style="background-color: #9b111e;">
                     <i class="bi bi-person-plus-fill me-1"></i> Add Member
                 </a>
             </div>
@@ -88,7 +88,7 @@
                                     </td>
                                     <td>
                                         <span class="badge px-2 py-1 text-white"
-                                            style="background-color: {{ $m->group->color ?? '#0d9488' }};">
+                                            style="background-color: {{ $m->group->color ?? '#9b111e' }};">
                                             {{ $m->group->name ?? 'Unassigned' }}
                                         </span>
                                     </td>

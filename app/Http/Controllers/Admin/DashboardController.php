@@ -17,7 +17,7 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        $festName = Setting::get('fest_name', "SNEC Talents' Meet 2026-27");
+        $festName = Setting::get('fest_name', "Masa Talents' Meet 26");
 
         // Key Dashboard Statistics
         $totalGroups = Group::count();

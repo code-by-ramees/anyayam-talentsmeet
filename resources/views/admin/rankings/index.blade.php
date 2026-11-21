@@ -14,7 +14,7 @@
                     <i class="bi bi-printer me-1"></i> Print Scoresheet
                 </a>
                 <a href="{{ route('public.rankings') }}" target="_blank" class="btn btn-teal text-white shadow-sm"
-                    style="background-color: #0d9488;">
+                    style="background-color: #9b111e;">
                     <i class="bi bi-eye me-1"></i> View Public Leaderboard
                 </a>
             </div>
@@ -31,13 +31,13 @@
             <li class="nav-item" role="presentation">
                 <button class="nav-link fw-semibold" id="bakalooriyya-tab" data-bs-toggle="pill"
                     data-bs-target="#bakalooriyya" type="button" role="tab">
-                    <i class="bi bi-layers-fill text-teal me-1" style="color: #0d9488;"></i> Bakalooriyya
+                    <i class="bi bi-layers-fill text-teal me-1" style="color: #9b111e;"></i> Bakalooriyya
                 </button>
             </li>
             <li class="nav-item" role="presentation">
                 <button class="nav-link fw-semibold" id="sanaviyya-tab" data-bs-toggle="pill" data-bs-target="#sanaviyya"
                     type="button" role="tab">
-                    <i class="bi bi-layers-fill text-teal me-1" style="color: #0d9488;"></i> Sanaviyya Ulya
+                    <i class="bi bi-layers-fill text-teal me-1" style="color: #9b111e;"></i> Sanaviyya Ulya
                 </button>
             </li>
             <li class="nav-item" role="presentation">
@@ -111,7 +111,7 @@
                                             {{ $catData['category']->third_marks }} pts</small>
                                     </div>
                                     <span class="badge bg-teal text-white"
-                                        style="background-color: #0d9488;">{{ $catData['category']->code }}</span>
+                                        style="background-color: #9b111e;">{{ $catData['category']->code }}</span>
                                 </div>
                                 <div class="card-body p-0">
                                     @include('admin.rankings.partials.table', ['rankings' => $catData['rankings'], 'showSection' => false, 'compact' => true])

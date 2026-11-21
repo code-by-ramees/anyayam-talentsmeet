@@ -14,7 +14,7 @@
                 <div class="card group-card border-0 shadow-sm p-4">
                     <div class="d-flex align-items-center gap-4 mb-4 pb-4 border-bottom">
                         <div class="rounded-4 p-4 text-white d-flex align-items-center justify-content-center shadow"
-                            style="width: 80px; height: 80px; background-color: {{ $group->color ?: '#0d9488' }};">
+                            style="width: 80px; height: 80px; background-color: {{ $group->color ?: '#9b111e' }};">
                             <i class="bi bi-flag-fill fs-2"></i>
                         </div>
                         <div>
@@ -22,7 +22,7 @@
                             <div class="d-flex flex-wrap gap-2 align-items-center">
                                 <span class="badge bg-light text-secondary border font-monospace fs-6">CODE:
                                     {{ $group->code }}</span>
-                                <span class="badge rounded-pill px-3 py-1 text-white" style="background-color: #0d9488;">
+                                <span class="badge rounded-pill px-3 py-1 text-white" style="background-color: #9b111e;">
                                     Junior & Senior House
                                 </span>
                                 @if($group->status === 'active')
@@ -81,14 +81,14 @@
 
             <div class="col-lg-4">
                 <div class="card group-card border-0 shadow-sm p-4 bg-light">
-                    <h6 class="fw-bold mb-3"><i class="bi bi-shield-lock-fill text-teal me-2" style="color: #0d9488;"></i>
+                    <h6 class="fw-bold mb-3"><i class="bi bi-shield-lock-fill text-teal me-2" style="color: #9b111e;"></i>
                         Portal Account Security</h6>
                     <p class="small text-muted mb-3">
                         Your group portal account credentials are managed securely. You can change your password below at
                         any time, or contact the festival Super Admin if you need assistance.
                     </p>
                         <a href="{{ route('group.password.edit') }}" class="btn btn-teal text-white w-100 mb-3"
-                            style="background-color: #0d9488;">
+                            style="background-color: #9b111e;">
                             <i class="bi bi-key-fill me-1"></i> Change Group Password
                         </a>
                         <div class="p-3 bg-white rounded-3 border mb-0">

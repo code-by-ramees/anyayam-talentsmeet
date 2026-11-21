@@ -77,7 +77,7 @@ class AuthController extends Controller
     public function showChangePassword()
     {
         $group = Auth::user()->group;
-        $festName = \App\Models\Setting::get('fest_name', "SNEC Talents' Meet 2026-27");
+        $festName = \App\Models\Setting::get('fest_name', "Masa Talents' Meet 26");
 
         return view('group.change-password', compact('group', 'festName'));
     }

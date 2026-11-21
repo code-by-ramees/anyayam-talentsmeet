@@ -36,7 +36,7 @@
                     </td>
                     <td>
                         <div class="d-flex align-items-center gap-2">
-                            <span class="rounded-circle p-1 d-inline-block" style="width: 14px; height: 14px; background-color: {{ $row['group']->color ?? '#0d9488' }};"></span>
+                            <span class="rounded-circle p-1 d-inline-block" style="width: 14px; height: 14px; background-color: {{ $row['group']->color ?? '#9b111e' }};"></span>
                             <div>
                                 <span class="fw-bold text-dark">{{ $row['group']->name }}</span>
                                 <span class="badge bg-light text-muted border font-monospace ms-1">{{ $row['group']->code }}</span>
@@ -45,7 +45,7 @@
                     </td>
                     @if($showSection ?? false)
                         <td>
-                            <span class="badge rounded-pill px-2 py-1 text-white" style="background-color: #0d9488;">
+                            <span class="badge rounded-pill px-2 py-1 text-white" style="background-color: #9b111e;">
                                 {{ $row['group']->section->name ?? 'N/A' }}
                             </span>
                         </td>

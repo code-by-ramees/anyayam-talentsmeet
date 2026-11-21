@@ -18,7 +18,7 @@
                             @csrf
 
                             <h5 class="fw-bold mb-3 text-dark border-bottom pb-2">
-                                <i class="bi bi-mortarboard-fill text-teal me-2" style="color: #0d9488;"></i> Festival &
+                                <i class="bi bi-mortarboard-fill text-teal me-2" style="color: #9b111e;"></i> Festival &
                                 Institution Identity
                             </h5>
 
@@ -45,7 +45,7 @@
                             </div>
 
                             <h5 class="fw-bold mb-3 text-dark border-bottom pb-2">
-                                <i class="bi bi-shield-lock-fill text-teal me-2" style="color: #0d9488;"></i> Group Portal
+                                <i class="bi bi-shield-lock-fill text-teal me-2" style="color: #9b111e;"></i> Group Portal
                                 Permissions & Rules
                             </h5>
 
@@ -100,7 +100,7 @@
 
                             <div class="d-flex justify-content-end gap-2 pt-3 border-top">
                                 <button type="submit" class="btn btn-teal text-white px-5"
-                                    style="background-color: #0d9488;">
+                                    style="background-color: #9b111e;">
                                     <i class="bi bi-save me-1"></i> Save Festival Settings
                                 </button>
                             </div>
@@ -124,7 +124,7 @@
 
                     <div class="card admin-card border-0 shadow-sm p-4 bg-white">
                         <h6 class="fw-bold mb-2 text-dark"><i class="bi bi-shield-lock-fill text-teal me-2"
-                                style="color: #0d9488;"></i> Super Admin Password</h6>
+                                style="color: #9b111e;"></i> Super Admin Password</h6>
                         <p class="small text-muted mb-3">
                             Logged in as <strong>{{ auth()->user()->username ?? 'admin' }}</strong>. You can change your
                             administrative login password at any time.

@@ -17,9 +17,11 @@ class PublicController extends Controller
      */
     public function index()
     {
-        $festName = Setting::get('fest_name', "SNEC Talents' Meet 2026-27");
+        $festName = Setting::get('fest_name', "Masa Talents' Meet 26");
         $collegeName = Setting::get('college_name', "Shamsul Ulama Islamic & Arts College");
-        $edition = Setting::get('edition', "Edition 03");
+        $edition = Setting::get('edition', "Meet '26");
+        $tagline = Setting::get('tagline', "“കല കലഹിക്കട്ടെ; സത്യം സംസാരിക്കട്ടെ”");
+        $themeTitle = Setting::get('theme_title', "JUSTICE — അന്യായം");
 
         $sections = Section::where('status', true)->get();
         $categories = Category::all();
@@ -47,6 +49,8 @@ class PublicController extends Controller
             'festName',
             'collegeName',
             'edition',
+            'tagline',
+            'themeTitle',
             'sections',
             'categories',
             'overallRankings',
@@ -64,7 +68,7 @@ class PublicController extends Controller
      */
     public function results(Request $request)
     {
-        $festName = Setting::get('fest_name', "SNEC Talents' Meet 2026-27");
+        $festName = Setting::get('fest_name', "Masa Talents' Meet 26");
         $sections = Section::where('status', true)->get();
         $categories = Category::all();
         $groups = Group::where('status', 'active')->get();
@@ -102,7 +106,7 @@ class PublicController extends Controller
      */
     public function rankings(Request $request)
     {
-        $festName = Setting::get('fest_name', "SNEC Talents' Meet 2026-27");
+        $festName = Setting::get('fest_name', "Masa Talents' Meet 26");
         $sections = Section::where('status', true)->get();
 
         $activeTab = $request->get('tab', 'overall');
@@ -126,7 +130,7 @@ class PublicController extends Controller
      */
     public function programs(Request $request)
     {
-        $festName = Setting::get('fest_name', "SNEC Talents' Meet 2026-27");
+        $festName = Setting::get('fest_name', "Masa Talents' Meet 26");
         $sections = Section::where('status', true)->get();
         $categories = Category::all();
 

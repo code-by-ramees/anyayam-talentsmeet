@@ -52,7 +52,7 @@
 
                         <div class="d-flex justify-content-end gap-2 pt-3 border-top">
                             <a href="{{ route('admin.dashboard') }}" class="btn btn-light px-4">Cancel</a>
-                            <button type="submit" class="btn btn-teal text-white px-5" style="background-color: #0d9488;">
+                            <button type="submit" class="btn btn-teal text-white px-5" style="background-color: #9b111e;">
                                 <i class="bi bi-shield-check me-1"></i> Update Password
                             </button>
                         </div>

@@ -1,19 +1,23 @@
 @extends('layouts.app')
 
-@section('title', 'Super Admin Login — College Fest Management')
+@section('title', "Super Admin Login — " . \App\Models\Setting::get('fest_name', "Masa Talents' Meet 26"))
 
 @section('content')
 <div class="container py-5">
     <div class="row justify-content-center">
         <div class="col-md-5 col-lg-4">
             
-            <div class="fest-card p-4 shadow-lg border-0 bg-white">
-                <div class="text-center mb-4">
-                    <span class="d-inline-flex align-items-center justify-content-center bg-dark text-white rounded-4 p-3 mb-3 shadow-sm">
-                        <i class="bi bi-shield-lock-fill fs-3 text-warning"></i>
-                    </span>
+            <div class="fest-card p-4 shadow-lg border-0 bg-white position-relative overflow-hidden">
+                <!-- Top Red Accent Bar -->
+                <div style="position: absolute; top: 0; left: 0; right: 0; height: 5px; background: var(--fest-primary-gradient);"></div>
+
+                <div class="text-center mb-4 pt-2">
+                    <img src="{{ asset('images/logo.png') }}" alt="Masa Fest Logo" class="animate-float mb-2" style="max-height: 80px; object-fit: contain;">
+                    <div class="font-malayalam fw-bold text-danger small mb-1" style="color: #9b111e !important;">
+                        {{ \App\Models\Setting::get('tagline', "“കല കലഹിക്കട്ടെ; സത്യം സംസാരിക്കട്ടെ”") }}
+                    </div>
                     <h4 class="fw-extrabold mb-1">Super Admin Login</h4>
-                    <p class="text-muted small">Centralized Festival Administration Panel</p>
+                    <p class="text-muted small mb-0">{{ \App\Models\Setting::get('fest_name', "Masa Talents' Meet 26") }}</p>
                 </div>
 
                 <form action="{{ route('admin.login.submit') }}" method="POST">
@@ -57,14 +61,14 @@
                         <label for="remember" class="form-check-label small text-muted">Keep me signed in</label>
                     </div>
 
-                    <button type="submit" class="btn btn-dark w-100 py-2 rounded-pill fw-bold shadow-sm">
+                    <button type="submit" class="btn btn-fest-primary w-100 py-2 rounded-pill fw-bold shadow-sm">
                         <i class="bi bi-box-arrow-in-right me-1"></i> Sign In to Admin Panel
                     </button>
                 </form>
 
-                <!-- Demo helper credentials -->
+                <!-- Helper credentials -->
                 <div class="mt-4 p-3 bg-light rounded-3 border text-center small text-muted">
-                    <div class="fw-bold text-dark mb-1"><i class="bi bi-info-circle text-primary me-1"></i> Default Super Admin Credentials</div>
+                    <div class="fw-bold text-dark mb-1"><i class="bi bi-shield-check text-danger me-1" style="color: #9b111e !important;"></i> Default Super Admin Credentials</div>
                     <div>Username: <code>admin</code></div>
                     <div>Password: <code>admin123</code></div>
                 </div>
@@ -72,7 +76,7 @@
 
             <div class="text-center mt-3">
                 <a href="{{ route('public.index') }}" class="text-muted small text-decoration-none">
-                    <i class="bi bi-arrow-left me-1"></i> Return to Public Festival Portal
+                    <i class="bi bi-arrow-left me-1"></i> Return to Live Leaderboard
                 </a>
             </div>
 

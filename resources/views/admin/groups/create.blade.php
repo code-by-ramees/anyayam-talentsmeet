@@ -20,7 +20,7 @@
                             @csrf
 
                             <h5 class="fw-bold mb-3 text-dark border-bottom pb-2">
-                                <i class="bi bi-people-fill text-teal me-2" style="color: #0d9488;"></i> Group Information
+                                <i class="bi bi-people-fill text-teal me-2" style="color: #9b111e;"></i> Group Information
                             </h5>
 
                             <div class="row g-3 mb-4">
@@ -40,7 +40,7 @@
                                                 <label class="form-label fw-semibold">Theme Color</label>
                                                 <div class="d-flex align-items-center gap-2">
                                                     <input type="color" name="color" class="form-control form-control-color"
-                                                        value="{{ old('color', '#0d9488') }}" title="Choose group color">
+                                                        value="{{ old('color', '#9b111e') }}" title="Choose group color">
                                                     <small class="text-muted">Badges & cards color</small>
                                                 </div>
                                             </div>
@@ -52,7 +52,7 @@
                                         </div>
 
                                         <h5 class="fw-bold mb-3 text-dark border-bottom pb-2">
-                                            <i class="bi bi-shield-lock-fill text-teal me-2" style="color: #0d9488;"></i>
+                                            <i class="bi bi-shield-lock-fill text-teal me-2" style="color: #9b111e;"></i>
                                             Dedicated Group Portal Login
                                         </h5>
 
@@ -81,7 +81,7 @@
                                         </div>
 
                                         <h5 class="fw-bold mb-3 text-dark border-bottom pb-2">
-                                            <i class="bi bi-sliders text-teal me-2" style="color: #0d9488;"></i> Permissions
+                                            <i class="bi bi-sliders text-teal me-2" style="color: #9b111e;"></i> Permissions
                                             & Status
                                         </h5>
 
@@ -113,7 +113,7 @@
                                             <a href="{{ route('admin.groups.index') }}"
                                                 class="btn btn-light px-4">Cancel</a>
                                             <button type="submit" class="btn btn-teal text-white px-5"
-                                                style="background-color: #0d9488;">
+                                                style="background-color: #9b111e;">
                                                 <i class="bi bi-check-lg me-1"></i> Create Group & Login
                                             </button>
                                         </div>

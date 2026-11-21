@@ -6,7 +6,7 @@
     <div class="container py-4">
         <!-- Welcome Banner -->
         <div class="card group-card border-0 shadow-sm p-4 mb-4 text-white position-relative overflow-hidden"
-            style="background: linear-gradient(135deg, {{ $group->color ?: '#0d9488' }} 0%, #0f172a 100%);">
+            style="background: linear-gradient(135deg, {{ $group->color ?: '#9b111e' }} 0%, #0f172a 100%);">
             <div class="row align-items-center position-relative" style="z-index: 2;">
                 <div class="col-md-8">
                     <div class="d-flex align-items-center gap-2 mb-2">
@@ -41,7 +41,7 @@
                 <div class="card group-card border-0 shadow-sm p-3 h-100">
                     <div class="d-flex align-items-center gap-3">
                         <div class="rounded-3 p-3 text-white fs-4"
-                            style="background-color: {{ $group->color ?: '#0d9488' }};">
+                            style="background-color: {{ $group->color ?: '#9b111e' }};">
                             <i class="bi bi-star-fill"></i>
                         </div>
                         <div>
@@ -167,7 +167,7 @@
                 <div class="card group-card border-0 shadow-sm mb-4">
                     <div class="card-header bg-white py-3 border-bottom d-flex justify-content-between align-items-center">
                         <h6 class="fw-bold mb-0 text-dark">
-                            <i class="bi bi-calendar3 me-1 text-teal" style="color: #0d9488;"></i> Festival Programs
+                            <i class="bi bi-calendar3 me-1 text-teal" style="color: #9b111e;"></i> Festival Programs
                         </h6>
                         <a href="{{ route('group.programs') }}" class="small text-decoration-none">View All</a>
                     </div>

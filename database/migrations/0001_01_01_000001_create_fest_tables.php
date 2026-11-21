@@ -27,7 +27,7 @@ return new class extends Migration {
             $table->string('name');
             $table->string('code')->unique();
             $table->text('description')->nullable();
-            $table->string('color', 20)->default('#16b4a6');
+            $table->string('color', 20)->default('#9b111e');
             $table->boolean('allow_member_registration')->default(true);
             $table->enum('status', ['active', 'inactive'])->default('active');
             $table->timestamps();

@@ -9,7 +9,7 @@
             <h2 class="h4 fw-bold mb-1">Competition Programs</h2>
             <p class="text-muted small mb-0">Create and manage festival competitions, assigned sections, and categories.</p>
         </div>
-        <a href="{{ route('admin.programs.create') }}" class="btn btn-teal text-white shadow-sm" style="background-color: #0d9488;">
+        <a href="{{ route('admin.programs.create') }}" class="btn btn-teal text-white shadow-sm" style="background-color: #9b111e;">
             <i class="bi bi-calendar-plus-fill me-1"></i> Add New Program
         </a>
     </div>
@@ -86,7 +86,7 @@
                                     <span class="badge bg-light text-secondary border font-monospace">{{ $prog->code }}</span>
                                 </td>
                                 <td>
-                                    <span class="badge rounded-pill px-3 py-1 text-white" style="background-color: #0d9488;">
+                                    <span class="badge rounded-pill px-3 py-1 text-white" style="background-color: #9b111e;">
                                         {{ $prog->section->name ?? 'N/A' }}
                                     </span>
                                 </td>
@@ -138,7 +138,7 @@
                                 </td>
                                 <td class="text-end pe-4">
                                     <div class="d-flex justify-content-end gap-2">
-                                        <a href="{{ route('admin.registrations.create', ['program_id' => $prog->id]) }}" class="btn btn-sm btn-outline-teal rounded-pill px-2" style="border-color:#0d9488;color:#0d9488;" title="Register Participants">
+                                        <a href="{{ route('admin.registrations.create', ['program_id' => $prog->id]) }}" class="btn btn-sm btn-outline-teal rounded-pill px-2" style="border-color:#9b111e;color:#9b111e;" title="Register Participants">
                                             <i class="bi bi-person-plus"></i>
                                         </a>
                                         <a href="{{ route('admin.programs.edit', $prog) }}" class="btn btn-sm btn-outline-primary rounded-pill px-3">

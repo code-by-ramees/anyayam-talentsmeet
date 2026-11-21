@@ -10,7 +10,7 @@
                 <p class="text-muted small mb-0">Manage major festival competition sections (e.g., Bakalooriyya & Sanaviyya
                     Ulya).</p>
             </div>
-            <button type="button" class="btn btn-teal text-white shadow-sm" style="background-color: #0d9488;"
+            <button type="button" class="btn btn-teal text-white shadow-sm" style="background-color: #9b111e;"
                 data-bs-toggle="modal" data-bs-target="#createSectionModal">
                 <i class="bi bi-plus-circle me-1"></i> Add New Section
             </button>
@@ -22,7 +22,7 @@
                     <div class="card admin-card h-100 shadow-sm border-0">
                         <div class="card-body p-4">
                             <div class="d-flex justify-content-between align-items-start mb-3">
-                                <span class="badge px-3 py-2 fs-6 rounded-pill text-white" style="background-color: #0d9488;">
+                                <span class="badge px-3 py-2 fs-6 rounded-pill text-white" style="background-color: #9b111e;">
                                     <i class="bi bi-layers-fill me-1"></i> {{ $sec->code }}
                                 </span>
                                 @if($sec->status)
@@ -154,7 +154,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
-                        <button type="submit" class="btn btn-teal text-white px-4" style="background-color: #0d9488;">Create
+                        <button type="submit" class="btn btn-teal text-white px-4" style="background-color: #9b111e;">Create
                             Section</button>
                     </div>
                 </div>

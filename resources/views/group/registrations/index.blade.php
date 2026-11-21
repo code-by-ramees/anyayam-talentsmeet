@@ -12,7 +12,7 @@
         </div>
 
         @if($isRegistrationOpen)
-            <button type="button" class="btn btn-teal text-white shadow-sm rounded-pill px-4 py-2" style="background-color: #0d9488;"
+            <button type="button" class="btn btn-teal text-white shadow-sm rounded-pill px-4 py-2" style="background-color: #9b111e;"
                 data-bs-toggle="modal" data-bs-target="#registerEventModal">
                 <i class="bi bi-plus-lg me-1"></i> Register for Event
             </button>
@@ -200,7 +200,7 @@
                                     <h5>No Registered Events Yet</h5>
                                     <p class="small">Your group has not registered any participants for competitions yet.</p>
                                     @if($isRegistrationOpen)
-                                        <button type="button" class="btn btn-teal text-white rounded-pill px-4" style="background-color: #0d9488;"
+                                        <button type="button" class="btn btn-teal text-white rounded-pill px-4" style="background-color: #9b111e;"
                                             data-bs-toggle="modal" data-bs-target="#registerEventModal">
                                             <i class="bi bi-plus-lg me-1"></i> Register for Event Now
                                         </button>
@@ -230,7 +230,7 @@
             <div class="modal-content border-0 shadow">
                 <div class="modal-header">
                     <h5 class="modal-title fw-bold">
-                        <i class="bi bi-calendar-plus text-teal me-2" style="color: #0d9488;"></i> Register for Competition
+                        <i class="bi bi-calendar-plus text-teal me-2" style="color: #9b111e;"></i> Register for Competition
                     </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
@@ -260,7 +260,7 @@
                                 </div>
                             </div>
                             <div class="text-end">
-                                <span class="badge bg-teal text-white p-2" style="background-color: #0d9488;" id="mSlotsBadge">
+                                <span class="badge bg-teal text-white p-2" style="background-color: #9b111e;" id="mSlotsBadge">
                                     Remaining Slots: 1
                                 </span>
                             </div>
@@ -272,7 +272,7 @@
                         <label class="form-label fw-semibold">Select Participant(s) From Your Group <span class="text-danger">*</span></label>
 
                         <div id="modalMembersLoading" class="text-center py-4 d-none">
-                            <div class="spinner-border spinner-border-sm text-teal" style="color: #0d9488;" role="status"></div>
+                            <div class="spinner-border spinner-border-sm text-teal" style="color: #9b111e;" role="status"></div>
                             <span class="ms-2 small text-muted">Loading your group's eligible members...</span>
                         </div>
 
@@ -292,7 +292,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
-                    <button type="submit" id="modalSubmitBtn" class="btn btn-teal text-white px-4" style="background-color: #0d9488;" disabled>
+                    <button type="submit" id="modalSubmitBtn" class="btn btn-teal text-white px-4" style="background-color: #9b111e;" disabled>
                         <i class="bi bi-check-lg me-1"></i> Confirm Registration
                     </button>
                 </div>

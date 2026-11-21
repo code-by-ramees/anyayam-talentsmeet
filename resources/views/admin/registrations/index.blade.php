@@ -21,14 +21,14 @@
                     </button>
                 @else
                     <button type="submit" class="btn btn-teal text-white shadow-sm rounded-pill px-3 py-2 fw-semibold"
-                        style="background-color: #0d9488;"
+                        style="background-color: #9b111e;"
                         onclick="return confirm('Are you sure you want to OPEN event registrations for group portals?');">
                         <i class="bi bi-unlock-fill me-1"></i> Open Group Registration
                     </button>
                 @endif
             </form>
 
-            <a href="{{ route('admin.registrations.create') }}" class="btn btn-teal text-white shadow-sm rounded-pill px-3 py-2 fw-semibold" style="background-color: #0d9488;">
+            <a href="{{ route('admin.registrations.create') }}" class="btn btn-teal text-white shadow-sm rounded-pill px-3 py-2 fw-semibold" style="background-color: #9b111e;">
                 <i class="bi bi-plus-lg me-1"></i> Register Participants
             </a>
         </div>
@@ -66,7 +66,7 @@
                         <div class="text-muted small text-uppercase fw-bold">Total Registrations</div>
                         <h4 class="fw-bold mb-0 mt-1">{{ number_format($totalRegistrations) }}</h4>
                     </div>
-                    <div class="p-3 rounded-circle bg-teal-subtle text-teal fs-4" style="background-color: rgba(13,148,136,0.1); color: #0d9488;">
+                    <div class="p-3 rounded-circle bg-teal-subtle text-teal fs-4" style="background-color: rgba(13,148,136,0.1); color: #9b111e;">
                         <i class="bi bi-person-check-fill"></i>
                     </div>
                 </div>
@@ -192,7 +192,7 @@
                                 </td>
                                 <td>
                                     <span class="d-inline-flex align-items-center gap-1">
-                                        <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background-color:{{ $reg->group->color ?? '#0d9488' }};"></span>
+                                        <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background-color:{{ $reg->group->color ?? '#9b111e' }};"></span>
                                         <strong>{{ $reg->group->name ?? 'N/A' }}</strong>
                                         <small class="text-muted">({{ $reg->group->code ?? '' }})</small>
                                     </span>
@@ -208,7 +208,7 @@
                                     @if($reg->registered_by === 'admin')
                                         <span class="badge bg-dark-subtle text-dark border"><i class="bi bi-shield-check me-1"></i> Admin</span>
                                     @else
-                                        <span class="badge bg-teal-subtle text-teal border" style="background-color: rgba(13,148,136,0.1); color: #0d9488;"><i class="bi bi-house me-1"></i> Group</span>
+                                        <span class="badge bg-teal-subtle text-teal border" style="background-color: rgba(13,148,136,0.1); color: #9b111e;"><i class="bi bi-house me-1"></i> Group</span>
                                     @endif
                                 </td>
                                 <td>
@@ -231,7 +231,7 @@
                                     <i class="bi bi-clipboard-x display-4 mb-3 d-block text-secondary"></i>
                                     <h5>No Event Registrations Found</h5>
                                     <p class="small">No participants have been registered for events matching this criteria.</p>
-                                    <a href="{{ route('admin.registrations.create') }}" class="btn btn-teal text-white rounded-pill px-4" style="background-color: #0d9488;">
+                                    <a href="{{ route('admin.registrations.create') }}" class="btn btn-teal text-white rounded-pill px-4" style="background-color: #9b111e;">
                                         <i class="bi bi-plus-lg me-1"></i> Register Participants
                                     </a>
                                 </td>

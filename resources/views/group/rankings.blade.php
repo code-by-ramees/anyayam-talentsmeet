@@ -28,7 +28,7 @@
         </li>
         <li class="nav-item" role="presentation">
             <button class="nav-link fw-semibold" id="san-p-tab" data-bs-toggle="pill" data-bs-target="#sanP" type="button" role="tab">
-                <i class="bi bi-book-fill text-teal me-1" style="color: #0d9488;"></i> Sanaviyya Ulya (Junior)
+                <i class="bi bi-book-fill text-teal me-1" style="color: #9b111e;"></i> Sanaviyya Ulya (Junior)
             </button>
         </li>
     </ul>
@@ -73,7 +73,7 @@
                                         </td>
                                         <td>
                                             <div class="d-flex align-items-center gap-2">
-                                                <span class="rounded-circle p-1 d-inline-block" style="width: 14px; height: 14px; background-color: {{ $row['group']->color ?? '#0d9488' }};"></span>
+                                                <span class="rounded-circle p-1 d-inline-block" style="width: 14px; height: 14px; background-color: {{ $row['group']->color ?? '#9b111e' }};"></span>
                                                 <span class="text-dark">{{ $row['group']->name }}</span>
                                                 @if($isMyGroup)
                                                     <span class="badge bg-primary text-white ms-1">YOU</span>
@@ -136,7 +136,7 @@
                                         </td>
                                         <td>
                                             <div class="d-flex align-items-center gap-2">
-                                                <span class="rounded-circle p-1 d-inline-block" style="width: 14px; height: 14px; background-color: {{ $row['group']->color ?? '#0d9488' }};"></span>
+                                                <span class="rounded-circle p-1 d-inline-block" style="width: 14px; height: 14px; background-color: {{ $row['group']->color ?? '#9b111e' }};"></span>
                                                 <span class="text-dark">{{ $row['group']->name }}</span>
                                                 @if($isMyGroup)
                                                     <span class="badge bg-primary text-white ms-1">YOU</span>
@@ -199,7 +199,7 @@
                                         </td>
                                         <td>
                                             <div class="d-flex align-items-center gap-2">
-                                                <span class="rounded-circle p-1 d-inline-block" style="width: 14px; height: 14px; background-color: {{ $row['group']->color ?? '#0d9488' }};"></span>
+                                                <span class="rounded-circle p-1 d-inline-block" style="width: 14px; height: 14px; background-color: {{ $row['group']->color ?? '#9b111e' }};"></span>
                                                 <span class="text-dark">{{ $row['group']->name }}</span>
                                                 @if($isMyGroup)
                                                     <span class="badge bg-primary text-white ms-1">YOU</span>

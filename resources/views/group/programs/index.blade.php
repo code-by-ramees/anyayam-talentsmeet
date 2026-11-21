@@ -9,7 +9,7 @@
             <h2 class="h4 fw-bold mb-1">Eligible Programs & Schedule</h2>
             <p class="text-muted small mb-0">{{ $group->name }} &bull; Competitions across Bakalooriyya & Sanaviyya Ulya.</p>
         </div>
-        <span class="badge bg-teal text-white px-3 py-2 rounded-pill fs-6" style="background-color: #0d9488;">
+        <span class="badge bg-teal text-white px-3 py-2 rounded-pill fs-6" style="background-color: #9b111e;">
             <i class="bi bi-layers-fill me-1"></i> Junior & Senior Programs
         </span>
     </div>
@@ -116,7 +116,7 @@
                         </div>
 
                         <div class="pt-2 border-top">
-                            <a href="{{ route('group.registrations.index') }}" class="btn btn-sm btn-outline-teal w-100 rounded-pill" style="border-color: #0d9488; color: #0d9488;">
+                            <a href="{{ route('group.registrations.index') }}" class="btn btn-sm btn-outline-teal w-100 rounded-pill" style="border-color: #9b111e; color: #9b111e;">
                                 <i class="bi bi-clipboard-check me-1"></i> Event Registrations
                             </a>
                         </div>

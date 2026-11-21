@@ -17,9 +17,12 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         // 1. System Settings
-        Setting::set('fest_name', "SNEC Talents' Meet 2026-27");
-        Setting::set('college_name', "Shamsul Ulama Islamic & Arts College");
-        Setting::set('edition', "Edition 03");
+        Setting::set('fest_name', "Masa Talents' Meet 26");
+        Setting::set('college_name', "Shamsul Ulama Islamic & Arts College (SNEC)");
+        Setting::set('college_place', "Pathiyankara, Alappuzha");
+        Setting::set('edition', "Meet '26");
+        Setting::set('tagline', "“കല കലഹിക്കട്ടെ; സത്യം സംസാരിക്കട്ടെ”");
+        Setting::set('theme_title', "JUSTICE — അന്യായം");
         Setting::set('allow_group_member_add', '1');
         Setting::set('allow_event_registration', '1');
         Setting::set('tie_breaker', 'most_first_prizes');

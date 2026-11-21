@@ -18,7 +18,7 @@
                     </button>
                 </form>
             @endif
-            <a href="{{ route('admin.results.create') }}" class="btn btn-teal text-white shadow-sm" style="background-color: #0d9488;">
+            <a href="{{ route('admin.results.create') }}" class="btn btn-teal text-white shadow-sm" style="background-color: #9b111e;">
                 <i class="bi bi-plus-circle me-1"></i> Enter New Result
             </a>
         </div>
@@ -151,7 +151,7 @@
                                     <span class="badge bg-light text-secondary border font-monospace">{{ $res->program->code ?? '' }}</span>
                                 </td>
                                 <td>
-                                    <span class="badge rounded-pill px-2 py-1 text-white" style="background-color: #0d9488;">
+                                    <span class="badge rounded-pill px-2 py-1 text-white" style="background-color: #9b111e;">
                                         {{ $res->program->section->name ?? 'N/A' }}
                                     </span>
                                     <span class="badge bg-light text-dark border">
@@ -164,7 +164,7 @@
                                     </span>
                                 </td>
                                 <td>
-                                    <span class="badge px-2 py-1 text-white" style="background-color: {{ $res->group->color ?? '#0d9488' }};">
+                                    <span class="badge px-2 py-1 text-white" style="background-color: {{ $res->group->color ?? '#9b111e' }};">
                                         {{ $res->group->name ?? 'N/A' }}
                                     </span>
                                 </td>

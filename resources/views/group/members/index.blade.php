@@ -11,7 +11,7 @@
                     Junior & Senior sections.</p>
             </div>
             @if($canAddMembers)
-                <button type="button" class="btn btn-teal text-white shadow-sm" style="background-color: #0d9488;"
+                <button type="button" class="btn btn-teal text-white shadow-sm" style="background-color: #9b111e;"
                     data-bs-toggle="modal" data-bs-target="#addGroupMemberModal">
                     <i class="bi bi-person-plus-fill me-1"></i> Add Member
                 </button>
@@ -165,7 +165,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
-                            <button type="submit" class="btn btn-teal text-white px-4" style="background-color: #0d9488;">Add
+                            <button type="submit" class="btn btn-teal text-white px-4" style="background-color: #9b111e;">Add
                                 Member</button>
                         </div>
                     </div>

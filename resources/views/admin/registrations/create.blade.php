@@ -75,7 +75,7 @@
                             </div>
 
                             <div id="membersLoading" class="text-center py-4 d-none">
-                                <div class="spinner-border spinner-border-sm text-teal" style="color: #0d9488;" role="status"></div>
+                                <div class="spinner-border spinner-border-sm text-teal" style="color: #9b111e;" role="status"></div>
                                 <span class="ms-2 small text-muted">Loading eligible group members...</span>
                             </div>
 
@@ -95,7 +95,7 @@
 
                         <div class="d-flex justify-content-end gap-2 pt-3 border-top">
                             <a href="{{ route('admin.registrations.index') }}" class="btn btn-light px-4">Cancel</a>
-                            <button type="submit" id="submitBtn" class="btn btn-teal text-white px-5" style="background-color: #0d9488;" disabled>
+                            <button type="submit" id="submitBtn" class="btn btn-teal text-white px-5" style="background-color: #9b111e;" disabled>
                                 <i class="bi bi-check-lg me-1"></i> Register Participant(s)
                             </button>
                         </div>

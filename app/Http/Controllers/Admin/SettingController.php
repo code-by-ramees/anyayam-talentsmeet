@@ -12,9 +12,9 @@ class SettingController extends Controller
     public function index()
     {
         $settings = [
-            'fest_name' => Setting::get('fest_name', "SNEC Talents' Meet 2026-27"),
-            'college_name' => Setting::get('college_name', "Shamsul Ulama Islamic & Arts College"),
-            'edition' => Setting::get('edition', "Edition 03"),
+            'fest_name' => Setting::get('fest_name', "Masa Talents' Meet 26"),
+            'college_name' => Setting::get('college_name', "Shamsul Ulama Islamic & Arts College (SNEC)"),
+            'edition' => Setting::get('edition', "Meet '26"),
             'allow_group_member_add' => Setting::get('allow_group_member_add', '1'),
             'allow_event_registration' => Setting::get('allow_event_registration', '1'),
             'tie_breaker' => Setting::get('tie_breaker', 'most_first_prizes'),

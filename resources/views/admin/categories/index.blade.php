@@ -9,7 +9,7 @@
             <h2 class="h4 fw-bold mb-1">Program Categories & Position Marks</h2>
             <p class="text-muted small mb-0">Configure point allocation rules for 1st, 2nd, and 3rd prizes per category.</p>
         </div>
-        <button type="button" class="btn btn-teal text-white shadow-sm" style="background-color: #0d9488;" data-bs-toggle="modal" data-bs-target="#createCategoryModal">
+        <button type="button" class="btn btn-teal text-white shadow-sm" style="background-color: #9b111e;" data-bs-toggle="modal" data-bs-target="#createCategoryModal">
             <i class="bi bi-plus-circle me-1"></i> Add New Category
         </button>
     </div>
@@ -28,7 +28,7 @@
                 <div class="card admin-card h-100 border-0 shadow-sm">
                     <div class="card-body p-4 d-flex flex-column">
                         <div class="d-flex justify-content-between align-items-start mb-2">
-                            <span class="badge bg-teal text-white px-3 py-1 fs-6 rounded-pill" style="background-color: #0d9488;">
+                            <span class="badge bg-teal text-white px-3 py-1 fs-6 rounded-pill" style="background-color: #9b111e;">
                                 {{ $cat->code }}
                             </span>
                             <span class="badge bg-light text-secondary border rounded-pill">
@@ -184,7 +184,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
-                    <button type="submit" class="btn btn-teal text-white px-4" style="background-color: #0d9488;">Create Category</button>
+                    <button type="submit" class="btn btn-teal text-white px-4" style="background-color: #9b111e;">Create Category</button>
                 </div>
             </div>
         </form>

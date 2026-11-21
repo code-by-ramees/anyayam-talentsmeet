@@ -10,7 +10,7 @@
                 <p class="text-muted small mb-0">Create, manage, and configure login accounts for all festival groups.</p>
             </div>
             <a href="{{ route('admin.groups.create') }}" class="btn btn-teal text-white shadow-sm"
-                style="background-color: #0d9488;">
+                style="background-color: #9b111e;">
                 <i class="bi bi-person-plus-fill me-1"></i> Add New Group
             </a>
         </div>
@@ -35,7 +35,7 @@
                                     <td class="ps-4 py-3">
                                         <div class="d-flex align-items-center gap-3">
                                             <div class="rounded-3 shadow-sm d-flex align-items-center justify-content-center text-white fw-bold"
-                                                style="width: 44px; height: 44px; background-color: {{ $grp->color ?: '#0d9488' }};">
+                                                style="width: 44px; height: 44px; background-color: {{ $grp->color ?: '#9b111e' }};">
                                                 {{ substr($grp->code, 0, 3) }}
                                             </div>
                                             <div>
@@ -131,7 +131,7 @@
                                                         </div>
                                                         <div class="modal-footer">
                                                             <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
-                                                            <button type="submit" class="btn btn-teal text-white px-4" style="background-color: #0d9488;">
+                                                            <button type="submit" class="btn btn-teal text-white px-4" style="background-color: #9b111e;">
                                                                 <i class="bi bi-check-lg me-1"></i> Save Password
                                                             </button>
                                                         </div>

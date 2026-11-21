@@ -23,7 +23,7 @@
                             <div class="row g-3 mb-4">
                                 <div class="col-md-5">
                                     <label class="form-label fw-semibold">
-                                        <i class="bi bi-funnel-fill text-teal me-1" style="color: #0d9488;"></i> Filter by Section
+                                        <i class="bi bi-funnel-fill text-teal me-1" style="color: #9b111e;"></i> Filter by Section
                                     </label>
                                     <select id="sectionFilter" class="form-select">
                                         <option value="">All Sections (Show All Programs)</option>
@@ -130,7 +130,7 @@
 
                             <div class="d-flex justify-content-end gap-2 pt-3 border-top">
                                 <a href="{{ route('admin.results.index') }}" class="btn btn-light px-4">Cancel</a>
-                                <button type="submit" class="btn btn-teal text-white px-5" style="background-color: #0d9488;">
+                                <button type="submit" class="btn btn-teal text-white px-5" style="background-color: #9b111e;">
                                     <i class="bi bi-check-lg me-1"></i> Save Result
                                 </button>
                             </div>
@@ -350,7 +350,7 @@
                             memberIdInput.value = registered[0].id;
                             participantNotice.innerHTML = `<span class="text-success"><i class="bi bi-check-circle me-1"></i> Auto-selected enrolled participant: <strong>${registered[0].name}</strong></span>`;
                         } else if (registered.length > 1) {
-                            participantNotice.innerHTML = `<span class="text-teal" style="color:#0d9488;"><i class="bi bi-info-circle me-1"></i> ${registered.length} registered participants found for this event. Select winner from dropdown.</span>`;
+                            participantNotice.innerHTML = `<span class="text-teal" style="color:#9b111e;"><i class="bi bi-info-circle me-1"></i> ${registered.length} registered participants found for this event. Select winner from dropdown.</span>`;
                         } else {
                             participantNotice.innerText = 'No participants were pre-registered for this event. You can select any eligible group member or team entry.';
                         }
