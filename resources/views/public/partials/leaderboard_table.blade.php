@@ -10,7 +10,7 @@
                     <span style="width: 10px; height: 10px; border-radius: 50%; background-color: {{ $rankings[1]['group']->color }};"></span>
                     <h5 class="fw-bold mb-0">{{ $rankings[1]['group']->name }}</h5>
                 </div>
-                <span class="badge bg-light text-muted border mb-2">{{ $rankings[1]['group']->section->name }}</span>
+                <span class="badge bg-light text-muted border mb-2 font-monospace">{{ $rankings[1]['group']->code }}</span>
                 <div class="display-6 fw-extrabold text-dark">{{ $rankings[1]['total_marks'] }} <small class="fs-6 text-muted">Pts</small></div>
                 <div class="d-flex justify-content-center gap-2 mt-2 fs-xs text-muted">
                     <span>🥇 {{ $rankings[1]['first_prizes'] }}</span>
@@ -31,7 +31,7 @@
                     <span style="width: 12px; height: 12px; border-radius: 50%; background-color: {{ $rankings[0]['group']->color }};"></span>
                     <h4 class="fw-extrabold text-dark mb-0">{{ $rankings[0]['group']->name }}</h4>
                 </div>
-                <span class="badge bg-light text-muted border mb-3">{{ $rankings[0]['group']->section->name }}</span>
+                <span class="badge bg-light text-muted border mb-3 font-monospace">{{ $rankings[0]['group']->code }}</span>
                 <div class="display-5 fw-extrabold text-success mb-1">{{ $rankings[0]['total_marks'] }} <small class="fs-6 text-muted">Pts</small></div>
                 <div class="d-flex justify-content-center gap-3 mt-2 small fw-bold">
                     <span class="text-warning">🥇 {{ $rankings[0]['first_prizes'] }} First</span>
@@ -49,7 +49,7 @@
                     <span style="width: 10px; height: 10px; border-radius: 50%; background-color: {{ $rankings[2]['group']->color }};"></span>
                     <h5 class="fw-bold mb-0">{{ $rankings[2]['group']->name }}</h5>
                 </div>
-                <span class="badge bg-light text-muted border mb-2">{{ $rankings[2]['group']->section->name }}</span>
+                <span class="badge bg-light text-muted border mb-2 font-monospace">{{ $rankings[2]['group']->code }}</span>
                 <div class="display-6 fw-extrabold text-dark">{{ $rankings[2]['total_marks'] }} <small class="fs-6 text-muted">Pts</small></div>
                 <div class="d-flex justify-content-center gap-2 mt-2 fs-xs text-muted">
                     <span>🥇 {{ $rankings[2]['first_prizes'] }}</span>
@@ -80,7 +80,6 @@
                     <tr>
                         <th style="width: 70px;" class="text-center">Rank</th>
                         <th>Participating Group</th>
-                        <th>Section</th>
                         <th class="text-center" style="width: 100px;">1st Prize</th>
                         <th class="text-center" style="width: 100px;">2nd Prize</th>
                         <th class="text-center" style="width: 100px;">3rd Prize</th>
@@ -109,9 +108,6 @@
                                         <small class="text-muted d-block fs-xs">Code: {{ $item['group']->code }}</small>
                                     </div>
                                 </div>
-                            </td>
-                            <td>
-                                <span class="badge bg-light text-dark border">{{ $item['group']->section->name }}</span>
                             </td>
                             <td class="text-center">
                                 <span class="badge bg-warning-subtle text-warning-emphasis border border-warning-subtle px-2 py-1">

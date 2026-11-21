@@ -104,6 +104,11 @@
                         </a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link nav-link-admin {{ request()->routeIs('admin.registrations.*') ? 'active' : '' }}" href="{{ route('admin.registrations.index') }}">
+                            <i class="bi bi-clipboard-check me-1"></i> Registrations
+                        </a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link nav-link-admin {{ request()->routeIs('admin.results.*') ? 'active' : '' }}" href="{{ route('admin.results.index') }}">
                             <i class="bi bi-award me-1"></i> Results
                         </a>
@@ -123,6 +128,10 @@
                 <div class="d-flex align-items-center gap-2">
                     <a href="{{ route('public.index') }}" target="_blank" class="btn btn-sm btn-outline-info rounded-pill px-3">
                         <i class="bi bi-eye me-1"></i> View Live Site
+                    </a>
+
+                    <a href="{{ route('admin.password.edit') }}" class="btn btn-sm btn-outline-light rounded-pill px-3 {{ request()->routeIs('admin.password.*') ? 'active' : '' }}">
+                        <i class="bi bi-key-fill me-1"></i> Change Password
                     </a>
 
                     <form action="{{ route('admin.logout') }}" method="POST" class="d-inline">

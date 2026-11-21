@@ -11,7 +11,7 @@ class SectionController extends Controller
 {
     public function index()
     {
-        $sections = Section::withCount(['groups', 'programs'])->get();
+        $sections = Section::withCount(['members', 'programs'])->get();
         return view('admin.sections.index', compact('sections'));
     }
 

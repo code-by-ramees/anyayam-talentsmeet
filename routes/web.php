@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\GroupController;
 use App\Http\Controllers\Admin\MemberController;
 use App\Http\Controllers\Admin\ProgramController;
 use App\Http\Controllers\Admin\RankingController;
+use App\Http\Controllers\Admin\RegistrationController;
 use App\Http\Controllers\Admin\ResultController;
 use App\Http\Controllers\Admin\SectionController;
 use App\Http\Controllers\Admin\SettingController;
@@ -36,7 +37,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::post('/logout', [AdminAuthController::class, 'logout'])->name('logout');
 
     Route::middleware('super_admin')->group(function () {
-        Route::get('/', fn () => redirect()->route('admin.dashboard'));
+        Route::get('/', fn() => redirect()->route('admin.dashboard'));
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
         // Sections
@@ -50,7 +51,9 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::post('/groups', [GroupController::class, 'store'])->name('groups.store');
         Route::get('/groups/{group}/edit', [GroupController::class, 'edit'])->name('groups.edit');
         Route::put('/groups/{group}', [GroupController::class, 'update'])->name('groups.update');
-        Route::post('/groups/{group}/toggle', [GroupController::class, 'toggleStatus'])->name('groups.toggle');
+        Route::post('/groups/{group}/reset-password', [GroupController::class, 'resetPassword'])->name('groups.reset-password');
+        Route::match(['post', 'patch'], '/groups/{group}/toggle-status', [GroupController::class, 'toggleStatus'])->name('groups.toggle-status');
+        Route::match(['post', 'patch'], '/groups/{group}/toggle', [GroupController::class, 'toggleStatus'])->name('groups.toggle');
         Route::delete('/groups/{group}', [GroupController::class, 'destroy'])->name('groups.destroy');
 
         // Members
@@ -76,6 +79,14 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::put('/programs/{program}', [ProgramController::class, 'update'])->name('programs.update');
         Route::delete('/programs/{program}', [ProgramController::class, 'destroy'])->name('programs.destroy');
 
+        // Event Registrations
+        Route::get('/registrations', [RegistrationController::class, 'index'])->name('registrations.index');
+        Route::get('/registrations/create', [RegistrationController::class, 'create'])->name('registrations.create');
+        Route::post('/registrations', [RegistrationController::class, 'store'])->name('registrations.store');
+        Route::delete('/registrations/{registration}', [RegistrationController::class, 'destroy'])->name('registrations.destroy');
+        Route::post('/registrations/toggle-status', [RegistrationController::class, 'toggleStatus'])->name('registrations.toggle-status');
+        Route::get('/registrations/eligible-members', [RegistrationController::class, 'getEligibleMembers'])->name('registrations.eligible-members');
+
         // Results
         Route::get('/results', [ResultController::class, 'index'])->name('results.index');
         Route::get('/results/create', [ResultController::class, 'create'])->name('results.create');
@@ -83,7 +94,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/results/{result}/edit', [ResultController::class, 'edit'])->name('results.edit');
         Route::put('/results/{result}', [ResultController::class, 'update'])->name('results.update');
         Route::delete('/results/{result}', [ResultController::class, 'destroy'])->name('results.destroy');
-        Route::post('/results/{result}/toggle-publish', [ResultController::class, 'togglePublish'])->name('results.toggle-publish');
+        Route::match(['post', 'patch'], '/results/{result}/toggle-publish', [ResultController::class, 'togglePublish'])->name('results.toggle-publish');
         Route::post('/results/publish-all', [ResultController::class, 'publishAllDrafts'])->name('results.publish-all');
         Route::get('/results/category-marks/{program}/{position}', [ResultController::class, 'getCategoryMarks'])->name('results.category-marks');
 
@@ -94,6 +105,10 @@ Route::prefix('admin')->name('admin.')->group(function () {
         // Settings
         Route::get('/settings', [SettingController::class, 'index'])->name('settings.index');
         Route::post('/settings', [SettingController::class, 'update'])->name('settings.update');
+
+        // Admin Change Own Password
+        Route::get('/change-password', [AdminAuthController::class, 'showChangePassword'])->name('password.edit');
+        Route::post('/change-password', [AdminAuthController::class, 'updatePassword'])->name('password.update');
     });
 });
 
@@ -108,10 +123,14 @@ Route::prefix('group')->name('group.')->group(function () {
     Route::post('/logout', [GroupAuthController::class, 'logout'])->name('logout');
 
     Route::middleware('group_user')->group(function () {
-        Route::get('/', fn () => redirect()->route('group.dashboard'));
+        Route::get('/', fn() => redirect()->route('group.dashboard'));
         Route::get('/dashboard', [PortalController::class, 'dashboard'])->name('dashboard');
         Route::get('/profile', [PortalController::class, 'profile'])->name('profile');
-        
+
+        // Change Group Password
+        Route::get('/change-password', [GroupAuthController::class, 'showChangePassword'])->name('password.edit');
+        Route::post('/change-password', [GroupAuthController::class, 'updatePassword'])->name('password.update');
+
         // Group Members
         Route::get('/members', [PortalController::class, 'members'])->name('members');
         Route::post('/members', [PortalController::class, 'storeMember'])->name('members.store');
@@ -119,6 +138,12 @@ Route::prefix('group')->name('group.')->group(function () {
 
         // Group Programs
         Route::get('/programs', [PortalController::class, 'programs'])->name('programs');
+
+        // Group Event Registrations
+        Route::get('/registrations', [PortalController::class, 'registrations'])->name('registrations.index');
+        Route::post('/registrations', [PortalController::class, 'storeRegistration'])->name('registrations.store');
+        Route::delete('/registrations/{registration}', [PortalController::class, 'destroyRegistration'])->name('registrations.destroy');
+        Route::get('/registrations/eligible-members/{program}', [PortalController::class, 'getEligibleMembersForProgram'])->name('registrations.eligible-members');
 
         // Group Results
         Route::get('/results', [PortalController::class, 'results'])->name('results');

@@ -10,7 +10,6 @@ class Group extends Model
     use HasFactory;
 
     protected $fillable = [
-        'section_id',
         'user_id',
         'name',
         'code',
@@ -23,11 +22,6 @@ class Group extends Model
     protected $casts = [
         'allow_member_registration' => 'boolean',
     ];
-
-    public function section()
-    {
-        return $this->belongsTo(Section::class);
-    }
 
     public function user()
     {
@@ -42,6 +36,11 @@ class Group extends Model
     public function results()
     {
         return $this->hasMany(Result::class);
+    }
+
+    public function registrations()
+    {
+        return $this->hasMany(ProgramRegistration::class);
     }
 
     public function publishedResults()

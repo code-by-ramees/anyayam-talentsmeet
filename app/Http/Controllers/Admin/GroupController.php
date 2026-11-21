@@ -15,16 +15,14 @@ class GroupController extends Controller
 {
     public function index()
     {
-        $groups = Group::with(['section', 'user'])->withCount('members')->get();
-        $sections = Section::where('status', true)->get();
+        $groups = Group::with('user')->withCount('members')->get();
 
-        return view('admin.groups.index', compact('groups', 'sections'));
+        return view('admin.groups.index', compact('groups'));
     }
 
     public function create()
     {
-        $sections = Section::where('status', true)->get();
-        return view('admin.groups.create', compact('sections'));
+        return view('admin.groups.create');
     }
 
     public function store(Request $request)
@@ -32,7 +30,6 @@ class GroupController extends Controller
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'code' => ['required', 'string', 'max:50', 'unique:groups,code'],
-            'section_id' => ['required', 'exists:sections,id'],
             'username' => ['required', 'string', 'max:50', 'unique:users,username'],
             'password' => ['required', 'string', 'min:6'],
             'color' => ['nullable', 'string', 'max:20'],
@@ -51,11 +48,10 @@ class GroupController extends Controller
                 'role' => 'group_user',
             ]);
 
-            // 2. Create Group
+            // 2. Create Group (House/Team across both Bakalooriyya & Sanaviyya)
             $group = Group::create([
                 'name' => $validated['name'],
                 'code' => strtoupper($validated['code']),
-                'section_id' => $validated['section_id'],
                 'user_id' => $user->id,
                 'color' => $validated['color'] ?? '#16b4a6',
                 'description' => $validated['description'] ?? null,
@@ -75,10 +71,9 @@ class GroupController extends Controller
 
     public function edit(Group $group)
     {
-        $group->load(['section', 'user']);
-        $sections = Section::where('status', true)->get();
+        $group->load('user');
 
-        return view('admin.groups.edit', compact('group', 'sections'));
+        return view('admin.groups.edit', compact('group'));
     }
 
     public function update(Request $request, Group $group)
@@ -86,7 +81,6 @@ class GroupController extends Controller
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'code' => ['required', 'string', 'max:50', 'unique:groups,code,' . $group->id],
-            'section_id' => ['required', 'exists:sections,id'],
             'color' => ['nullable', 'string', 'max:20'],
             'description' => ['nullable', 'string'],
             'allow_member_registration' => ['nullable', 'boolean'],
@@ -98,7 +92,6 @@ class GroupController extends Controller
         $group->update([
             'name' => $validated['name'],
             'code' => strtoupper($validated['code']),
-            'section_id' => $validated['section_id'],
             'color' => $validated['color'] ?: $group->color,
             'description' => $validated['description'],
             'allow_member_registration' => $request->boolean('allow_member_registration'),
@@ -106,10 +99,22 @@ class GroupController extends Controller
         ]);
 
         // Reset password if provided
-        if (! empty($validated['password']) && $group->user) {
-            $group->user->update([
-                'password' => Hash::make($validated['password']),
-            ]);
+        if (!empty($validated['password'])) {
+            if ($group->user) {
+                $group->user->update([
+                    'password' => Hash::make($validated['password']),
+                ]);
+            } else {
+                $user = User::create([
+                    'name' => $group->name . ' Leader',
+                    'username' => strtolower($group->code),
+                    'email' => strtolower($group->code) . '@fest.com',
+                    'password' => Hash::make($validated['password']),
+                    'role' => 'group_user',
+                    'group_id' => $group->id,
+                ]);
+                $group->update(['user_id' => $user->id]);
+            }
             ActivityLog::record('GROUP_PASSWORD_RESET', "Reset password for group {$group->name}.");
         }
 
@@ -117,6 +122,33 @@ class GroupController extends Controller
 
         return redirect()->route('admin.groups.index')
             ->with('success', "Group '{$group->name}' updated successfully.");
+    }
+
+    public function resetPassword(Request $request, Group $group)
+    {
+        $validated = $request->validate([
+            'password' => ['required', 'string', 'min:6'],
+        ]);
+
+        if (!$group->user) {
+            $user = User::create([
+                'name' => $group->name . ' Leader',
+                'username' => strtolower($group->code),
+                'email' => strtolower($group->code) . '@fest.com',
+                'password' => Hash::make($validated['password']),
+                'role' => 'group_user',
+                'group_id' => $group->id,
+            ]);
+            $group->update(['user_id' => $user->id]);
+        } else {
+            $group->user->update([
+                'password' => Hash::make($validated['password']),
+            ]);
+        }
+
+        ActivityLog::record('GROUP_PASSWORD_RESET', "Admin changed password for group '{$group->name}'.");
+
+        return back()->with('success', "Password for group '{$group->name}' changed successfully.");
     }
 
     public function toggleStatus(Group $group)

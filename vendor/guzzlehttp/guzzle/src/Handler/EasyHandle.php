@@ -12,7 +12,6 @@ use GuzzleHttp\Psr7\DiagnosticValue;
 use GuzzleHttp\Psr7\Exception\TimeoutException;
 use GuzzleHttp\Psr7\HttpFactory;
 use GuzzleHttp\RequestOptions;
-use GuzzleHttp\Utils;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -51,6 +50,12 @@ final class EasyHandle
      * @var bool Whether this handle was configured with CURLOPT_PIPEWAIT
      */
     public bool $usesPipewait = false;
+
+    /**
+     * @var bool Whether processMessages() settled the deferred promise, which
+     *           a rewind retry settles with a still-pending promise
+     */
+    public bool $deferredSettled = false;
 
     /**
      * @var ResponseInterface|null Received response (if any)
@@ -107,6 +112,16 @@ final class EasyHandle
      * @var TimeoutException|null Exception during request body read timeout.
      */
     public ?TimeoutException $bodyReadTimeoutException = null;
+
+    /**
+     * @var TimeoutException|null Exception during request body rewind timeout.
+     */
+    public ?TimeoutException $bodyRewindTimeoutException = null;
+
+    /**
+     * @var \Throwable|null Exception during request body rewind.
+     */
+    public ?\Throwable $bodyRewindException = null;
 
     /**
      * @var \Throwable|null Exception during request body read.
@@ -168,7 +183,7 @@ final class EasyHandle
             $framingFailure = $e;
         }
 
-        $normalizedKeys = Utils::normalizeHeaderKeys($headers);
+        $normalizedKeys = HeaderProcessor::normalizeHeaderKeys($headers);
         $decodeContent = $this->options['decode_content'] ?? false;
         if ($framingFailure === null && $decodeContent !== false && isset($normalizedKeys['content-encoding'])) {
             $headers['x-encoded-content-encoding'] = $headers[$normalizedKeys['content-encoding']];

@@ -14,17 +14,25 @@ class Program extends Model
         'code',
         'section_id',
         'category_id',
+        'stage_type',
         'type',
         'max_participants',
         'status',
-        'venue',
-        'scheduled_at',
     ];
 
     protected $casts = [
         'max_participants' => 'integer',
-        'scheduled_at' => 'datetime',
     ];
+
+    public function isStage(): bool
+    {
+        return $this->stage_type === 'stage';
+    }
+
+    public function getStageLabelAttribute(): string
+    {
+        return $this->stage_type === 'non_stage' ? 'Non-Stage' : 'Stage';
+    }
 
     public function section()
     {
@@ -39,6 +47,11 @@ class Program extends Model
     public function results()
     {
         return $this->hasMany(Result::class);
+    }
+
+    public function registrations()
+    {
+        return $this->hasMany(ProgramRegistration::class);
     }
 
     public function publishedResults()

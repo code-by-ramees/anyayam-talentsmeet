@@ -112,7 +112,7 @@
                             <small class="text-muted">{{ $sec->description }}</small>
                         </div>
                         <div class="text-end">
-                            <div><strong class="fs-5">{{ $sec->groups_count }}</strong> <small class="text-muted">Groups</small></div>
+                            <div><strong class="fs-5">{{ $sec->members_count }}</strong> <small class="text-muted">Students</small></div>
                             <div><strong class="fs-5">{{ $sec->programs_count }}</strong> <small class="text-muted">Programs</small></div>
                         </div>
                     </div>
@@ -146,7 +146,7 @@
                                 <tr>
                                     <th style="width: 50px;">Rank</th>
                                     <th>Group Name</th>
-                                    <th>Section</th>
+                                    <th>Code</th>
                                     <th class="text-center">Members</th>
                                     <th class="text-center">1st / 2nd / 3rd</th>
                                     <th class="text-end">Draft Pts</th>
@@ -174,7 +174,7 @@
                                             </div>
                                         </td>
                                         <td>
-                                            <span class="badge bg-light text-dark border">{{ $r['group']->section->name }}</span>
+                                            <span class="badge bg-light text-muted border font-monospace">{{ $r['group']->code }}</span>
                                         </td>
                                         <td class="text-center text-muted small">
                                             {{ $r['members_count'] }}

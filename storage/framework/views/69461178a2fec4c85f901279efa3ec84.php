@@ -104,6 +104,11 @@
                         </a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link nav-link-admin <?php echo e(request()->routeIs('admin.registrations.*') ? 'active' : ''); ?>" href="<?php echo e(route('admin.registrations.index')); ?>">
+                            <i class="bi bi-clipboard-check me-1"></i> Registrations
+                        </a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link nav-link-admin <?php echo e(request()->routeIs('admin.results.*') ? 'active' : ''); ?>" href="<?php echo e(route('admin.results.index')); ?>">
                             <i class="bi bi-award me-1"></i> Results
                         </a>
@@ -123,6 +128,10 @@
                 <div class="d-flex align-items-center gap-2">
                     <a href="<?php echo e(route('public.index')); ?>" target="_blank" class="btn btn-sm btn-outline-info rounded-pill px-3">
                         <i class="bi bi-eye me-1"></i> View Live Site
+                    </a>
+
+                    <a href="<?php echo e(route('admin.password.edit')); ?>" class="btn btn-sm btn-outline-light rounded-pill px-3 <?php echo e(request()->routeIs('admin.password.*') ? 'active' : ''); ?>">
+                        <i class="bi bi-key-fill me-1"></i> Change Password
                     </a>
 
                     <form action="<?php echo e(route('admin.logout')); ?>" method="POST" class="d-inline">

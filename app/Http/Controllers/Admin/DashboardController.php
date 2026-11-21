@@ -29,10 +29,10 @@ class DashboardController extends Controller
         $draftResultsCount = Result::where('is_published', false)->count();
 
         // Sections breakdown
-        $sections = Section::withCount(['groups', 'programs'])->get();
+        $sections = Section::withCount(['members', 'programs'])->get();
 
         // Top 5 Groups Leaderboard
-        $groups = Group::with(['section', 'results'])->get();
+        $groups = Group::with(['results', 'members'])->get();
         $rankings = $groups->map(function ($group) {
             $results = $group->results;
             $published = $results->where('is_published', true);

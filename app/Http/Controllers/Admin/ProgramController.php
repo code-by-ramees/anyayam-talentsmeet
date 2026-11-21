@@ -26,6 +26,10 @@ class ProgramController extends Controller
             $query->where('category_id', $request->category_id);
         }
 
+        if ($request->filled('stage_type')) {
+            $query->where('stage_type', $request->stage_type);
+        }
+
         if ($request->filled('status')) {
             $query->where('status', $request->status);
         }
@@ -34,8 +38,7 @@ class ProgramController extends Controller
             $search = $request->search;
             $query->where(function ($q) use ($search) {
                 $q->where('name', 'like', "%{$search}%")
-                  ->orWhere('code', 'like', "%{$search}%")
-                  ->orWhere('venue', 'like', "%{$search}%");
+                  ->orWhere('code', 'like', "%{$search}%");
             });
         }
 
@@ -58,14 +61,13 @@ class ProgramController extends Controller
             'code' => ['required', 'string', 'max:50', 'unique:programs,code'],
             'section_id' => ['required', 'exists:sections,id'],
             'category_id' => ['required', 'exists:categories,id'],
+            'stage_type' => ['required', 'in:stage,non_stage'],
             'type' => ['required', 'in:individual,group'],
             'max_participants' => ['nullable', 'integer', 'min:1'],
-            'status' => ['required', 'in:scheduled,ongoing,completed,cancelled'],
-            'venue' => ['nullable', 'string', 'max:255'],
-            'scheduled_at' => ['nullable', 'date'],
         ]);
 
         $validated['max_participants'] = $validated['max_participants'] ?: 1;
+        $validated['status'] = 'scheduled';
 
         $program = Program::create($validated);
         ActivityLog::record('PROGRAM_CREATED', "Created program {$program->name} ({$program->code}) in section {$program->section->name}.");
@@ -88,11 +90,10 @@ class ProgramController extends Controller
             'code' => ['required', 'string', 'max:50', 'unique:programs,code,' . $program->id],
             'section_id' => ['required', 'exists:sections,id'],
             'category_id' => ['required', 'exists:categories,id'],
+            'stage_type' => ['required', 'in:stage,non_stage'],
             'type' => ['required', 'in:individual,group'],
             'max_participants' => ['nullable', 'integer', 'min:1'],
             'status' => ['required', 'in:scheduled,ongoing,completed,cancelled'],
-            'venue' => ['nullable', 'string', 'max:255'],
-            'scheduled_at' => ['nullable', 'date'],
         ]);
 
         $validated['max_participants'] = $validated['max_participants'] ?: 1;

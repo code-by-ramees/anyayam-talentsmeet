@@ -53,7 +53,7 @@ final class BootstrapLoader
      */
     private function load(string $filename): void
     {
-        if (!file_exists($filename) && !is_readable($filename)) {
+        if (!is_readable($filename)) {
             throw new BootstrapScriptDoesNotExistException($filename);
         }
 
@@ -62,7 +62,7 @@ final class BootstrapLoader
         } catch (Throwable $t) {
             $message = sprintf(
                 'Error in bootstrap script: %s:%s%s%s%s',
-                    $t::class,
+                $t::class,
                 PHP_EOL,
                 $t->getMessage(),
                 PHP_EOL,
@@ -74,7 +74,7 @@ final class BootstrapLoader
                     '%s%sPrevious error: %s:%s%s%s%s',
                     PHP_EOL,
                     PHP_EOL,
-                        $t::class,
+                    $t::class,
                     PHP_EOL,
                     $t->getMessage(),
                     PHP_EOL,

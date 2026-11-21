@@ -11,11 +11,10 @@ class Member extends Model
 
     protected $fillable = [
         'group_id',
+        'section_id',
         'name',
-        'registration_no',
+        'uid',
         'class_year',
-        'phone',
-        'gender',
     ];
 
     public function group()
@@ -23,8 +22,18 @@ class Member extends Model
         return $this->belongsTo(Group::class);
     }
 
+    public function section()
+    {
+        return $this->belongsTo(Section::class);
+    }
+
     public function results()
     {
         return $this->hasMany(Result::class);
+    }
+
+    public function registrations()
+    {
+        return $this->hasMany(ProgramRegistration::class);
     }
 }

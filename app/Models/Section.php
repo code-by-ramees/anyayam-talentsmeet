@@ -20,9 +20,9 @@ class Section extends Model
         'status' => 'boolean',
     ];
 
-    public function groups()
+    public function members()
     {
-        return $this->hasMany(Group::class);
+        return $this->hasMany(Member::class);
     }
 
     public function programs()

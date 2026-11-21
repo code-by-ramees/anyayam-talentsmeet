@@ -21,7 +21,7 @@ class ResultController extends Controller
         $query = Result::with(['program.category', 'program.section', 'group']);
 
         if ($request->filled('section_id')) {
-            $query->whereHas('program', fn ($q) => $q->where('section_id', $request->section_id));
+            $query->whereHas('program', fn($q) => $q->where('section_id', $request->section_id));
         }
 
         if ($request->filled('group_id')) {
@@ -37,7 +37,7 @@ class ResultController extends Controller
             $search = $request->search;
             $query->where(function ($q) use ($search) {
                 $q->where('participant_name', 'like', "%{$search}%")
-                  ->orWhereHas('program', fn ($pq) => $pq->where('name', 'like', "%{$search}%")->orWhere('code', 'like', "%{$search}%"));
+                    ->orWhereHas('program', fn($pq) => $pq->where('name', 'like', "%{$search}%")->orWhere('code', 'like', "%{$search}%"));
             });
         }
 
@@ -52,13 +52,14 @@ class ResultController extends Controller
 
     public function create(Request $request)
     {
+        $sections = Section::where('status', true)->get();
         $programs = Program::with(['category', 'section'])->orderBy('name')->get();
-        $groups = Group::where('status', 'active')->with('section')->orderBy('name')->get();
+        $groups = Group::where('status', 'active')->orderBy('name')->get();
 
         $selectedProgramId = $request->query('program_id');
         $selectedProgram = $selectedProgramId ? Program::with(['category', 'section', 'results'])->find($selectedProgramId) : null;
 
-        return view('admin.results.create', compact('programs', 'groups', 'selectedProgram'));
+        return view('admin.results.create', compact('programs', 'groups', 'sections', 'selectedProgram'));
     }
 
     public function store(Request $request)
@@ -67,6 +68,7 @@ class ResultController extends Controller
             'program_id' => ['required', 'exists:programs,id'],
             'group_id' => ['required', 'exists:groups,id'],
             'participant_name' => ['required', 'string', 'max:255'],
+            'member_id' => ['nullable', 'exists:members,id'],
             'position' => ['required', 'in:first,second,third'],
             'marks' => ['nullable', 'integer', 'min:0'],
             'remarks' => ['nullable', 'string', 'max:255'],
@@ -88,8 +90,8 @@ class ResultController extends Controller
         }
 
         // Auto-fetch marks from category if not explicitly provided
-        $marks = $request->filled('marks') 
-            ? (int) $request->input('marks') 
+        $marks = $request->filled('marks')
+            ? (int) $request->input('marks')
             : $program->category->getMarksForPosition($validated['position']);
 
         $isPublished = $request->boolean('is_published', false);
@@ -97,6 +99,7 @@ class ResultController extends Controller
         $result = Result::create([
             'program_id' => $program->id,
             'group_id' => $validated['group_id'],
+            'member_id' => $validated['member_id'] ?? null,
             'participant_name' => $validated['participant_name'],
             'position' => $validated['position'],
             'marks' => $marks,
@@ -158,7 +161,7 @@ class ResultController extends Controller
             'marks' => $validated['marks'],
             'remarks' => $validated['remarks'],
             'is_published' => $nowPublished,
-            'published_at' => ($nowPublished && ! $wasPublished) ? now() : $result->published_at,
+            'published_at' => ($nowPublished && !$wasPublished) ? now() : $result->published_at,
         ]);
 
         ActivityLog::record('RESULT_UPDATED', "Updated result for {$result->program->name} ({$result->getPositionLabel()}).");
@@ -169,7 +172,7 @@ class ResultController extends Controller
 
     public function togglePublish(Result $result)
     {
-        $newStatus = ! $result->is_published;
+        $newStatus = !$result->is_published;
         $result->update([
             'is_published' => $newStatus,
             'published_at' => $newStatus ? now() : null,

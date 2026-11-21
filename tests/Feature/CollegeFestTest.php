@@ -74,7 +74,6 @@ class CollegeFestTest extends TestCase
         $this->emeraldGroup = Group::create([
             'name' => 'Emerald Hawks',
             'code' => 'EMERALD',
-            'section_id' => $this->bakalooriyya->id,
             'user_id' => $this->emeraldUser->id,
             'color' => '#10b981',
             'description' => 'Courage and Vision',
@@ -158,7 +157,6 @@ class CollegeFestTest extends TestCase
         $response = $this->actingAs($this->superAdmin)->post('/admin/groups', [
             'name' => 'Ruby Knights',
             'code' => 'RUBY',
-            'section_id' => $this->bakalooriyya->id,
             'username' => 'ruby',
             'password' => 'secret123',
             'color' => '#ef4444',
@@ -278,16 +276,16 @@ class CollegeFestTest extends TestCase
     {
         $response = $this->actingAs($this->emeraldUser)->post('/group/members', [
             'name' => 'Bilal Ahmed',
-            'registration_no' => 'ADM-9988',
-            'class_year' => 'Final Year BA',
-            'gender' => 'Male',
-            'phone' => '9876543210',
+            'section_id' => $this->bakalooriyya->id,
+            'uid' => 'UID-9988',
+            'class_year' => 'D3',
         ]);
 
         $response->assertRedirect();
         $this->assertDatabaseHas('members', [
             'group_id' => $this->emeraldGroup->id,
-            'registration_no' => 'ADM-9988',
+            'section_id' => $this->bakalooriyya->id,
+            'uid' => 'UID-9988',
         ]);
     }
 
@@ -296,17 +294,16 @@ class CollegeFestTest extends TestCase
         $otherGroup = Group::create([
             'name' => 'Sapphire Tigers',
             'code' => 'SAPPHIRE',
-            'section_id' => $this->sanaviyya->id,
             'user_id' => null,
             'status' => 'active',
         ]);
 
         $otherMember = Member::create([
             'group_id' => $otherGroup->id,
+            'section_id' => $this->sanaviyya->id,
             'name' => 'Foreign Student',
-            'registration_no' => 'FS-001',
-            'class_year' => '1st Year',
-            'gender' => 'Male',
+            'uid' => 'FS-001',
+            'class_year' => 'H1',
         ]);
 
         $response = $this->actingAs($this->emeraldUser)->delete("/group/members/{$otherMember->id}");
@@ -317,10 +314,10 @@ class CollegeFestTest extends TestCase
     {
         Member::create([
             'group_id' => $this->emeraldGroup->id,
+            'section_id' => $this->bakalooriyya->id,
             'name' => 'Export Student',
-            'registration_no' => 'EXP-101',
-            'class_year' => '2nd Year',
-            'gender' => 'Female',
+            'uid' => 'EXP-101',
+            'class_year' => 'D2',
         ]);
 
         $response = $this->actingAs($this->superAdmin)->get(route('admin.members.export'));

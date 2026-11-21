@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -21,10 +20,9 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        // 2. Groups
+        // 2. Groups (Houses/Teams across all sections)
         Schema::create('groups', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('section_id')->constrained('sections')->onDelete('cascade');
             $table->unsignedBigInteger('user_id')->nullable()->index();
             $table->string('name');
             $table->string('code')->unique();
@@ -35,15 +33,14 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        // 3. Members
+        // 3. Members (Belong to a Group and a Section like Junior/Sanaviyya or Senior/Bakalooriyya)
         Schema::create('members', function (Blueprint $table) {
             $table->id();
             $table->foreignId('group_id')->constrained('groups')->onDelete('cascade');
+            $table->foreignId('section_id')->constrained('sections')->onDelete('cascade');
             $table->string('name');
-            $table->string('registration_no')->unique();
+            $table->string('uid')->unique();
             $table->string('class_year');
-            $table->string('phone')->nullable();
-            $table->enum('gender', ['Male', 'Female', 'Other'])->default('Male');
             $table->timestamps();
         });
 
@@ -66,15 +63,27 @@ return new class extends Migration
             $table->string('code')->unique();
             $table->foreignId('section_id')->constrained('sections')->onDelete('cascade');
             $table->foreignId('category_id')->constrained('categories')->onDelete('cascade');
+            $table->enum('stage_type', ['stage', 'non_stage'])->default('stage');
             $table->enum('type', ['individual', 'group'])->default('individual');
             $table->integer('max_participants')->default(1);
             $table->enum('status', ['scheduled', 'ongoing', 'completed', 'cancelled'])->default('scheduled');
-            $table->string('venue')->nullable();
-            $table->timestamp('scheduled_at')->nullable();
             $table->timestamps();
         });
 
-        // 6. Results
+        // 6. Program Registrations
+        Schema::create('program_registrations', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('program_id')->constrained('programs')->onDelete('cascade');
+            $table->foreignId('group_id')->constrained('groups')->onDelete('cascade');
+            $table->foreignId('member_id')->constrained('members')->onDelete('cascade');
+            $table->string('registered_by')->default('group');
+            $table->text('notes')->nullable();
+            $table->timestamps();
+
+            $table->unique(['program_id', 'member_id'], 'unique_program_member');
+        });
+
+        // 7. Results
         Schema::create('results', function (Blueprint $table) {
             $table->id();
             $table->foreignId('program_id')->constrained('programs')->onDelete('cascade');
@@ -119,6 +128,7 @@ return new class extends Migration
         Schema::dropIfExists('activity_logs');
         Schema::dropIfExists('settings');
         Schema::dropIfExists('results');
+        Schema::dropIfExists('program_registrations');
         Schema::dropIfExists('programs');
         Schema::dropIfExists('categories');
         Schema::dropIfExists('members');

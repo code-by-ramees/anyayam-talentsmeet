@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,24 +14,30 @@
             color: #000;
             background: #fff;
         }
+
         @media print {
             .no-print {
                 display: none !important;
             }
+
             body {
                 padding: 0;
             }
         }
-        .scoresheet-table th, .scoresheet-table td {
+
+        .scoresheet-table th,
+        .scoresheet-table td {
             padding: 8px 12px;
             border: 1px solid #333;
         }
     </style>
 </head>
+
 <body class="p-4">
     <div class="no-print mb-4 d-flex justify-content-between align-items-center bg-light p-3 rounded border">
         <div>
-            <strong>Official Fest Scoresheet Report</strong> &bull; Ready for printing or export to PDF via browser print.
+            <strong>Official Fest Scoresheet Report</strong> &bull; Ready for printing or export to PDF via browser
+            print.
         </div>
         <div>
             <button onclick="window.print()" class="btn btn-primary btn-sm me-2">
@@ -59,7 +66,7 @@
             <tr>
                 <th style="width: 60px;">Rank</th>
                 <th class="text-start">Participating Group</th>
-                <th>Section</th>
+                <th style="width: 90px;">Code</th>
                 <th style="width: 80px;">1st Prizes</th>
                 <th style="width: 80px;">2nd Prizes</th>
                 <th style="width: 80px;">3rd Prizes</th>
@@ -72,10 +79,9 @@
                 <tr class="{{ $loop->iteration === 1 ? 'fw-bold' : '' }}">
                     <td class="text-center fs-5">#{{ $loop->iteration }}</td>
                     <td class="text-start">
-                        <span class="fs-6">{{ $row['group']->name }}</span>
-                        <span class="text-muted ms-1">({{ $row['group']->code }})</span>
+                        <span class="fs-6 fw-bold">{{ $row['group']->name }}</span>
                     </td>
-                    <td class="text-center">{{ $row['group']->section->name ?? 'N/A' }}</td>
+                    <td class="text-center font-monospace">{{ $row['group']->code }}</td>
                     <td class="text-center">{{ $row['first_prizes'] }}</td>
                     <td class="text-center">{{ $row['second_prizes'] }}</td>
                     <td class="text-center">{{ $row['third_prizes'] }}</td>
@@ -102,4 +108,5 @@
         </div>
     </div>
 </body>
+
 </html>

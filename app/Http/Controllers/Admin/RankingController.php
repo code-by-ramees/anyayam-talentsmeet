@@ -60,18 +60,23 @@ class RankingController extends Controller
 
     protected function calculateRankings(?string $sectionName = null, ?int $categoryId = null)
     {
-        $query = Group::with(['section', 'publishedResults.program']);
-
-        if ($sectionName) {
-            $query->whereHas('section', fn ($q) => $q->where('name', $sectionName));
-        }
+        $query = Group::where('status', 'active')->with(['publishedResults.program.section', 'publishedResults.program.category']);
 
         $groups = $query->get();
 
-        $ranked = $groups->map(function ($group) use ($categoryId) {
+        $ranked = $groups->map(function ($group) use ($sectionName, $categoryId) {
             $results = $group->publishedResults;
+
+            if ($sectionName) {
+                // Include results from the specific section AND General section (open to all)
+                $results = $results->filter(
+                    fn($r) => $r->program && $r->program->section &&
+                        ($r->program->section->name === $sectionName || $r->program->section->name === 'General')
+                );
+            }
+
             if ($categoryId) {
-                $results = $results->filter(fn ($r) => $r->program && $r->program->category_id === $categoryId);
+                $results = $results->filter(fn($r) => $r->program && $r->program->category_id === $categoryId);
             }
 
             $totalMarks = (int) $results->sum('marks');

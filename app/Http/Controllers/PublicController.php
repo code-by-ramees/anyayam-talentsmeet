@@ -73,11 +73,11 @@ class PublicController extends Controller
             ->where('is_published', true);
 
         if ($request->filled('section_id')) {
-            $query->whereHas('program', fn ($q) => $q->where('section_id', $request->section_id));
+            $query->whereHas('program', fn($q) => $q->where('section_id', $request->section_id));
         }
 
         if ($request->filled('category_id')) {
-            $query->whereHas('program', fn ($q) => $q->where('category_id', $request->category_id));
+            $query->whereHas('program', fn($q) => $q->where('category_id', $request->category_id));
         }
 
         if ($request->filled('group_id')) {
@@ -88,7 +88,7 @@ class PublicController extends Controller
             $search = $request->search;
             $query->where(function ($q) use ($search) {
                 $q->where('participant_name', 'like', "%{$search}%")
-                  ->orWhereHas('program', fn ($pq) => $pq->where('name', 'like', "%{$search}%")->orWhere('code', 'like', "%{$search}%"));
+                    ->orWhereHas('program', fn($pq) => $pq->where('name', 'like', "%{$search}%")->orWhere('code', 'like', "%{$search}%"));
             });
         }
 
@@ -140,6 +140,10 @@ class PublicController extends Controller
             $query->where('category_id', $request->category_id);
         }
 
+        if ($request->filled('stage_type')) {
+            $query->where('stage_type', $request->stage_type);
+        }
+
         if ($request->filled('status')) {
             $query->where('status', $request->status);
         }
@@ -154,17 +158,22 @@ class PublicController extends Controller
      */
     protected function calculateGroupRankings(?string $sectionName = null)
     {
-        $query = Group::with(['section', 'publishedResults']);
-
-        if ($sectionName) {
-            $query->whereHas('section', fn ($q) => $q->where('name', $sectionName));
-        }
+        $query = Group::where('status', 'active')->with(['publishedResults.program.section']);
 
         $groups = $query->get();
 
         // Calculate marks, first, second, third prizes
-        $ranked = $groups->map(function ($group) {
+        $ranked = $groups->map(function ($group) use ($sectionName) {
             $results = $group->publishedResults;
+
+            if ($sectionName) {
+                // Include results from the specific section AND General section (open to all)
+                $results = $results->filter(
+                    fn($r) => $r->program && $r->program->section &&
+                        ($r->program->section->name === $sectionName || $r->program->section->name === 'General')
+                );
+            }
+
             $totalMarks = (int) $results->sum('marks');
             $firstCount = $results->where('position', 'first')->count();
             $secondCount = $results->where('position', 'second')->count();

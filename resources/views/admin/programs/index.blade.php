@@ -18,13 +18,13 @@
     <div class="card admin-card border-0 shadow-sm mb-4">
         <div class="card-body p-3">
             <form action="{{ route('admin.programs.index') }}" method="GET" class="row g-2 align-items-center">
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <div class="input-group">
                         <span class="input-group-text bg-white border-end-0"><i class="bi bi-search text-muted"></i></span>
-                        <input type="text" name="search" class="form-control border-start-0 ps-0" placeholder="Search program name, code, venue..." value="{{ request('search') }}">
+                        <input type="text" name="search" class="form-control border-start-0 ps-0" placeholder="Search program or code..." value="{{ request('search') }}">
                     </div>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-2">
                     <select name="section_id" class="form-select" onchange="this.form.submit()">
                         <option value="">All Sections</option>
                         @foreach($sections as $sec)
@@ -44,9 +44,16 @@
                         @endforeach
                     </select>
                 </div>
+                <div class="col-md-2">
+                    <select name="stage_type" class="form-select" onchange="this.form.submit()">
+                        <option value="">All Stages / Natures</option>
+                        <option value="stage" {{ request('stage_type') === 'stage' ? 'selected' : '' }}>Stage Programs</option>
+                        <option value="non_stage" {{ request('stage_type') === 'non_stage' ? 'selected' : '' }}>Non-Stage Programs</option>
+                    </select>
+                </div>
                 <div class="col-md-2 d-flex gap-2">
                     <button type="submit" class="btn btn-secondary w-100">Filter</button>
-                    @if(request()->hasAny(['search', 'section_id', 'category_id', 'status']))
+                    @if(request()->hasAny(['search', 'section_id', 'category_id', 'stage_type', 'status']))
                         <a href="{{ route('admin.programs.index') }}" class="btn btn-light"><i class="bi bi-x-lg"></i></a>
                     @endif
                 </div>
@@ -65,7 +72,7 @@
                             <th>Section</th>
                             <th>Category</th>
                             <th>Type</th>
-                            <th>Venue & Schedule</th>
+                            <th>Stage / Nature</th>
                             <th class="text-center">Status</th>
                             <th class="text-center">Results</th>
                             <th class="text-end pe-4">Actions</th>
@@ -103,10 +110,15 @@
                                     @endif
                                 </td>
                                 <td>
-                                    <div class="small fw-semibold text-dark">{{ $prog->venue ?: 'Main Stage' }}</div>
-                                    <div class="small text-muted">
-                                        {{ $prog->scheduled_at ? $prog->scheduled_at->format('d M, h:i A') : 'TBD' }}
-                                    </div>
+                                    @if($prog->stage_type === 'stage')
+                                        <span class="badge rounded-pill px-3 py-1" style="background-color: #f3e8ff; color: #7e22ce; border: 1px solid #d8b4fe;">
+                                            <i class="bi bi-mic me-1"></i> Stage
+                                        </span>
+                                    @else
+                                        <span class="badge bg-warning-subtle text-dark border border-warning-subtle rounded-pill px-3 py-1">
+                                            <i class="bi bi-pencil-square me-1"></i> Non-Stage
+                                        </span>
+                                    @endif
                                 </td>
                                 <td class="text-center">
                                     @if($prog->status === 'completed')
@@ -126,6 +138,9 @@
                                 </td>
                                 <td class="text-end pe-4">
                                     <div class="d-flex justify-content-end gap-2">
+                                        <a href="{{ route('admin.registrations.create', ['program_id' => $prog->id]) }}" class="btn btn-sm btn-outline-teal rounded-pill px-2" style="border-color:#0d9488;color:#0d9488;" title="Register Participants">
+                                            <i class="bi bi-person-plus"></i>
+                                        </a>
                                         <a href="{{ route('admin.programs.edit', $prog) }}" class="btn btn-sm btn-outline-primary rounded-pill px-3">
                                             <i class="bi bi-pencil me-1"></i> Edit
                                         </a>

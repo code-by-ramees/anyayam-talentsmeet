@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\ActivityLog;
 use App\Models\Group;
 use App\Models\Member;
+use App\Models\Section;
 use Illuminate\Http\Request;
 
 class MemberController extends Controller
@@ -13,46 +14,52 @@ class MemberController extends Controller
     public function index(Request $request)
     {
         $groups = Group::where('status', 'active')->orderBy('name')->get();
+        $sections = Section::where('status', true)->get();
 
-        $query = Member::with('group.section');
+        $query = Member::with(['group', 'section']);
 
         if ($request->filled('group_id')) {
             $query->where('group_id', $request->group_id);
+        }
+
+        if ($request->filled('section_id')) {
+            $query->where('section_id', $request->section_id);
         }
 
         if ($request->filled('search')) {
             $search = $request->search;
             $query->where(function ($q) use ($search) {
                 $q->where('name', 'like', "%{$search}%")
-                  ->orWhere('registration_no', 'like', "%{$search}%")
-                  ->orWhere('class_year', 'like', "%{$search}%");
+                    ->orWhere('uid', 'like', "%{$search}%")
+                    ->orWhere('class_year', 'like', "%{$search}%");
             });
         }
 
         $members = $query->latest()->paginate(20)->withQueryString();
 
-        return view('admin.members.index', compact('members', 'groups'));
+        return view('admin.members.index', compact('members', 'groups', 'sections'));
     }
 
     public function create()
     {
         $groups = Group::where('status', 'active')->orderBy('name')->get();
-        return view('admin.members.create', compact('groups'));
+        $sections = Section::where('status', true)->get();
+
+        return view('admin.members.create', compact('groups', 'sections'));
     }
 
     public function store(Request $request)
     {
         $validated = $request->validate([
             'group_id' => ['required', 'exists:groups,id'],
+            'section_id' => ['required', 'exists:sections,id'],
             'name' => ['required', 'string', 'max:255'],
-            'registration_no' => ['required', 'string', 'max:100', 'unique:members,registration_no'],
-            'class_year' => ['required', 'string', 'max:100'],
-            'phone' => ['nullable', 'string', 'max:20'],
-            'gender' => ['required', 'in:Male,Female,Other'],
+            'uid' => ['required', 'string', 'max:100', 'unique:members,uid'],
+            'class_year' => ['required', 'string', 'in:H1,H2,D1,D2,D3,D4'],
         ]);
 
         $member = Member::create($validated);
-        ActivityLog::record('MEMBER_ADDED', "Added member {$member->name} ({$member->registration_no}) to group {$member->group->name}.");
+        ActivityLog::record('MEMBER_ADDED', "Added member {$member->name} ({$member->uid}) to group {$member->group->name} [{$member->section->name}].");
 
         return redirect()->route('admin.members.index')
             ->with('success', "Member '{$member->name}' added successfully.");
@@ -61,18 +68,19 @@ class MemberController extends Controller
     public function edit(Member $member)
     {
         $groups = Group::where('status', 'active')->orderBy('name')->get();
-        return view('admin.members.edit', compact('member', 'groups'));
+        $sections = Section::where('status', true)->get();
+
+        return view('admin.members.edit', compact('member', 'groups', 'sections'));
     }
 
     public function update(Request $request, Member $member)
     {
         $validated = $request->validate([
             'group_id' => ['required', 'exists:groups,id'],
+            'section_id' => ['required', 'exists:sections,id'],
             'name' => ['required', 'string', 'max:255'],
-            'registration_no' => ['required', 'string', 'max:100', 'unique:members,registration_no,' . $member->id],
-            'class_year' => ['required', 'string', 'max:100'],
-            'phone' => ['nullable', 'string', 'max:20'],
-            'gender' => ['required', 'in:Male,Female,Other'],
+            'uid' => ['required', 'string', 'max:100', 'unique:members,uid,' . $member->id],
+            'class_year' => ['required', 'string', 'in:H1,H2,D1,D2,D3,D4'],
         ]);
 
         $member->update($validated);
@@ -97,9 +105,12 @@ class MemberController extends Controller
      */
     public function export(Request $request)
     {
-        $query = Member::with('group.section');
+        $query = Member::with(['group', 'section']);
         if ($request->filled('group_id')) {
             $query->where('group_id', $request->group_id);
+        }
+        if ($request->filled('section_id')) {
+            $query->where('section_id', $request->section_id);
         }
 
         $members = $query->orderBy('name')->get();
@@ -114,18 +125,16 @@ class MemberController extends Controller
 
         $callback = function () use ($members) {
             $file = fopen('php://output', 'w');
-            fputcsv($file, ['ID', 'Registration / Admission No', 'Member Name', 'Group', 'Section', 'Class / Year', 'Gender', 'Phone']);
+            fputcsv($file, ['ID', 'UID', 'Member Name', 'Group', 'Section', 'Class']);
 
             foreach ($members as $m) {
                 fputcsv($file, [
                     $m->id,
-                    $m->registration_no,
+                    $m->uid,
                     $m->name,
-                    $m->group->name,
-                    $m->group->section->name,
+                    $m->group->name ?? 'N/A',
+                    $m->section->name ?? 'N/A',
                     $m->class_year,
-                    $m->gender,
-                    $m->phone,
                 ]);
             }
             fclose($file);
