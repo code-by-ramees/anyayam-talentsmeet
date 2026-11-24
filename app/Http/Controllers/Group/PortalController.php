@@ -105,6 +105,7 @@ class PortalController extends Controller
             $query->where(function ($q) use ($search) {
                 $q->where('name', 'like', "%{$search}%")
                     ->orWhere('uid', 'like', "%{$search}%")
+                    ->orWhere('chest_number', 'like', "%{$search}%")
                     ->orWhere('class_year', 'like', "%{$search}%");
             });
         }
@@ -130,13 +131,14 @@ class PortalController extends Controller
             'section_id' => ['required', 'exists:sections,id'],
             'name' => ['required', 'string', 'max:255'],
             'uid' => ['required', 'string', 'max:100', 'unique:members,uid'],
+            'chest_number' => ['required', 'string', 'max:50', 'unique:members,chest_number'],
             'class_year' => ['required', 'string', 'in:H1,H2,D1,D2,D3,D4'],
         ]);
 
         $validated['group_id'] = $group->id;
 
         $member = Member::create($validated);
-        ActivityLog::record('GROUP_ADDED_MEMBER', "Group '{$group->name}' added member {$member->name} ({$member->uid}) in section {$member->section->name}.");
+        ActivityLog::record('GROUP_ADDED_MEMBER', "Group '{$group->name}' added member {$member->name} (UID: {$member->uid}, Chest #{$member->chest_number}) in section {$member->section->name}.");
 
         return back()->with('success', "Member '{$member->name}' added to your group successfully.");
     }
@@ -313,15 +315,15 @@ class PortalController extends Controller
             ->where('group_id', $group->id);
 
         if ($request->filled('section_id')) {
-            $query->whereHas('program', fn ($q) => $q->where('section_id', $request->section_id));
+            $query->whereHas('program', fn($q) => $q->where('section_id', $request->section_id));
         }
 
         if ($request->filled('category_id')) {
-            $query->whereHas('program', fn ($q) => $q->where('category_id', $request->category_id));
+            $query->whereHas('program', fn($q) => $q->where('category_id', $request->category_id));
         }
 
         if ($request->filled('stage_type')) {
-            $query->whereHas('program', fn ($q) => $q->where('stage_type', $request->stage_type));
+            $query->whereHas('program', fn($q) => $q->where('stage_type', $request->stage_type));
         }
 
         if ($request->filled('search')) {
@@ -329,10 +331,10 @@ class PortalController extends Controller
             $query->where(function ($q) use ($search) {
                 $q->whereHas('member', function ($mq) use ($search) {
                     $mq->where('name', 'like', "%{$search}%")
-                       ->orWhere('uid', 'like', "%{$search}%");
+                        ->orWhere('uid', 'like', "%{$search}%");
                 })->orWhereHas('program', function ($pq) use ($search) {
                     $pq->where('name', 'like', "%{$search}%")
-                       ->orWhere('code', 'like', "%{$search}%");
+                        ->orWhere('code', 'like', "%{$search}%");
                 });
             });
         }
@@ -424,6 +426,11 @@ class PortalController extends Controller
                 continue;
             }
 
+            // Chest number is necessary for event registration
+            if (empty(trim($member->chest_number ?? ''))) {
+                return back()->with('error', "Member '{$member->name}' cannot be registered because they do not have a Chest Number. A Chest Number is required for all event registrations. Please edit the member to assign a Chest Number first.")->withInput();
+            }
+
             // Verify section compatibility unless General section
             if (!$isGeneralProgram && $member->section_id !== $program->section_id) {
                 return back()->with('error', "Member '{$member->name}' cannot compete in '{$program->name}' because the event is restricted to {$program->section->name}.");
@@ -433,6 +440,7 @@ class PortalController extends Controller
                 'program_id' => $program->id,
                 'group_id' => $group->id,
                 'member_id' => $member->id,
+                'chest_number' => $member->chest_number,
                 'registered_by' => 'group',
                 'notes' => $validated['notes'] ?? null,
             ]);
@@ -499,6 +507,8 @@ class PortalController extends Controller
                 'id' => $m->id,
                 'name' => $m->name,
                 'uid' => $m->uid,
+                'chest_number' => $m->chest_number,
+                'has_chest_number' => !empty(trim($m->chest_number ?? '')),
                 'class_year' => $m->class_year,
                 'section_name' => $m->section->name ?? '',
                 'is_registered' => in_array($m->id, $alreadyRegisteredMemberIds),

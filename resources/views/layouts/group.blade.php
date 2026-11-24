@@ -5,7 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@yield('title', 'Group Portal') — {{ auth()->user()->group->name ?? 'Group' }} | {{ \App\Models\Setting::get('fest_name', "Masa Talents' Meet 26") }}</title>
+    <title>@yield('title', 'Group Portal') — {{ auth()->user()->group->name ?? 'Group' }} |
+        {{ \App\Models\Setting::get('fest_name', "Masa Talents' Meet 26") }}</title>
 
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
@@ -20,7 +21,9 @@
 
     <style>
         :root {
-            --group-color: {{ auth()->user()->group->color ?? '#9b111e' }};
+            --group-color:
+                {{ auth()->user()->group->color ?? '#9b111e' }}
+            ;
             --fest-crimson: #9b111e;
             --fest-wine: #5c0617;
             --fest-black: #0c0c0e;
@@ -43,12 +46,11 @@
         /* Top 5-color Identity Strip */
         .group-top-strip {
             height: 4px;
-            background: linear-gradient(90deg, 
-                #5c0617 0%, #5c0617 25%, 
-                #9b111e 25%, #9b111e 50%, 
-                #0c0c0e 50%, #0c0c0e 75%, 
-                #d8cfc4 75%, #d8cfc4 100%
-            );
+            background: linear-gradient(90deg,
+                    #5c0617 0%, #5c0617 25%,
+                    #9b111e 25%, #9b111e 50%,
+                    #0c0c0e 50%, #0c0c0e 75%,
+                    #d8cfc4 75%, #d8cfc4 100%);
         }
 
         .group-nav {
@@ -94,7 +96,8 @@
             background-color: var(--group-color);
         }
 
-        .btn-teal, .btn-primary {
+        .btn-teal,
+        .btn-primary {
             background: var(--fest-primary-gradient) !important;
             border-color: #9b111e !important;
             color: #ffffff !important;
@@ -102,7 +105,8 @@
             transition: all 0.25s ease;
         }
 
-        .btn-teal:hover, .btn-primary:hover {
+        .btn-teal:hover,
+        .btn-primary:hover {
             background: linear-gradient(135deg, #b91c1c 0%, #6e0b14 100%) !important;
             transform: translateY(-2px);
             box-shadow: 0 6px 18px rgba(155, 17, 30, 0.4);
@@ -127,16 +131,24 @@
         @keyframes groupSlideUp {
             from {
                 opacity: 0;
-                transform: translateY(16px);
             }
+
             to {
                 opacity: 1;
-                transform: translateY(0);
             }
         }
 
         .group-content-animate {
-            animation: groupSlideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            animation: groupSlideUp 0.25s ease-out;
+        }
+
+        /* Ensure modals always stay above backdrops and never get trapped in stacking contexts */
+        .modal {
+            z-index: 1060 !important;
+        }
+
+        .modal-backdrop {
+            z-index: 1050 !important;
         }
 
         .group-brand-logo {
@@ -163,7 +175,8 @@
                 <img src="{{ asset('images/logo.png') }}" alt="Masa Fest Logo" class="group-brand-logo">
                 <div>
                     <div class="d-flex align-items-center gap-2">
-                        <span class="p-1 px-2 rounded text-white fw-bold fs-6 lh-1" style="background-color: var(--group-color);">
+                        <span class="p-1 px-2 rounded text-white fw-bold fs-6 lh-1"
+                            style="background-color: var(--group-color);">
                             <i class="bi bi-flag-fill me-1"></i> {{ auth()->user()->group->code ?? 'GRP' }}
                         </span>
                         <span class="fw-extrabold text-white">{{ auth()->user()->group->name ?? 'Group Portal' }}</span>
@@ -238,7 +251,8 @@
 
                     <form action="{{ route('group.logout') }}" method="POST" class="d-inline">
                         @csrf
-                        <button type="submit" class="btn btn-sm btn-danger rounded-pill px-3" style="background-color: var(--fest-crimson); border-color: var(--fest-crimson);">
+                        <button type="submit" class="btn btn-sm btn-danger rounded-pill px-3"
+                            style="background-color: var(--fest-crimson); border-color: var(--fest-crimson);">
                             <i class="bi bi-box-arrow-right me-1"></i> Logout
                         </button>
                     </form>
@@ -274,13 +288,22 @@
 
     <footer class="bg-white border-top py-3 text-center text-muted small mt-auto">
         <div class="container d-flex flex-wrap justify-content-between align-items-center gap-2">
-            <span>{{ auth()->user()->group->name ?? 'Group Portal' }} &bull; {{ \App\Models\Setting::get('fest_name', "Masa Talents' Meet 26") }}</span>
+            <span>{{ auth()->user()->group->name ?? 'Group Portal' }} &bull;
+                {{ \App\Models\Setting::get('fest_name', "Masa Talents' Meet 26") }}</span>
             <span class="badge bg-dark text-white font-monospace">{{ auth()->user()->group->code ?? 'HOUSE' }}</span>
         </div>
     </footer>
 
     <!-- Bootstrap Bundle JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Move all modals directly to body to prevent stacking context & backdrop blur/trap issues
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelectorAll('.modal').forEach(function (modal) {
+                document.body.appendChild(modal);
+            });
+        });
+    </script>
     @stack('scripts')
 </body>
 

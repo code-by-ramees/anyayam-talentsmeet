@@ -312,9 +312,10 @@
                             const enrolledGroup = document.createElement('optgroup');
                             enrolledGroup.label = '★ Enrolled / Registered Participants for this Event';
                             registered.forEach(m => {
+                                const chestLabel = m.chest_number ? `[Chest #${m.chest_number}] ` : '';
                                 const opt = document.createElement('option');
                                 opt.value = `${m.name} (${m.uid})`;
-                                opt.text = `★ ${m.name} (${m.uid}) — ${m.class_year} [Enrolled]`;
+                                opt.text = `★ ${chestLabel}${m.name} (${m.uid}) — ${m.class_year} [Enrolled]`;
                                 opt.setAttribute('data-member-id', m.id);
                                 enrolledGroup.appendChild(opt);
                             });
@@ -326,9 +327,10 @@
                             const othersGroup = document.createElement('optgroup');
                             othersGroup.label = 'Other Group Members (' + data.program.section_name + ')';
                             others.forEach(m => {
+                                const chestLabel = m.chest_number ? `[Chest #${m.chest_number}] ` : '';
                                 const opt = document.createElement('option');
                                 opt.value = `${m.name} (${m.uid})`;
-                                opt.text = `${m.name} (${m.uid}) — ${m.class_year}`;
+                                opt.text = `${chestLabel}${m.name} (${m.uid}) — ${m.class_year}`;
                                 opt.setAttribute('data-member-id', m.id);
                                 othersGroup.appendChild(opt);
                             });

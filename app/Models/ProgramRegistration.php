@@ -14,6 +14,7 @@ class ProgramRegistration extends Model
         'program_id',
         'group_id',
         'member_id',
+        'chest_number',
         'registered_by',
         'notes',
     ];

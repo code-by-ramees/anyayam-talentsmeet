@@ -40,6 +40,7 @@ return new class extends Migration {
             $table->foreignId('section_id')->constrained('sections')->onDelete('cascade');
             $table->string('name');
             $table->string('uid')->unique();
+            $table->string('chest_number')->nullable();
             $table->string('class_year');
             $table->timestamps();
         });
@@ -76,6 +77,7 @@ return new class extends Migration {
             $table->foreignId('program_id')->constrained('programs')->onDelete('cascade');
             $table->foreignId('group_id')->constrained('groups')->onDelete('cascade');
             $table->foreignId('member_id')->constrained('members')->onDelete('cascade');
+            $table->string('chest_number')->nullable();
             $table->string('registered_by')->default('group');
             $table->text('notes')->nullable();
             $table->timestamps();

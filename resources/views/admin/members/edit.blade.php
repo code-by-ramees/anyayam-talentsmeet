@@ -50,6 +50,13 @@
                                         value="{{ old('uid', $member->uid) }}" required>
                                 </div>
                                 <div class="col-md-6">
+                                    <label class="form-label fw-semibold">Chest Number <span
+                                            class="text-danger">*</span></label>
+                                    <input type="text" name="chest_number" class="form-control"
+                                        value="{{ old('chest_number', $member->chest_number) }}" required>
+                                    <small class="text-muted">Unique participant chest number for competition entries.</small>
+                                </div>
+                                <div class="col-md-6">
                                     <label class="form-label fw-semibold">Member Full Name <span
                                             class="text-danger">*</span></label>
                                     <input type="text" name="name" class="form-control"

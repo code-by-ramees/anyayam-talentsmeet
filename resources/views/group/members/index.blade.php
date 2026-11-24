@@ -31,7 +31,7 @@
                             <span class="input-group-text bg-white border-end-0"><i
                                     class="bi bi-search text-muted"></i></span>
                             <input type="text" name="search" class="form-control border-start-0 ps-0"
-                                placeholder="Search members by name, UID, or class..." value="{{ request('search') }}">
+                                placeholder="Search members by name, UID, Chest No, or class..." value="{{ request('search') }}">
                         </div>
                     </div>
                     <div class="col-md-4">
@@ -63,6 +63,7 @@
                             <tr>
                                 <th class="ps-4">Member Name</th>
                                 <th>UID</th>
+                                <th>Chest No</th>
                                 <th>Section</th>
                                 <th>Class</th>
                                 @if($canAddMembers)
@@ -78,6 +79,15 @@
                                     </td>
                                     <td>
                                         <span class="badge bg-light text-dark border font-monospace">{{ $m->uid }}</span>
+                                    </td>
+                                    <td>
+                                        @if($m->chest_number)
+                                            <span class="badge bg-danger-subtle text-danger border border-danger-subtle font-monospace fw-bold px-2 py-1">
+                                                #{{ $m->chest_number }}
+                                            </span>
+                                        @else
+                                            <span class="badge bg-warning-subtle text-warning border px-2 py-1 small">No Chest No</span>
+                                        @endif
                                     </td>
                                     <td>
                                         <span class="badge bg-light text-secondary border">
@@ -100,7 +110,7 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="{{ $canAddMembers ? 5 : 4 }}" class="text-center py-5 text-muted">
+                                    <td colspan="{{ $canAddMembers ? 6 : 5 }}" class="text-center py-5 text-muted">
                                         <i class="bi bi-people display-4 mb-3 d-block text-secondary"></i>
                                         <h5>No Members Found</h5>
                                         <p class="small">No members registered yet for {{ $group->name }}.</p>
@@ -152,6 +162,11 @@
                             <div class="mb-3">
                                 <label class="form-label fw-semibold">UID <span class="text-danger">*</span></label>
                                 <input type="text" name="uid" class="form-control" placeholder="e.g. UID1024" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label fw-semibold">Chest Number <span class="text-danger">*</span></label>
+                                <input type="text" name="chest_number" class="form-control" placeholder="e.g. 101 or C-14" required>
+                                <small class="text-muted">Unique participant chest number for competition entries.</small>
                             </div>
                             <div class="mb-3">
                                     <label class="form-label fw-semibold">Class <span class="text-danger">*</span></label>

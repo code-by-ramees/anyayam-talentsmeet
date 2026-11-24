@@ -51,6 +51,13 @@
                                         placeholder="e.g. UID1024" value="{{ old('uid') }}" required>
                                 </div>
                                 <div class="col-md-6">
+                                    <label class="form-label fw-semibold">Chest Number <span
+                                            class="text-danger">*</span></label>
+                                    <input type="text" name="chest_number" class="form-control"
+                                        placeholder="e.g. 101 or C-14" value="{{ old('chest_number') }}" required>
+                                    <small class="text-muted">Unique participant chest number for competition entries.</small>
+                                </div>
+                                <div class="col-md-6">
                                     <label class="form-label fw-semibold">Member Full Name <span
                                             class="text-danger">*</span></label>
                                     <input type="text" name="name" class="form-control"

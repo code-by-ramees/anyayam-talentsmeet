@@ -29,7 +29,7 @@
                             <span class="input-group-text bg-white border-end-0"><i
                                     class="bi bi-search text-muted"></i></span>
                             <input type="text" name="search" class="form-control border-start-0 ps-0"
-                                placeholder="Search by name, UID, class..." value="{{ request('search') }}">
+                                placeholder="Search by name, UID, Chest No, class..." value="{{ request('search') }}">
                         </div>
                     </div>
                     <div class="col-md-3">
@@ -71,6 +71,7 @@
                             <tr>
                                 <th class="ps-4">Member Name</th>
                                 <th>UID</th>
+                                <th>Chest No</th>
                                 <th>Group</th>
                                 <th>Section</th>
                                 <th>Class</th>
@@ -85,6 +86,15 @@
                                     </td>
                                     <td>
                                         <span class="badge bg-light text-dark border font-monospace">{{ $m->uid }}</span>
+                                    </td>
+                                    <td>
+                                        @if($m->chest_number)
+                                            <span class="badge bg-danger-subtle text-danger border border-danger-subtle font-monospace fw-bold px-2 py-1">
+                                                #{{ $m->chest_number }}
+                                            </span>
+                                        @else
+                                            <span class="badge bg-warning-subtle text-warning border px-2 py-1 small">No Chest No</span>
+                                        @endif
                                     </td>
                                     <td>
                                         <span class="badge px-2 py-1 text-white"
@@ -117,7 +127,7 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="6" class="text-center py-5 text-muted">
+                                    <td colspan="7" class="text-center py-5 text-muted">
                                         <i class="bi bi-person-x display-4 mb-3 d-block text-secondary"></i>
                                         <h5>No Members Found</h5>
                                         <p class="small">Try adjusting your filters or click "Add Member" to register students.

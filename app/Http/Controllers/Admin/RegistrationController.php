@@ -44,8 +44,10 @@ class RegistrationController extends Controller
             $query->where(function ($q) use ($search) {
                 $q->whereHas('member', function ($mq) use ($search) {
                     $mq->where('name', 'like', "%{$search}%")
-                       ->orWhere('uid', 'like', "%{$search}%");
-                })->orWhereHas('program', function ($pq) use ($search) {
+                       ->orWhere('uid', 'like', "%{$search}%")
+                       ->orWhere('chest_number', 'like', "%{$search}%");
+                })->orWhere('chest_number', 'like', "%{$search}%")
+                ->orWhereHas('program', function ($pq) use ($search) {
                     $pq->where('name', 'like', "%{$search}%")
                        ->orWhere('code', 'like', "%{$search}%");
                 });
@@ -132,6 +134,11 @@ class RegistrationController extends Controller
                 continue;
             }
 
+            // Chest number is necessary for event registration
+            if (empty(trim($member->chest_number ?? ''))) {
+                return back()->with('error', "Member '{$member->name}' ({$member->uid}) cannot be registered because they do not have a Chest Number. A Chest Number is required for all event participants. Please edit the student to assign a Chest Number first.")->withInput();
+            }
+
             // Verify section compatibility unless General section
             if (!$isGeneralProgram && $member->section_id !== $program->section_id) {
                 return back()->with('error', "Member '{$member->name}' belongs to a different section and cannot compete in '{$program->name}' (Requires {$program->section->name}).")->withInput();
@@ -141,6 +148,7 @@ class RegistrationController extends Controller
                 'program_id' => $program->id,
                 'group_id' => $group->id,
                 'member_id' => $member->id,
+                'chest_number' => $member->chest_number,
                 'registered_by' => 'admin',
                 'notes' => $validated['notes'] ?? null,
             ]);
@@ -221,6 +229,8 @@ class RegistrationController extends Controller
                 'id' => $m->id,
                 'name' => $m->name,
                 'uid' => $m->uid,
+                'chest_number' => $m->chest_number,
+                'has_chest_number' => !empty(trim($m->chest_number ?? '')),
                 'class_year' => $m->class_year,
                 'section_name' => $m->section->name ?? '',
                 'is_registered' => in_array($m->id, $alreadyRegisteredMemberIds),

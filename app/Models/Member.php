@@ -14,6 +14,7 @@ class Member extends Model
         'section_id',
         'name',
         'uid',
+        'chest_number',
         'class_year',
     ];
 

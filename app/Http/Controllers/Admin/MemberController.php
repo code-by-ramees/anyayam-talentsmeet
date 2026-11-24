@@ -31,6 +31,7 @@ class MemberController extends Controller
             $query->where(function ($q) use ($search) {
                 $q->where('name', 'like', "%{$search}%")
                     ->orWhere('uid', 'like', "%{$search}%")
+                    ->orWhere('chest_number', 'like', "%{$search}%")
                     ->orWhere('class_year', 'like', "%{$search}%");
             });
         }
@@ -55,11 +56,12 @@ class MemberController extends Controller
             'section_id' => ['required', 'exists:sections,id'],
             'name' => ['required', 'string', 'max:255'],
             'uid' => ['required', 'string', 'max:100', 'unique:members,uid'],
+            'chest_number' => ['required', 'string', 'max:50', 'unique:members,chest_number'],
             'class_year' => ['required', 'string', 'in:H1,H2,D1,D2,D3,D4'],
         ]);
 
         $member = Member::create($validated);
-        ActivityLog::record('MEMBER_ADDED', "Added member {$member->name} ({$member->uid}) to group {$member->group->name} [{$member->section->name}].");
+        ActivityLog::record('MEMBER_ADDED', "Added member {$member->name} (UID: {$member->uid}, Chest #{$member->chest_number}) to group {$member->group->name} [{$member->section->name}].");
 
         return redirect()->route('admin.members.index')
             ->with('success', "Member '{$member->name}' added successfully.");
@@ -80,11 +82,12 @@ class MemberController extends Controller
             'section_id' => ['required', 'exists:sections,id'],
             'name' => ['required', 'string', 'max:255'],
             'uid' => ['required', 'string', 'max:100', 'unique:members,uid,' . $member->id],
+            'chest_number' => ['required', 'string', 'max:50', 'unique:members,chest_number,' . $member->id],
             'class_year' => ['required', 'string', 'in:H1,H2,D1,D2,D3,D4'],
         ]);
 
         $member->update($validated);
-        ActivityLog::record('MEMBER_UPDATED', "Updated member {$member->name}.");
+        ActivityLog::record('MEMBER_UPDATED', "Updated member {$member->name} (Chest #{$member->chest_number}).");
 
         return redirect()->route('admin.members.index')
             ->with('success', "Member '{$member->name}' updated successfully.");
