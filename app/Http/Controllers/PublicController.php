@@ -33,6 +33,9 @@ class PublicController extends Controller
         $bakalooriyyaRankings = $this->calculateGroupRankings('Bakalooriyya');
         $sanaviyyaRankings = $this->calculateGroupRankings('Sanaviyya Ulya');
 
+        // Individual Score Leaderboard
+        $individualRankings = Result::getIndividualLeaderboard();
+
         // Recent Published Results
         $latestResults = Result::with(['program.category', 'program.section', 'group'])
             ->where('is_published', true)
@@ -56,6 +59,7 @@ class PublicController extends Controller
             'overallRankings',
             'bakalooriyyaRankings',
             'sanaviyyaRankings',
+            'individualRankings',
             'latestResults',
             'totalPrograms',
             'completedPrograms',
@@ -114,6 +118,7 @@ class PublicController extends Controller
         $overallRankings = $this->calculateGroupRankings();
         $bakalooriyyaRankings = $this->calculateGroupRankings('Bakalooriyya');
         $sanaviyyaRankings = $this->calculateGroupRankings('Sanaviyya Ulya');
+        $individualRankings = Result::getIndividualLeaderboard();
 
         return view('public.rankings', compact(
             'festName',
@@ -121,7 +126,8 @@ class PublicController extends Controller
             'activeTab',
             'overallRankings',
             'bakalooriyyaRankings',
-            'sanaviyyaRankings'
+            'sanaviyyaRankings',
+            'individualRankings'
         ));
     }
 

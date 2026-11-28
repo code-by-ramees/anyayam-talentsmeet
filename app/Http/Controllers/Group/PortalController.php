@@ -46,6 +46,7 @@ class PortalController extends Controller
         $thirdPrizes = $myResults->where('position', 'third')->count();
 
         // Calculate current group rank in overall and sections
+        $overallRankings = $this->calculateRankings();
         $overallRank = $this->getRankForGroup($group->id);
         $bakalooriyyaRank = $this->getRankForGroup($group->id, 'Bakalooriyya');
         $sanaviyyaRank = $this->getRankForGroup($group->id, 'Sanaviyya Ulya');
@@ -64,6 +65,7 @@ class PortalController extends Controller
             'firstPrizes',
             'secondPrizes',
             'thirdPrizes',
+            'overallRankings',
             'overallRank',
             'bakalooriyyaRank',
             'sanaviyyaRank',
@@ -232,8 +234,9 @@ class PortalController extends Controller
         $overallRankings = $this->calculateRankings();
         $bakalooriyyaRankings = $this->calculateRankings('Bakalooriyya');
         $sanaviyyaRankings = $this->calculateRankings('Sanaviyya Ulya');
+        $individualRankings = Result::getIndividualLeaderboard();
 
-        return view('group.rankings', compact('group', 'festName', 'sections', 'overallRankings', 'bakalooriyyaRankings', 'sanaviyyaRankings'));
+        return view('group.rankings', compact('group', 'festName', 'sections', 'overallRankings', 'bakalooriyyaRankings', 'sanaviyyaRankings', 'individualRankings'));
     }
 
     /**

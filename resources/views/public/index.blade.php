@@ -136,6 +136,11 @@
                         Sanaviyya Ulya
                     </button>
                 </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link rounded-pill px-4 fw-bold" id="pills-ind-tab" data-bs-toggle="pill" data-bs-target="#pills-ind" type="button" role="tab">
+                        <i class="bi bi-person-badge-fill me-1"></i> Individual Score
+                    </button>
+                </li>
             </ul>
         </div>
 
@@ -155,6 +160,11 @@
             <!-- 3. Sanaviyya Ulya Tab -->
             <div class="tab-pane fade" id="pills-san" role="tabpanel">
                 @include('public.partials.leaderboard_table', ['rankings' => $sanaviyyaRankings, 'title' => 'Sanaviyya Ulya Section Rankings'])
+            </div>
+
+            <!-- 4. Individual Score Leaderboard Tab -->
+            <div class="tab-pane fade" id="pills-ind" role="tabpanel">
+                @include('partials.individual_leaderboard_table', ['individualRankings' => $individualRankings, 'title' => 'Individual Score Leaderboard'])
             </div>
 
         </div>

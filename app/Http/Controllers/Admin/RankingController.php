@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Group;
+use App\Models\Result;
 use App\Models\Section;
 use App\Models\Setting;
 use Illuminate\Http\Request;
@@ -22,6 +23,7 @@ class RankingController extends Controller
         $overallRankings = $this->calculateRankings();
         $bakalooriyyaRankings = $this->calculateRankings('Bakalooriyya');
         $sanaviyyaRankings = $this->calculateRankings('Sanaviyya Ulya');
+        $individualRankings = Result::getIndividualLeaderboard();
 
         // Category breakdown
         $categoryRankings = [];
@@ -40,6 +42,7 @@ class RankingController extends Controller
             'overallRankings',
             'bakalooriyyaRankings',
             'sanaviyyaRankings',
+            'individualRankings',
             'categoryRankings'
         ));
     }

@@ -7,9 +7,11 @@ use App\Models\ActivityLog;
 use App\Models\Group;
 use App\Models\Member;
 use App\Models\Program;
+use App\Models\ProgramRegistration;
 use App\Models\Result;
 use App\Models\Section;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ResultController extends Controller
 {
@@ -66,56 +68,102 @@ class ResultController extends Controller
     {
         $validated = $request->validate([
             'program_id' => ['required', 'exists:programs,id'],
-            'group_id' => ['required', 'exists:groups,id'],
-            'participant_name' => ['required', 'string', 'max:255'],
-            'member_id' => ['nullable', 'exists:members,id'],
-            'position' => ['required', 'in:first,second,third'],
-            'marks' => ['nullable', 'integer', 'min:0'],
-            'remarks' => ['nullable', 'string', 'max:255'],
+            'winners' => ['required', 'array'],
             'is_published' => ['nullable', 'boolean'],
         ]);
 
         $program = Program::with('category')->findOrFail($validated['program_id']);
+        $isPublished = $request->boolean('is_published', false);
 
-        // Prevent duplicate position entries for the same program
-        $exists = Result::where('program_id', $program->id)
-            ->where('position', $validated['position'])
-            ->exists();
+        $entriesToCreate = [];
+        $positions = ['first', 'second', 'third'];
 
-        if ($exists) {
-            $posLabel = ucfirst($validated['position']) . ' Prize';
+        foreach ($positions as $pos) {
+            $rows = $request->input("winners.{$pos}", []);
+            if (!is_array($rows)) {
+                continue;
+            }
+
+            foreach ($rows as $row) {
+                $groupId = $row['group_id'] ?? null;
+                $participantName = trim($row['participant_name'] ?? '');
+                $memberId = !empty($row['member_id']) ? (int) $row['member_id'] : null;
+
+                // Skip blank/unselected rows
+                if (empty($groupId) || $participantName === '') {
+                    continue;
+                }
+
+                // If member_id is provided, ensure group_id matches member's group
+                if ($memberId) {
+                    $member = Member::find($memberId);
+                    if ($member) {
+                        $groupId = $member->group_id;
+                    }
+                }
+
+                // Prevent entering the exact same participant twice for the same position in this program
+                $duplicateExists = Result::where('program_id', $program->id)
+                    ->where('position', $pos)
+                    ->where(function ($q) use ($memberId, $participantName, $groupId) {
+                        if ($memberId) {
+                            $q->where('member_id', $memberId);
+                        } else {
+                            $q->where('group_id', $groupId)
+                                ->where('participant_name', $participantName);
+                        }
+                    })
+                    ->exists();
+
+                if ($duplicateExists) {
+                    $posLabel = ucfirst($pos) . ' Prize';
+                    return back()->withErrors([
+                        'winners' => "Participant '{$participantName}' already has a {$posLabel} result for '{$program->name}'.",
+                    ])->withInput();
+                }
+
+                $marks = (isset($row['marks']) && $row['marks'] !== '' && $row['marks'] !== null)
+                    ? (int) $row['marks']
+                    : $program->category->getMarksForPosition($pos);
+
+                $entriesToCreate[] = [
+                    'program_id' => $program->id,
+                    'group_id' => (int) $groupId,
+                    'member_id' => $memberId,
+                    'participant_name' => $participantName,
+                    'position' => $pos,
+                    'marks' => max(0, $marks),
+                    'remarks' => isset($row['remarks']) ? trim($row['remarks']) : null,
+                    'is_published' => $isPublished,
+                    'published_at' => $isPublished ? now() : null,
+                ];
+            }
+        }
+
+        if (empty($entriesToCreate)) {
             return back()->withErrors([
-                'position' => "A result for {$posLabel} has already been entered for '{$program->name}'. Please edit the existing result instead.",
+                'winners' => 'Please select at least one winner (1st, 2nd, or 3rd) before saving.',
             ])->withInput();
         }
 
-        // Auto-fetch marks from category if not explicitly provided
-        $marks = $request->filled('marks')
-            ? (int) $request->input('marks')
-            : $program->category->getMarksForPosition($validated['position']);
+        DB::transaction(function () use ($entriesToCreate, $program, $isPublished) {
+            foreach ($entriesToCreate as $entry) {
+                $result = Result::create($entry);
+                $statusText = $isPublished ? 'published immediately' : 'saved as draft';
+                ActivityLog::record(
+                    'RESULT_ENTERED',
+                    "Entered {$result->position} prize for {$program->name} awarded to {$result->participant_name} ({$result->group->name}, {$result->marks} pts) - {$statusText}."
+                );
+            }
 
-        $isPublished = $request->boolean('is_published', false);
+            // Auto update program status to completed
+            $program->update(['status' => 'completed']);
+        });
 
-        $result = Result::create([
-            'program_id' => $program->id,
-            'group_id' => $validated['group_id'],
-            'member_id' => $validated['member_id'] ?? null,
-            'participant_name' => $validated['participant_name'],
-            'position' => $validated['position'],
-            'marks' => $marks,
-            'remarks' => $validated['remarks'] ?? null,
-            'is_published' => $isPublished,
-            'published_at' => $isPublished ? now() : null,
-        ]);
-
-        // Auto update program status to completed
-        $program->update(['status' => 'completed']);
-
-        $statusText = $isPublished ? 'published immediately' : 'saved as draft';
-        ActivityLog::record('RESULT_ENTERED', "Entered {$result->position} prize for {$program->name} awarded to {$result->group->name} ({$marks} pts) - {$statusText}.");
+        $count = count($entriesToCreate);
 
         return redirect()->route('admin.results.index')
-            ->with('success', "Result for '{$program->name}' ({$result->getPositionLabel()}) saved successfully!");
+            ->with('success', "Successfully saved {$count} result(s) for '{$program->name}'!");
     }
 
     public function edit(Result $result)
@@ -136,20 +184,6 @@ class ResultController extends Controller
             'remarks' => ['nullable', 'string', 'max:255'],
             'is_published' => ['nullable', 'boolean'],
         ]);
-
-        // Check unique position if position was changed
-        if ($validated['position'] !== $result->position) {
-            $exists = Result::where('program_id', $result->program_id)
-                ->where('position', $validated['position'])
-                ->where('id', '!=', $result->id)
-                ->exists();
-
-            if ($exists) {
-                return back()->withErrors([
-                    'position' => "A result for " . ucfirst($validated['position']) . " Prize already exists for this program.",
-                ])->withInput();
-            }
-        }
 
         $wasPublished = $result->is_published;
         $nowPublished = $request->boolean('is_published');
@@ -221,6 +255,66 @@ class ResultController extends Controller
             'category_name' => $program->category->name,
             'position' => $position,
             'marks' => $marks,
+        ]);
+    }
+
+    /**
+     * AJAX endpoint to return only registered participants for a program
+     */
+    public function getProgramParticipants(Program $program)
+    {
+        $program->load(['section', 'category', 'results.group']);
+
+        $registrations = ProgramRegistration::with(['member.section', 'group'])
+            ->where('program_id', $program->id)
+            ->get()
+            ->sortBy(fn($r) => $r->chest_number ?? $r->member->chest_number ?? $r->member->name ?? '')
+            ->values();
+
+        $registeredList = $registrations->map(function ($reg) {
+            $m = $reg->member;
+            $g = $reg->group;
+            $chest = $reg->chest_number ?: ($m->chest_number ?? null);
+            return [
+                'member_id' => $m->id ?? null,
+                'group_id' => $g->id ?? ($m->group_id ?? null),
+                'group_name' => $g->name ?? '',
+                'group_code' => $g->code ?? '',
+                'name' => $m->name ?? 'Unknown',
+                'uid' => $m->uid ?? '',
+                'chest_number' => $chest,
+                'class_year' => $m->class_year ?? '',
+                'participant_name' => $m ? "{$m->name} ({$m->uid})" : 'Unknown',
+                'is_registered' => true,
+            ];
+        });
+
+        $existingResults = $program->results->map(function ($r) {
+            return [
+                'position' => $r->position,
+                'position_label' => $r->getPositionLabel(),
+                'badge_class' => $r->getPositionBadgeClass(),
+                'group_name' => $r->group->name ?? '',
+                'participant_name' => $r->participant_name,
+                'marks' => $r->marks,
+            ];
+        });
+
+        return response()->json([
+            'success' => true,
+            'program' => [
+                'id' => $program->id,
+                'name' => $program->name,
+                'code' => $program->code,
+                'type' => $program->type,
+                'section_name' => $program->section->name ?? '',
+                'category_name' => $program->category->name ?? '',
+                'first_marks' => $program->category->first_marks ?? 0,
+                'second_marks' => $program->category->second_marks ?? 0,
+                'third_marks' => $program->category->third_marks ?? 0,
+            ],
+            'registered' => $registeredList,
+            'existing_results' => $existingResults,
         ]);
     }
 }

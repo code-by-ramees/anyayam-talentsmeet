@@ -98,9 +98,6 @@ return new class extends Migration {
             $table->boolean('is_published')->default(false);
             $table->timestamp('published_at')->nullable();
             $table->timestamps();
-
-            // Prevent duplicate entries for the same position in a program
-            $table->unique(['program_id', 'position'], 'unique_program_position');
         });
 
         // 7. Settings

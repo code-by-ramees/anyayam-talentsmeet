@@ -31,6 +31,11 @@
                 <i class="bi bi-book-fill text-teal me-1" style="color: #9b111e;"></i> Sanaviyya Ulya (Junior)
             </button>
         </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link fw-semibold" id="ind-p-tab" data-bs-toggle="pill" data-bs-target="#indP" type="button" role="tab">
+                <i class="bi bi-person-badge-fill text-danger me-1" style="color: #9b111e;"></i> Individual Score Leaderboard
+            </button>
+        </li>
     </ul>
 
     <div class="tab-content" id="portalRankTabsContent">
@@ -221,6 +226,15 @@
                     </div>
                 </div>
             </div>
+        </div>
+
+        <!-- Individual Score Leaderboard Tab -->
+        <div class="tab-pane fade" id="indP" role="tabpanel">
+            @include('partials.individual_leaderboard_table', [
+                'individualRankings' => $individualRankings,
+                'title' => 'Individual Score Leaderboard',
+                'highlightGroupId' => $group->id
+            ])
         </div>
     </div>
 </div>

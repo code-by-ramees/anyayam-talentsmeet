@@ -74,7 +74,8 @@
                         <div>
                             <div class="text-muted small text-uppercase fw-bold">Total Participants Registered</div>
                             <h3 class="fw-bold mb-0 mt-1" style="color: var(--group-color);">
-                                {{ $totalRegisteredParticipants }}</h3>
+                                {{ $totalRegisteredParticipants }}
+                            </h3>
                         </div>
                         <div class="p-3 rounded-circle bg-light fs-3">
                             <i class="bi bi-people text-secondary"></i>
@@ -337,8 +338,9 @@
 
                             <!-- Step 3: Optional Notes -->
                             <div class="mb-3">
-                                <label class="form-label fw-semibold">Notes / Chest No (Optional)</label>
-                                <input type="text" name="notes" class="form-control" placeholder="e.g. Chest No: 12">
+                                <label class="form-label fw-semibold">Notes (Optional)</label>
+                                <input type="text" name="notes" class="form-control"
+                                    placeholder="e.g. Team Captain, special instructions">
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -431,18 +433,18 @@
                                 const sectionBadge = `<span class="badge bg-light text-dark border ms-2">${m.section_name} &bull; ${m.class_year}</span>`;
 
                                 html += `
-                                <label class="list-group-item d-flex align-items-center gap-3 py-2 ${(m.is_registered || !hasChest) ? 'bg-light text-muted' : ''}">
-                                    <input class="form-check-input modal-member-checkbox flex-shrink-0" type="checkbox" name="member_ids[]" value="${m.id}" ${disabled}>
-                                    <div class="flex-grow-1">
-                                        <div class="fw-semibold text-dark">${m.name} ${sectionBadge}</div>
-                                        <div class="small mt-1 d-flex align-items-center gap-2">
-                                            ${chestBadge}
-                                            <span class="text-muted font-monospace"><i class="bi bi-upc-scan me-1"></i>${m.uid}</span>
-                                        </div>
-                                    </div>
-                                    ${badgeText}
-                                </label>
-                            `;
+                                                <label class="list-group-item d-flex align-items-center gap-3 py-2 ${(m.is_registered || !hasChest) ? 'bg-light text-muted' : ''}">
+                                                    <input class="form-check-input modal-member-checkbox flex-shrink-0" type="checkbox" name="member_ids[]" value="${m.id}" ${disabled}>
+                                                    <div class="flex-grow-1">
+                                                        <div class="fw-semibold text-dark">${m.name} ${sectionBadge}</div>
+                                                        <div class="small mt-1 d-flex align-items-center gap-2">
+                                                            ${chestBadge}
+                                                            <span class="text-muted font-monospace"><i class="bi bi-upc-scan me-1"></i>${m.uid}</span>
+                                                        </div>
+                                                    </div>
+                                                    ${badgeText}
+                                                </label>
+                                            `;
                             });
                             html += '</div>';
 

@@ -91,6 +91,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/results', [ResultController::class, 'index'])->name('results.index');
         Route::get('/results/create', [ResultController::class, 'create'])->name('results.create');
         Route::post('/results', [ResultController::class, 'store'])->name('results.store');
+        Route::get('/results/program-participants/{program}', [ResultController::class, 'getProgramParticipants'])->name('results.program-participants');
         Route::get('/results/{result}/edit', [ResultController::class, 'edit'])->name('results.edit');
         Route::put('/results/{result}', [ResultController::class, 'update'])->name('results.update');
         Route::delete('/results/{result}', [ResultController::class, 'destroy'])->name('results.destroy');

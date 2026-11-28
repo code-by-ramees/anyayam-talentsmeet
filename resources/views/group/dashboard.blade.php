@@ -4,32 +4,75 @@
 
 @section('content')
     <div class="container py-4">
-        <!-- Welcome Banner -->
+        <!-- Welcome Banner (Hero Section) -->
         <div class="card group-card border-0 shadow-sm p-4 mb-4 text-white position-relative overflow-hidden"
             style="background: linear-gradient(135deg, {{ $group->color ?: '#9b111e' }} 0%, #0f172a 100%);">
-            <div class="row align-items-center position-relative" style="z-index: 2;">
-                <div class="col-md-8">
+            <div class="row align-items-center position-relative gy-4" style="z-index: 2;">
+                <div class="col-lg-7">
                     <div class="d-flex align-items-center gap-2 mb-2">
                         <span class="badge bg-white text-dark font-monospace px-3 py-1 fw-bold fs-6">
                             CODE: {{ $group->code }}
                         </span>
-                        <span class="badge bg-white-50 text-white px-3 py-1 rounded-pill">
+                        <span class="badge bg-white bg-opacity-25 text-white px-3 py-1 rounded-pill">
                             Sanaviyya & Bakalooriyya
                         </span>
                     </div>
                     <h2 class="display-6 fw-bold mb-2">{{ $group->name }}</h2>
-                    <p class="mb-0 text-white-50">
+                    <p class="mb-4 text-white-50">
                         Welcome to your dedicated fest portal for <strong>{{ $festName }}</strong>. Track your group's live
-                        standings, awards won, and participants.
+                        standings, awards won, and register participants for events.
                     </p>
+
+                    <!-- Hero CTA Buttons: Event Register & Leaderboard -->
+                    <div class="d-flex flex-wrap align-items-center gap-2">
+                        <a href="{{ route('group.registrations.index') }}"
+                            class="btn btn-light fw-bold rounded-pill px-4 py-2 shadow-sm">
+                            <i class="bi bi-clipboard-check-fill me-1 text-danger"></i> Event Register
+                        </a>
+                        <a href="{{ route('group.rankings') }}"
+                            class="btn btn-outline-light fw-semibold rounded-pill px-4 py-2">
+                            <i class="bi bi-trophy-fill me-1 text-warning"></i> Leaderboard
+                        </a>
+                    </div>
                 </div>
-                <div class="col-md-4 text-md-end mt-3 mt-md-0">
-                    <div class="d-inline-block bg-white bg-opacity-10 backdrop-blur p-3 rounded-4 text-center">
-                        <div class="small text-uppercase text-white-50 fw-semibold" style="letter-spacing: 0.5px;">Overall
-                            Standing</div>
-                        <div class="display-5 fw-bold text-white">#{{ $overallRank }}</div>
-                        <div class="small text-white-50">#{{ $bakalooriyyaRank }} Bakalooriyya &bull; #{{ $sanaviyyaRank }}
-                            Sanaviyya</div>
+                <div class="col-lg-5">
+                    <div class="bg-black bg-opacity-25 border border-white border-opacity-10 p-3 rounded-4">
+                        <div
+                            class="d-flex justify-content-between align-items-center mb-2 pb-2 border-bottom border-white border-opacity-10">
+                            <div>
+                                <div class="small text-uppercase text-white-50 fw-semibold" style="letter-spacing: 0.5px;">
+                                    <i class="bi bi-trophy-fill text-warning me-1"></i> Live Leaderboard
+                                </div>
+                                <div class="small text-white-50">
+                                    Your Rank: <strong class="text-white">#{{ $overallRank }}</strong>
+                                    <span class="mx-1">&bull;</span>
+                                    #{{ $bakalooriyyaRank }} BAK &bull; #{{ $sanaviyyaRank }} SAN
+                                </div>
+                            </div>
+                            <a href="{{ route('group.rankings') }}" class="btn btn-sm btn-outline-light rounded-pill px-3">
+                                Full Table <i class="bi bi-arrow-right ms-1"></i>
+                            </a>
+                        </div>
+
+                        <div class="d-flex flex-column gap-2">
+                            @foreach($overallRankings->take(3) as $item)
+                                @php $isMe = $item['group']->id === $group->id; @endphp
+                                <div
+                                    class="d-flex align-items-center justify-content-between px-3 py-2 rounded-3 {{ $isMe ? 'bg-white text-dark fw-bold shadow-sm' : 'bg-white bg-opacity-10 text-white' }}">
+                                    <div class="d-flex align-items-center gap-2">
+                                        <span
+                                            class="badge {{ $item['rank'] === 1 ? 'bg-warning text-dark' : ($item['rank'] === 2 ? 'bg-secondary text-white' : 'bg-danger text-white') }} rounded-pill">
+                                            #{{ $item['rank'] }}
+                                        </span>
+                                        <span class="small fw-semibold">{{ $item['group']->name }}</span>
+                                        @if($isMe)
+                                            <span class="badge bg-dark text-white" style="font-size: 0.65rem;">YOU</span>
+                                        @endif
+                                    </div>
+                                    <span class="font-monospace small fw-bold">{{ $item['total_marks'] }} pts</span>
+                                </div>
+                            @endforeach
+                        </div>
                     </div>
                 </div>
             </div>

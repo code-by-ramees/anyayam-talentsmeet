@@ -46,6 +46,12 @@
                     <i class="bi bi-tags-fill text-primary me-1"></i> Category-wise
                 </button>
             </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link fw-semibold" id="individual-tab" data-bs-toggle="pill" data-bs-target="#individual"
+                    type="button" role="tab">
+                    <i class="bi bi-person-badge-fill text-danger me-1" style="color: #9b111e;"></i> Individual Score
+                </button>
+            </li>
         </ul>
 
         <!-- Tab Content -->
@@ -120,6 +126,14 @@
                         </div>
                     @endforeach
                 </div>
+            </div>
+
+            <!-- Individual Score Tab -->
+            <div class="tab-pane fade" id="individual" role="tabpanel">
+                @include('partials.individual_leaderboard_table', [
+                    'individualRankings' => $individualRankings,
+                    'title' => 'Individual Score Leaderboard'
+                ])
             </div>
         </div>
     </div>

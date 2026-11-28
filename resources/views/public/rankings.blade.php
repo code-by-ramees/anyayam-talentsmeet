@@ -43,6 +43,11 @@
                 Sanaviyya Ulya Section
             </button>
         </li>
+        <li class="nav-item">
+            <button class="nav-link rounded-pill px-4 fw-bold" id="tab-ind" data-bs-toggle="pill" data-bs-target="#content-ind" type="button">
+                <i class="bi bi-person-badge-fill me-1"></i> Individual Score
+            </button>
+        </li>
     </ul>
 
     <!-- Tabs Content -->
@@ -57,6 +62,10 @@
 
         <div class="tab-pane fade" id="content-san">
             @include('public.partials.leaderboard_table', ['rankings' => $sanaviyyaRankings, 'title' => 'Sanaviyya Ulya Section Leaderboard'])
+        </div>
+
+        <div class="tab-pane fade" id="content-ind">
+            @include('partials.individual_leaderboard_table', ['individualRankings' => $individualRankings, 'title' => 'Individual Score Leaderboard'])
         </div>
     </div>
 
