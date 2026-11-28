@@ -21,7 +21,7 @@ class PublicController extends Controller
         $collegeName = Setting::get('college_name', "Shamsul Ulama Islamic & Arts College");
         $edition = Setting::get('edition', "Meet '26");
         $tagline = Setting::get('tagline', "“കല കലഹിക്കട്ടെ; സത്യം സംസാരിക്കട്ടെ”");
-        $themeTitle = Setting::get('theme_title', "JUSTICE — അന്യായം");
+        $themeTitle = Setting::get('theme_title', "അന്യായം");
 
         $sections = Section::where('status', true)->get();
         $categories = Category::all();

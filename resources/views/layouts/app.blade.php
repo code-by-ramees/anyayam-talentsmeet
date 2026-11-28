@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@yield('title', \App\Models\Setting::get('fest_name', "Masa Talents' Meet 26") . " — " . \App\Models\Setting::get('college_name', "Shamsul Ulama Islamic & Arts College"))</title>
-    
+    <title>
+        @yield('title', \App\Models\Setting::get('fest_name', "Masa Talents' Meet 26") . " — " . \App\Models\Setting::get('college_name', "Shamsul Ulama Islamic & Arts College"))
+    </title>
+
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
 
@@ -14,11 +17,13 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Manjari:wght@400;700&family=Baloo+Chettan+2:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Manjari:wght@400;700&family=Baloo+Chettan+2:wght@400;600;700;800&display=swap"
+        rel="stylesheet">
 
     <style>
         :root {
-            /* Official Masa Talents' Meet 26 Palette (Theme: JUSTICE — അന്യായം) */
+            /* Official Masa Talents' Meet 26 Palette (Theme: അന്യായം) */
             --fest-crimson: #9b111e;
             --fest-crimson-dark: #6e0b14;
             --fest-crimson-glow: rgba(155, 17, 30, 0.28);
@@ -51,12 +56,11 @@
         /* Top 5-color identity brand strip matching the poster bottom bar */
         .top-brand-strip {
             height: 5px;
-            background: linear-gradient(90deg, 
-                #5c0617 0%, #5c0617 25%, 
-                #9b111e 25%, #9b111e 50%, 
-                #0c0c0e 50%, #0c0c0e 75%, 
-                #d8cfc4 75%, #d8cfc4 100%
-            );
+            background: linear-gradient(90deg,
+                    #5c0617 0%, #5c0617 25%,
+                    #9b111e 25%, #9b111e 50%,
+                    #0c0c0e 50%, #0c0c0e 75%,
+                    #d8cfc4 75%, #d8cfc4 100%);
         }
 
         .navbar-fest {
@@ -192,8 +196,13 @@
 
         /* Global Keyframe Animations */
         @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
         }
 
         @keyframes slideUp {
@@ -201,6 +210,7 @@
                 opacity: 0;
                 transform: translateY(24px);
             }
+
             to {
                 opacity: 1;
                 transform: translateY(0);
@@ -208,35 +218,49 @@
         }
 
         @keyframes floatFist {
-            0%, 100% {
+
+            0%,
+            100% {
                 transform: translateY(0px) rotate(0deg);
             }
+
             50% {
                 transform: translateY(-10px) rotate(-1.5deg);
             }
         }
 
         @keyframes pulseCrimson {
-            0%, 100% {
+
+            0%,
+            100% {
                 box-shadow: 0 0 0 0 rgba(155, 17, 30, 0.5);
             }
+
             50% {
                 box-shadow: 0 0 0 12px rgba(155, 17, 30, 0);
             }
         }
 
         @keyframes pulseGold {
-            0%, 100% {
+
+            0%,
+            100% {
                 box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.5);
             }
+
             50% {
                 box-shadow: 0 0 0 10px rgba(245, 158, 11, 0);
             }
         }
 
         @keyframes shimmerBanner {
-            0% { background-position: -200% 0; }
-            100% { background-position: 200% 0; }
+            0% {
+                background-position: -200% 0;
+            }
+
+            100% {
+                background-position: 200% 0;
+            }
         }
 
         .animate-fade-in {
@@ -259,9 +283,145 @@
         .font-malayalam {
             font-family: 'Manjari', 'Plus Jakarta Sans', sans-serif;
         }
+
+        /* ===== MOBILE RESPONSIVE OVERRIDES ===== */
+        @media (max-width: 991.98px) {
+
+            /* Navbar collapses cleanly */
+            .navbar-fest .navbar-collapse {
+                background: rgba(255, 255, 255, 0.98);
+                border-top: 1px solid var(--fest-border);
+                padding: 0.75rem 0;
+                margin-top: 0.5rem;
+            }
+
+            .navbar-fest .navbar-nav .nav-link {
+                padding: 0.6rem 1rem;
+                border-radius: 0.5rem;
+            }
+
+            .navbar-fest .d-flex.align-items-center.gap-2 {
+                flex-direction: row;
+                flex-wrap: wrap;
+                padding: 0.5rem 1rem;
+                gap: 0.5rem !important;
+            }
+        }
+
+        @media (max-width: 767.98px) {
+
+
+            /* Compact mobile navbar */
+            .navbar-fest {
+                padding: 0.3rem 0 !important;
+            }
+
+            .brand-logo-img {
+                height: 28px !important;
+            }
+
+            .navbar-brand-college {
+                font-size: 0.72rem !important;
+                max-width: 220px;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+
+            .navbar-fest .navbar-toggler {
+                padding: 0.2rem 0.4rem;
+                font-size: 1rem;
+            }
+
+            /* Footer */
+            footer .col-md-6,
+            footer .col-md-5 {
+                text-align: center !important;
+            }
+
+            footer .d-flex.justify-content-md-end {
+                justify-content: center !important;
+            }
+
+            /* Tables: allow horizontal scroll, min readable width */
+            .table-responsive {
+                -webkit-overflow-scrolling: touch;
+            }
+
+            /* Rank badges smaller on mobile */
+            .rank-badge-1 {
+                width: 34px;
+                height: 34px;
+                font-size: 1rem;
+            }
+
+            .rank-badge-2 {
+                width: 32px;
+                height: 32px;
+                font-size: 0.9rem;
+            }
+
+            .rank-badge-3 {
+                width: 30px;
+                height: 30px;
+                font-size: 0.85rem;
+            }
+
+            /* Nav pills tabs: scrollable row */
+            #pills-tab,
+            .nav-pills {
+                flex-wrap: nowrap !important;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+                scrollbar-width: none;
+                padding-bottom: 2px;
+            }
+
+            #pills-tab::-webkit-scrollbar {
+                display: none;
+            }
+
+            .nav-pills .nav-link {
+                white-space: nowrap;
+                font-size: 0.82rem;
+                padding: 0.4rem 0.9rem;
+            }
+        }
+
+        @media (max-width: 575.98px) {
+
+            /* Hero heading */
+            .hero-anyayam {
+                font-size: clamp(2.8rem, 15vw, 4rem) !important;
+            }
+
+            /* Buttons full-width on xs */
+            .hero-cta-wrap .btn {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .hero-cta-wrap {
+                flex-direction: column !important;
+                align-items: stretch !important;
+            }
+
+            /* Result cards full-width */
+            .result-card-col {
+                width: 100%;
+            }
+
+            /* Section headings */
+            .section-title-row {
+                flex-direction: column !important;
+                align-items: flex-start !important;
+                gap: 0.75rem !important;
+            }
+        }
     </style>
     @stack('styles')
 </head>
+
 <body>
     <!-- Identity Strip -->
     <div class="top-brand-strip"></div>
@@ -269,19 +429,12 @@
     <!-- Main Navigation -->
     <nav class="navbar navbar-expand-lg navbar-fest sticky-top">
         <div class="container">
-            <a class="navbar-brand d-flex align-items-center gap-2" href="{{ route('public.index') }}">
-                <img src="{{ asset('images/logo.png') }}" alt="Masa Talents' Meet Logo" class="brand-logo-img">
-                <div>
-                    <div class="d-flex align-items-center gap-2">
-                        <span class="fw-extrabold text-dark d-block lh-1" style="font-size: 1.15rem; letter-spacing: -0.5px;">
-                            MASA TALENTS <span class="text-crimson">'26</span>
-                        </span>
-                        <span class="badge bg-crimson text-white rounded-pill px-2 py-0" style="font-size: 0.65rem;">JUSTICE</span>
-                    </div>
-                    <small class="text-muted fs-xs fw-semibold text-uppercase d-block mt-1">
-                        {{ \App\Models\Setting::get('college_name', "Shamsul Ulama Islamic & Arts College") }}
-                    </small>
-                </div>
+            <a class="navbar-brand d-flex align-items-center gap-2 py-0" href="{{ route('public.index') }}">
+                <img src="{{ asset('images/logo.png') }}" alt="College Logo" class="brand-logo-img">
+                <span class="text-dark fw-extrabold text-uppercase d-block lh-sm navbar-brand-college"
+                    style="font-size: 0.92rem; letter-spacing: -0.2px;">
+                    {{ \App\Models\Setting::get('college_name', "Shamsul Ulama Islamic & Arts College") }}
+                </span>
             </a>
 
             <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#publicNav">
@@ -291,22 +444,26 @@
             <div class="collapse navbar-collapse" id="publicNav">
                 <ul class="navbar-nav me-auto ms-lg-4 mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link px-3 fw-bold {{ request()->routeIs('public.index') ? 'text-crimson active' : 'text-secondary' }}" href="{{ route('public.index') }}">
+                        <a class="nav-link px-3 fw-bold {{ request()->routeIs('public.index') ? 'text-crimson active' : 'text-secondary' }}"
+                            href="{{ route('public.index') }}">
                             <i class="bi bi-trophy me-1"></i> Live Leaderboard
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link px-3 fw-bold {{ request()->routeIs('public.rankings') ? 'text-crimson active' : 'text-secondary' }}" href="{{ route('public.rankings') }}">
+                        <a class="nav-link px-3 fw-bold {{ request()->routeIs('public.rankings') ? 'text-crimson active' : 'text-secondary' }}"
+                            href="{{ route('public.rankings') }}">
                             <i class="bi bi-bar-chart-line me-1"></i> Overall & Section Ranks
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link px-3 fw-bold {{ request()->routeIs('public.results') ? 'text-crimson active' : 'text-secondary' }}" href="{{ route('public.results') }}">
+                        <a class="nav-link px-3 fw-bold {{ request()->routeIs('public.results') ? 'text-crimson active' : 'text-secondary' }}"
+                            href="{{ route('public.results') }}">
                             <i class="bi bi-award me-1"></i> Published Results
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link px-3 fw-bold {{ request()->routeIs('public.programs') ? 'text-crimson active' : 'text-secondary' }}" href="{{ route('public.programs') }}">
+                        <a class="nav-link px-3 fw-bold {{ request()->routeIs('public.programs') ? 'text-crimson active' : 'text-secondary' }}"
+                            href="{{ route('public.programs') }}">
                             <i class="bi bi-calendar-event me-1"></i> Programs Schedule
                         </a>
                     </li>
@@ -330,7 +487,8 @@
     <!-- Global Alerts -->
     <div class="container mt-3">
         @if(session('success'))
-            <div class="alert alert-success alert-dismissible fade show rounded-4 border-0 shadow-sm d-flex align-items-center" role="alert">
+            <div class="alert alert-success alert-dismissible fade show rounded-4 border-0 shadow-sm d-flex align-items-center"
+                role="alert">
                 <i class="bi bi-check-circle-fill text-success fs-5 me-2"></i>
                 <div>{{ session('success') }}</div>
                 <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
@@ -338,7 +496,8 @@
         @endif
 
         @if(session('error'))
-            <div class="alert alert-danger alert-dismissible fade show rounded-4 border-0 shadow-sm d-flex align-items-center" role="alert">
+            <div class="alert alert-danger alert-dismissible fade show rounded-4 border-0 shadow-sm d-flex align-items-center"
+                role="alert">
                 <i class="bi bi-exclamation-triangle-fill text-danger fs-5 me-2"></i>
                 <div>{{ session('error') }}</div>
                 <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
@@ -346,7 +505,8 @@
         @endif
 
         @if(session('info'))
-            <div class="alert alert-info alert-dismissible fade show rounded-4 border-0 shadow-sm d-flex align-items-center" role="alert">
+            <div class="alert alert-info alert-dismissible fade show rounded-4 border-0 shadow-sm d-flex align-items-center"
+                role="alert">
                 <i class="bi bi-info-circle-fill text-info fs-5 me-2"></i>
                 <div>{{ session('info') }}</div>
                 <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
@@ -360,39 +520,51 @@
     </main>
 
     <!-- Footer -->
-    <footer class="bg-dark text-white border-top border-dark py-5 mt-auto" style="background-color: var(--fest-black) !important;">
+    <footer class="bg-dark text-white border-top border-dark py-5 mt-auto"
+        style="background-color: var(--fest-black) !important;">
         <div class="container">
-            <div class="row gy-4 align-items-center justify-content-between pb-4 border-bottom border-secondary border-opacity-25">
+            <div
+                class="row gy-4 align-items-center justify-content-between pb-4 border-bottom border-secondary border-opacity-25">
                 <div class="col-md-6 text-center text-md-start">
                     <div class="d-flex align-items-center justify-content-center justify-content-md-start gap-3 mb-2">
-                        <img src="{{ asset('images/logo.png') }}" alt="Masa Logo" style="height: 52px; object-fit: contain;">
+                        <img src="{{ asset('images/logo.png') }}" alt="Masa Logo"
+                            style="height: 52px; object-fit: contain;">
                         <div>
-                            <h5 class="fw-bold mb-0 text-white">{{ \App\Models\Setting::get('fest_name', "Masa Talents' Meet 26") }}</h5>
+                            <h5 class="fw-bold mb-0 text-white">
+                                {{ \App\Models\Setting::get('fest_name', "Masa Talents' Meet 26") }}
+                            </h5>
                             <div class="text-danger small font-malayalam fw-bold" style="color: #ff6b7a !important;">
                                 {{ \App\Models\Setting::get('tagline', "“കല കലഹിക്കട്ടെ; സത്യം സംസാരിക്കട്ടെ”") }}
                             </div>
                         </div>
                     </div>
                     <p class="text-white-50 small mb-0 mt-2">
-                        {{ \App\Models\Setting::get('college_name', "Shamsul Ulama Islamic & Arts College (SNEC)") }} &bull; Pathiyankara, Alappuzha
+                        {{ \App\Models\Setting::get('college_name', "Shamsul Ulama Islamic & Arts College (SNEC)") }}
+                        &bull; Pathiyankara, Alappuzha
                     </p>
                     <p class="text-white-50 fs-xs mb-0">Organized by Manbaul Afnan Students' Association (MASA)</p>
                 </div>
 
                 <div class="col-md-5 text-center text-md-end">
                     <div class="d-flex justify-content-center justify-content-md-end gap-2 mb-3">
-                        <a href="{{ route('public.rankings') }}" class="btn btn-outline-light btn-sm rounded-pill px-3">Live Standings</a>
-                        <a href="{{ route('public.results') }}" class="btn btn-outline-light btn-sm rounded-pill px-3">Results</a>
-                        <a href="{{ route('group.login') }}" class="btn btn-danger btn-sm rounded-pill px-3" style="background-color: var(--fest-crimson); border-color: var(--fest-crimson);">Group Login</a>
+                        <a href="{{ route('public.rankings') }}"
+                            class="btn btn-outline-light btn-sm rounded-pill px-3">Live Standings</a>
+                        <a href="{{ route('public.results') }}"
+                            class="btn btn-outline-light btn-sm rounded-pill px-3">Results</a>
+                        <a href="{{ route('group.login') }}" class="btn btn-danger btn-sm rounded-pill px-3"
+                            style="background-color: var(--fest-crimson); border-color: var(--fest-crimson);">Group
+                            Login</a>
                     </div>
                     <div class="small text-white-50">
-                        Theme: <strong class="text-white">JUSTICE — അന്യായം</strong> &bull; {{ \App\Models\Setting::get('edition', "Meet '26") }}
+                        Theme: <strong class="text-white">അന്യായം</strong> &bull;
+                        {{ \App\Models\Setting::get('edition', "Meet '26") }}
                     </div>
                 </div>
             </div>
 
             <div class="text-center text-white-50 fs-xs pt-3">
-                &copy; {{ date('Y') }} {{ \App\Models\Setting::get('fest_name', "Masa Talents' Meet 26") }} &bull; College Fest Management System
+                &copy; {{ date('Y') }} {{ \App\Models\Setting::get('fest_name', "Masa Talents' Meet 26") }} &bull;
+                College Fest Management System
             </div>
         </div>
     </footer>
@@ -401,4 +573,5 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     @stack('scripts')
 </body>
+
 </html>

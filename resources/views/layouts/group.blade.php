@@ -6,7 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title', 'Group Portal') — {{ auth()->user()->group->name ?? 'Group' }} |
-        {{ \App\Models\Setting::get('fest_name', "Masa Talents' Meet 26") }}</title>
+        {{ \App\Models\Setting::get('fest_name', "Masa Talents' Meet 26") }}
+    </title>
 
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
@@ -86,6 +87,60 @@
             transform: translateY(-3px);
             box-shadow: 0 10px 24px rgba(155, 17, 30, 0.07);
             border-color: rgba(155, 17, 30, 0.25);
+        }
+
+        /* ===== MOBILE OVERRIDES ===== */
+        @media (max-width: 991.98px) {
+            .group-nav .navbar-collapse {
+                background: rgba(14, 14, 18, 0.98);
+                border-top: 1px solid rgba(255, 255, 255, 0.08);
+                padding: 0.5rem 0;
+                margin-top: 0.25rem;
+                border-radius: 0 0 0.75rem 0.75rem;
+            }
+
+            /* Action buttons in nav collapse */
+            .group-nav .navbar-collapse .d-flex.align-items-center {
+                padding: 0.5rem 0.75rem;
+                flex-wrap: wrap;
+                gap: 0.4rem !important;
+            }
+        }
+
+        @media (max-width: 767.98px) {
+
+            /* Compact mobile navbar */
+            .group-nav {
+                padding-top: 0.25rem !important;
+                padding-bottom: 0.25rem !important;
+            }
+
+            .group-brand-logo {
+                height: 26px !important;
+            }
+
+            .group-nav .navbar-brand {
+                font-size: 0.9rem !important;
+                padding-top: 0;
+                padding-bottom: 0;
+            }
+
+            .group-nav .navbar-toggler {
+                padding: 0.2rem 0.4rem;
+                font-size: 1rem;
+            }
+
+            /* Tighten main padding */
+            main.py-4 {
+                padding-top: 1rem !important;
+                padding-bottom: 1rem !important;
+            }
+
+            /* Table scroll */
+            .table-responsive {
+                -webkit-overflow-scrolling: touch;
+            }
+
         }
 
         .group-color-dot {
@@ -181,9 +236,9 @@
                         </span>
                         <span class="fw-extrabold text-white">{{ auth()->user()->group->name ?? 'Group Portal' }}</span>
                     </div>
-                    <small class="text-white-50 fs-xs d-block mt-1">
-                        {{ \App\Models\Setting::get('fest_name', "Masa Talents' Meet 26") }}
-                    </small>
+                        <small class="text-white-50 fs-xs d-none d-sm-block mt-1">
+                            {{ \App\Models\Setting::get('fest_name', "Masa Talents' Meet 26") }}
+                        </small>
                 </div>
             </a>
 

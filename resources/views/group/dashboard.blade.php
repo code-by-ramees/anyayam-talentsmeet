@@ -3,22 +3,22 @@
 @section('title', 'Dashboard — ' . $group->name)
 
 @section('content')
-    <div class="container py-4">
+    <div class="container py-3 py-lg-4">
         <!-- Welcome Banner (Hero Section) -->
-        <div class="card group-card border-0 shadow-sm p-4 mb-4 text-white position-relative overflow-hidden"
+        <div class="card group-card border-0 shadow-sm p-3 p-lg-4 mb-4 text-white position-relative overflow-hidden"
             style="background: linear-gradient(135deg, {{ $group->color ?: '#9b111e' }} 0%, #0f172a 100%);">
-            <div class="row align-items-center position-relative gy-4" style="z-index: 2;">
+            <div class="row align-items-center position-relative gy-3" style="z-index: 2;">
                 <div class="col-lg-7">
-                    <div class="d-flex align-items-center gap-2 mb-2">
-                        <span class="badge bg-white text-dark font-monospace px-3 py-1 fw-bold fs-6">
-                            CODE: {{ $group->code }}
+                    <div class="d-flex align-items-center gap-2 mb-2 flex-wrap">
+                        <span class="badge bg-white text-dark font-monospace px-2 py-1 fw-bold">
+                            {{ $group->code }}
                         </span>
-                        <span class="badge bg-white bg-opacity-25 text-white px-3 py-1 rounded-pill">
+                        <span class="badge bg-white bg-opacity-25 text-white px-2 py-1 rounded-pill small">
                             Sanaviyya & Bakalooriyya
                         </span>
                     </div>
-                    <h2 class="display-6 fw-bold mb-2">{{ $group->name }}</h2>
-                    <p class="mb-4 text-white-50">
+                    <h2 class="fw-bold mb-2" style="font-size: clamp(1.4rem, 5vw, 2rem);">{{ $group->name }}</h2>
+                    <p class="mb-3 text-white-50 d-none d-md-block" style="font-size: 0.9rem;">
                         Welcome to your dedicated fest portal for <strong>{{ $festName }}</strong>. Track your group's live
                         standings, awards won, and register participants for events.
                     </p>
@@ -26,11 +26,11 @@
                     <!-- Hero CTA Buttons: Event Register & Leaderboard -->
                     <div class="d-flex flex-wrap align-items-center gap-2">
                         <a href="{{ route('group.registrations.index') }}"
-                            class="btn btn-light fw-bold rounded-pill px-4 py-2 shadow-sm">
+                            class="btn btn-light fw-bold rounded-pill px-3 py-2 shadow-sm btn-sm">
                             <i class="bi bi-clipboard-check-fill me-1 text-danger"></i> Event Register
                         </a>
                         <a href="{{ route('group.rankings') }}"
-                            class="btn btn-outline-light fw-semibold rounded-pill px-4 py-2">
+                            class="btn btn-outline-light fw-semibold rounded-pill px-3 py-2 btn-sm">
                             <i class="bi bi-trophy-fill me-1 text-warning"></i> Leaderboard
                         </a>
                     </div>
@@ -58,15 +58,16 @@
                             @foreach($overallRankings->take(3) as $item)
                                 @php $isMe = $item['group']->id === $group->id; @endphp
                                 <div
-                                    class="d-flex align-items-center justify-content-between px-3 py-2 rounded-3 {{ $isMe ? 'bg-white text-dark fw-bold shadow-sm' : 'bg-white bg-opacity-10 text-white' }}">
+                                    class="d-flex align-items-center justify-content-between px-2 px-md-3 py-2 rounded-3 {{ $isMe ? 'bg-white text-dark fw-bold shadow-sm' : 'bg-white bg-opacity-10 text-white' }}">
                                     <div class="d-flex align-items-center gap-2">
                                         <span
                                             class="badge {{ $item['rank'] === 1 ? 'bg-warning text-dark' : ($item['rank'] === 2 ? 'bg-secondary text-white' : 'bg-danger text-white') }} rounded-pill">
                                             #{{ $item['rank'] }}
                                         </span>
-                                        <span class="small fw-semibold">{{ $item['group']->name }}</span>
+                                        <span class="small fw-semibold text-truncate"
+                                            style="max-width: 120px;">{{ $item['group']->name }}</span>
                                         @if($isMe)
-                                            <span class="badge bg-dark text-white" style="font-size: 0.65rem;">YOU</span>
+                                            <span class="badge bg-dark text-white" style="font-size: 0.6rem;">YOU</span>
                                         @endif
                                     </div>
                                     <span class="font-monospace small fw-bold">{{ $item['total_marks'] }} pts</span>
@@ -80,58 +81,58 @@
 
         <!-- Stats Row -->
         <div class="row g-3 mb-4">
-            <div class="col-sm-6 col-lg-3">
+            <div class="col-6 col-lg-3">
                 <div class="card group-card border-0 shadow-sm p-3 h-100">
-                    <div class="d-flex align-items-center gap-3">
-                        <div class="rounded-3 p-3 text-white fs-4"
+                    <div class="d-flex align-items-center gap-2 gap-md-3">
+                        <div class="rounded-3 p-2 p-md-3 text-white fs-4 flex-shrink-0"
                             style="background-color: {{ $group->color ?: '#9b111e' }};">
                             <i class="bi bi-star-fill"></i>
                         </div>
                         <div>
-                            <div class="fs-3 fw-bold text-dark">{{ $totalMarks }}</div>
-                            <div class="text-muted small">Total Points Won</div>
+                            <div class="fs-4 fw-bold text-dark">{{ $totalMarks }}</div>
+                            <div class="text-muted" style="font-size: 0.75rem;">Total Points</div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="col-sm-6 col-lg-3">
+            <div class="col-6 col-lg-3">
                 <div class="card group-card border-0 shadow-sm p-3 h-100">
-                    <div class="d-flex align-items-center gap-3">
-                        <div class="bg-warning-subtle text-warning-emphasis rounded-3 p-3 fs-4">
+                    <div class="d-flex align-items-center gap-2 gap-md-3">
+                        <div class="bg-warning-subtle text-warning-emphasis rounded-3 p-2 p-md-3 fs-4 flex-shrink-0">
                             <i class="bi bi-trophy-fill"></i>
                         </div>
                         <div>
-                            <div class="fs-3 fw-bold text-dark">{{ $firstPrizes }}</div>
-                            <div class="text-muted small">1st Prizes Won</div>
+                            <div class="fs-4 fw-bold text-dark">{{ $firstPrizes }}</div>
+                            <div class="text-muted" style="font-size: 0.75rem;">1st Prizes</div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="col-sm-6 col-lg-3">
+            <div class="col-6 col-lg-3">
                 <div class="card group-card border-0 shadow-sm p-3 h-100">
-                    <div class="d-flex align-items-center gap-3">
-                        <div class="bg-secondary-subtle text-secondary rounded-3 p-3 fs-4">
+                    <div class="d-flex align-items-center gap-2 gap-md-3">
+                        <div class="bg-secondary-subtle text-secondary rounded-3 p-2 p-md-3 fs-4 flex-shrink-0">
                             <i class="bi bi-award-fill"></i>
                         </div>
                         <div>
-                            <div class="fs-3 fw-bold text-dark">{{ $secondPrizes + $thirdPrizes }}</div>
-                            <div class="text-muted small">2nd & 3rd Prizes</div>
+                            <div class="fs-4 fw-bold text-dark">{{ $secondPrizes + $thirdPrizes }}</div>
+                            <div class="text-muted" style="font-size: 0.75rem;">2nd & 3rd</div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="col-sm-6 col-lg-3">
+            <div class="col-6 col-lg-3">
                 <div class="card group-card border-0 shadow-sm p-3 h-100">
-                    <div class="d-flex align-items-center gap-3">
-                        <div class="bg-primary-subtle text-primary rounded-3 p-3 fs-4">
+                    <div class="d-flex align-items-center gap-2 gap-md-3">
+                        <div class="bg-primary-subtle text-primary rounded-3 p-2 p-md-3 fs-4 flex-shrink-0">
                             <i class="bi bi-people-fill"></i>
                         </div>
                         <div>
-                            <div class="fs-3 fw-bold text-dark">{{ $group->members->count() }}</div>
-                            <div class="text-muted small">Registered Members</div>
+                            <div class="fs-4 fw-bold text-dark">{{ $group->members->count() }}</div>
+                            <div class="text-muted" style="font-size: 0.75rem;">Members</div>
                         </div>
                     </div>
                 </div>

@@ -162,6 +162,14 @@
         .admin-brand-logo:hover {
             transform: scale(1.1);
         }
+
+        @media (max-width: 767.98px) {
+            .admin-nav { padding-top: 0.25rem !important; padding-bottom: 0.25rem !important; }
+            .admin-brand-logo { height: 26px !important; }
+            .admin-nav .navbar-brand { padding-top: 0; padding-bottom: 0; }
+            .admin-nav .navbar-brand .fs-6 { font-size: 0.9rem !important; }
+            .admin-nav .navbar-toggler { padding: 0.2rem 0.4rem; font-size: 1rem; }
+        }
     </style>
     @stack('styles')
 </head>
@@ -257,7 +265,7 @@
 
                     <a href="{{ route('admin.password.edit') }}"
                         class="btn btn-sm btn-outline-secondary rounded-pill px-3 text-light {{ request()->routeIs('admin.password.*') ? 'active' : '' }}">
-                        <i class="bi bi-key-fill me-1"></i> Password
+                        <i class="bi bi-person-gear me-1"></i> Account
                     </a>
 
                     <form action="{{ route('admin.logout') }}" method="POST" class="d-inline">

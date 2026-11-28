@@ -7,6 +7,7 @@ use App\Models\ActivityLog;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rule;
 
 class AuthController extends Controller
 {
@@ -95,5 +96,50 @@ class AuthController extends Controller
         ActivityLog::record('ADMIN_PASSWORD_CHANGED', 'Super Administrator changed their account password.');
 
         return back()->with('success', 'Your password has been changed successfully.');
+    }
+
+    /**
+     * Update Super Admin Username
+     */
+    public function updateUsername(Request $request)
+    {
+        $user = Auth::user();
+
+        $validated = $request->validate([
+            'username' => [
+                'required',
+                'string',
+                'min:3',
+                'max:50',
+                'alpha_dash',
+                Rule::unique('users', 'username')->ignore($user->id),
+            ],
+            'username_current_password' => ['required', 'string'],
+        ], [
+            'username.alpha_dash' => 'Username may only contain letters, numbers, dashes, and underscores.',
+            'username_current_password.required' => 'Please enter your current password to confirm the username change.',
+        ]);
+
+        if (! Hash::check($validated['username_current_password'], $user->password)) {
+            return back()->withErrors([
+                'username_current_password' => 'The provided current password does not match our records.',
+            ])->withInput(['username' => $validated['username']]);
+        }
+
+        $oldUsername = $user->username;
+        if ($oldUsername === $validated['username']) {
+            return back()->with('info', 'The new username is the same as your current username.');
+        }
+
+        $user->update([
+            'username' => $validated['username'],
+        ]);
+
+        ActivityLog::record(
+            'ADMIN_USERNAME_CHANGED',
+            "Super Administrator changed username from '{$oldUsername}' to '{$validated['username']}'."
+        );
+
+        return back()->with('success', "Admin username updated to '{$validated['username']}' successfully.");
     }
 }

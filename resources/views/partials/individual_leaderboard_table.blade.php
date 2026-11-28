@@ -1,13 +1,13 @@
 <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
-    <div class="card-header bg-white py-3 px-4 border-bottom d-flex flex-wrap justify-content-between align-items-center gap-2">
+    <div class="card-header bg-white py-3 px-3 px-md-4 border-bottom d-flex flex-wrap justify-content-between align-items-center gap-2">
         <div>
-            <h5 class="fw-bold mb-0 text-dark d-flex align-items-center gap-2">
+            <h5 class="fw-bold mb-0 text-dark d-flex align-items-center gap-2" style="font-size: clamp(0.95rem, 3vw, 1.1rem);">
                 <i class="bi bi-person-badge-fill text-danger" style="color: #9b111e !important;"></i>
                 <span>{{ $title ?? 'Individual Score Leaderboard' }}</span>
             </h5>
-            <small class="text-muted">Top individual performers ranked by total points earned in individual competitions.</small>
+            <small class="text-muted d-none d-sm-block">Top individual performers ranked by total points earned in individual competitions.</small>
         </div>
-        <span class="badge bg-light text-muted border px-3 py-2 rounded-pill">
+        <span class="badge bg-light text-muted border px-3 py-2 rounded-pill d-none d-md-inline-flex">
             Tie-Breaker: Points &rarr; 1st &rarr; 2nd &rarr; 3rd
         </span>
     </div>
@@ -20,7 +20,50 @@
                 <p class="small mb-0">Individual rankings will appear here once results for individual events are published.</p>
             </div>
         @else
-            <div class="table-responsive">
+            {{-- Mobile card list (xs–sm) --}}
+            <div class="d-md-none">
+                @foreach($individualRankings as $row)
+                    @php
+                        $m = $row['member'];
+                        $g = $row['group'];
+                        $isHighlighted = isset($highlightGroupId) && $g && $g->id === $highlightGroupId;
+                    @endphp
+                    <div class="d-flex align-items-center justify-content-between px-3 py-3 border-bottom {{ $isHighlighted ? 'bg-primary-subtle' : '' }}">
+                        <div class="d-flex align-items-center gap-2">
+                            {{-- Rank badge --}}
+                            @if($row['rank'] === 1)
+                                <span class="badge bg-warning text-dark rounded-circle p-2" title="1st"><i class="bi bi-trophy-fill"></i></span>
+                            @elseif($row['rank'] === 2)
+                                <span class="badge bg-secondary text-white rounded-circle px-2 py-1">2</span>
+                            @elseif($row['rank'] === 3)
+                                <span class="badge text-white rounded-circle px-2 py-1" style="background-color: #cd7f32;">3</span>
+                            @else
+                                <span class="text-muted fw-bold small">#{{ $row['rank'] }}</span>
+                            @endif
+                            <div>
+                                <div class="fw-bold text-dark small">{{ $m->name }}</div>
+                                <div class="text-muted" style="font-size: 0.7rem;">
+                                    @if($m->chest_number)<span class="badge bg-danger-subtle text-danger border border-danger-subtle font-monospace me-1">#{{ $m->chest_number }}</span>@endif
+                                    {{ $g->name ?? '—' }}
+                                    @if($isHighlighted)<span class="badge bg-primary text-white ms-1" style="font-size: 0.6rem;">YOUR GROUP</span>@endif
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-end">
+                            <span class="fw-extrabold" style="color: #9b111e; font-size: 1rem;">{{ $row['total_marks'] }}</span>
+                            <span class="text-muted" style="font-size: 0.75rem;">pts</span>
+                            <div class="fs-xs text-muted">
+                                <i class="bi bi-award-fill text-warning"></i>{{ $row['first_prizes'] }}
+                                <i class="bi bi-award-fill text-secondary ms-1"></i>{{ $row['second_prizes'] }}
+                                <i class="bi bi-award-fill text-danger ms-1"></i>{{ $row['third_prizes'] }}
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+
+            {{-- Full table (md+) --}}
+            <div class="table-responsive d-none d-md-block">
                 <table class="table table-hover align-middle mb-0">
                     <thead class="table-light">
                         <tr>

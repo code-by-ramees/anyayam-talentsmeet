@@ -1226,3 +1226,44 @@
 #35 D:/Laravel Project/college-fest/artisan(16): Illuminate/Foundation/Application->handleCommand(Object(Symfony/Component/Console/Input/ArgvInput))
 #36 {main}
 "} 
+[2026-11-28 08:31:53] local.ERROR: SQLSTATE[HY000] [2002] A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond (Connection: mysql, Host: 127.0.0.1, Port: 3306, Database: college_fest, SQL: select * from `settings` where `key` = theme_title limit 1) {"exception":"[object] (Illuminate\\Database\\QueryException(code: 2002): SQLSTATE[HY000] [2002] A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond (Connection: mysql, Host: 127.0.0.1, Port: 3306, Database: college_fest, SQL: select * from `settings` where `key` = theme_title limit 1) at D:/Laravel Project/college-fest/vendor/laravel/framework/src/Illuminate/Database/Connection.php:864)
+[stacktrace]
+#0 D:/Laravel Project/college-fest/vendor/laravel/framework/src/Illuminate/Database/Connection.php(1052): Illuminate/Database/Connection->runQueryCallback('select * from `...', Array, Object(Closure))
+#1 D:/Laravel Project/college-fest/vendor/laravel/framework/src/Illuminate/Database/Connection.php(1024): Illuminate/Database/Connection->tryAgainIfCausedByLostConnection(Object(Illuminate/Database/QueryException), 'select * from `...', Array, Object(Closure))
+#2 D:/Laravel Project/college-fest/vendor/laravel/framework/src/Illuminate/Database/Connection.php(822): Illuminate/Database/Connection->handleQueryException(Object(Illuminate/Database/QueryException), 'select * from `...', Array, Object(Closure))
+#3 D:/Laravel Project/college-fest/vendor/laravel/framework/src/Illuminate/Database/Connection.php(433): Illuminate/Database/Connection->run('select * from `...', Array, Object(Closure))
+#4 D:/Laravel Project/college-fest/vendor/laravel/framework/src/Illuminate/Database/Query/Builder.php(3640): Illuminate/Database/Connection->select('select * from `...', Array, true, Array)
+#5 D:/Laravel Project/college-fest/vendor/laravel/framework/src/Illuminate/Database/Query/Builder.php(3624): Illuminate/Database/Query/Builder->runSelect()
+#6 D:/Laravel Project/college-fest/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Builder.php(951): Illuminate/Database/Query/Builder->get(Array)
+#7 D:/Laravel Project/college-fest/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Builder.php(933): Illuminate/Database/Eloquent/Builder->getModels(Array)
+#8 D:/Laravel Project/college-fest/vendor/laravel/framework/src/Illuminate/Database/Concerns/BuildsQueries.php(427): Illuminate/Database/Eloquent/Builder->get(Array)
+#9 D:/Laravel Project/college-fest/app/Models/Setting.php(19): Illuminate/Database/Eloquent/Builder->first()
+#10 D:/Laravel Project/college-fest/fix_theme_setting.php(7): App/Models/Setting::get('theme_title')
+#11 {main}
+
+[previous exception] [object] (PDOException(code: 2002): SQLSTATE[HY000] [2002] A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond at D:/Laravel Project/college-fest/vendor/laravel/framework/src/Illuminate/Database/Connectors/Connector.php:67)
+[stacktrace]
+#0 D:/Laravel Project/college-fest/vendor/laravel/framework/src/Illuminate/Database/Connectors/Connector.php(67): PDO::connect('mysql:host=127....', 'root', Object(SensitiveParameterValue), Array)
+#1 D:/Laravel Project/college-fest/vendor/laravel/framework/src/Illuminate/Database/Connectors/Connector.php(85): Illuminate/Database/Connectors/Connector->createPdoConnection('mysql:host=127....', 'root', Object(SensitiveParameterValue), Array)
+#2 D:/Laravel Project/college-fest/vendor/laravel/framework/src/Illuminate/Database/Connectors/Connector.php(48): Illuminate/Database/Connectors/Connector->tryAgainIfCausedByLostConnection(Object(PDOException), 'mysql:host=127....', 'root', Object(SensitiveParameterValue), Array)
+#3 D:/Laravel Project/college-fest/vendor/laravel/framework/src/Illuminate/Database/Connectors/MySqlConnector.php(24): Illuminate/Database/Connectors/Connector->createConnection('mysql:host=127....', Array, Array)
+#4 D:/Laravel Project/college-fest/vendor/laravel/framework/src/Illuminate/Database/Connectors/ConnectionFactory.php(220): Illuminate/Database/Connectors/MySqlConnector->connect(Array)
+#5 [internal function]: Illuminate/Database/Connectors/ConnectionFactory->{closure:Illuminate/Database/Connectors/ConnectionFactory::createPdoResolverWithHosts():213}()
+#6 D:/Laravel Project/college-fest/vendor/laravel/framework/src/Illuminate/Database/Connection.php(1333): call_user_func(Object(Closure))
+#7 D:/Laravel Project/college-fest/vendor/laravel/framework/src/Illuminate/Database/Connection.php(1371): Illuminate/Database/Connection->getPdo()
+#8 D:/Laravel Project/college-fest/vendor/laravel/framework/src/Illuminate/Database/Connection.php(549): Illuminate/Database/Connection->getReadPdo()
+#9 D:/Laravel Project/college-fest/vendor/laravel/framework/src/Illuminate/Database/Connection.php(442): Illuminate/Database/Connection->getPdoForSelect(true)
+#10 D:/Laravel Project/college-fest/vendor/laravel/framework/src/Illuminate/Database/Connection.php(853): Illuminate/Database/Connection->{closure:Illuminate/Database/Connection::select():433}('select * from `...', Array)
+#11 D:/Laravel Project/college-fest/vendor/laravel/framework/src/Illuminate/Database/Connection.php(1052): Illuminate/Database/Connection->runQueryCallback('select * from `...', Array, Object(Closure))
+#12 D:/Laravel Project/college-fest/vendor/laravel/framework/src/Illuminate/Database/Connection.php(1024): Illuminate/Database/Connection->tryAgainIfCausedByLostConnection(Object(Illuminate/Database/QueryException), 'select * from `...', Array, Object(Closure))
+#13 D:/Laravel Project/college-fest/vendor/laravel/framework/src/Illuminate/Database/Connection.php(822): Illuminate/Database/Connection->handleQueryException(Object(Illuminate/Database/QueryException), 'select * from `...', Array, Object(Closure))
+#14 D:/Laravel Project/college-fest/vendor/laravel/framework/src/Illuminate/Database/Connection.php(433): Illuminate/Database/Connection->run('select * from `...', Array, Object(Closure))
+#15 D:/Laravel Project/college-fest/vendor/laravel/framework/src/Illuminate/Database/Query/Builder.php(3640): Illuminate/Database/Connection->select('select * from `...', Array, true, Array)
+#16 D:/Laravel Project/college-fest/vendor/laravel/framework/src/Illuminate/Database/Query/Builder.php(3624): Illuminate/Database/Query/Builder->runSelect()
+#17 D:/Laravel Project/college-fest/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Builder.php(951): Illuminate/Database/Query/Builder->get(Array)
+#18 D:/Laravel Project/college-fest/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Builder.php(933): Illuminate/Database/Eloquent/Builder->getModels(Array)
+#19 D:/Laravel Project/college-fest/vendor/laravel/framework/src/Illuminate/Database/Concerns/BuildsQueries.php(427): Illuminate/Database/Eloquent/Builder->get(Array)
+#20 D:/Laravel Project/college-fest/app/Models/Setting.php(19): Illuminate/Database/Eloquent/Builder->first()
+#21 D:/Laravel Project/college-fest/fix_theme_setting.php(7): App/Models/Setting::get('theme_title')
+#22 {main}
+"} 

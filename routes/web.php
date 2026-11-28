@@ -107,9 +107,10 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/settings', [SettingController::class, 'index'])->name('settings.index');
         Route::post('/settings', [SettingController::class, 'update'])->name('settings.update');
 
-        // Admin Change Own Password
+        // Admin Change Own Password & Username
         Route::get('/change-password', [AdminAuthController::class, 'showChangePassword'])->name('password.edit');
         Route::post('/change-password', [AdminAuthController::class, 'updatePassword'])->name('password.update');
+        Route::post('/change-username', [AdminAuthController::class, 'updateUsername'])->name('username.update');
     });
 });
 
